@@ -310,8 +310,8 @@ After=network.target
 Type=forking
 User=${USER}
 WorkingDirectory=${USERHOME}
-ExecStart=/usr/local/bin/guapcoind -conf=${USERHOME}/.guapcoin$MNID/guapcoin.conf -datadir=${USERHOME}/.guapcoin
-ExecStop=/usr/local/bin/guapcoin-cli -conf=${USERHOME}/.guapcoin$MNID/guapcoin.conf -datadir=${USERHOME}/.guapcoin stop
+ExecStart=/usr/local/bin/guapcoind -conf=${USERHOME}/.guapcoin$MNID/guapcoin.conf -datadir=${USERHOME}/.guapcoin$MNID
+ExecStop=/usr/local/bin/guapcoin-cli -conf=${USERHOME}/.guapcoin$MNID/guapcoin.conf -datadir=${USERHOME}/.guapcoin$MNID stop
 Restart=on-abort
 [Install]
 WantedBy=multi-user.target
@@ -363,7 +363,7 @@ the collateral for this node is secured."
 
 clear_stdin
 read -p "*** Press any key to continue ***" -n1 -s
-
+echo ""
 echo -e "Wait for the node wallet on this VPS to sync with the other nodes
 on the network. Eventually the 'Is Synced' status will change
 to 'true', which will indicate a comlete sync, although it may take
