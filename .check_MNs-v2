@@ -35,17 +35,25 @@ LastGuapTotal='0'
 
 for i in "${MNArray[@]}"
 do
-    if [[ su -c "guapcoin-cli listmasternodes | grep '\"${MNArray[i]}\"\|\"status\": \"ENABLED\"' > /dev/null" "root" ]]; then
 
-    echo "${MNLabelArray[i]} is ${GREEN}ENABLED${NC}"
+#echo -ne "Current block: $(su -c "/usr/local/bin/guapcoin-cli -conf=/root/.guapcoin$MNID/guapcoin.conf -datadir=/root/.guapcoin$MNID getblockcount" "$USER")\\r"
 
+echo "${MNLabelArray[i]}"
+#guapcoin-cli listmasternodes | grep -A1 'ENABLED' | grep -B2 '${MNArray[i]}’
 
-    else
+echo -ne "Current block: $(su -c "listmasternodes | grep -A1 \"ENABLED\" | grep -B2 '\"${MNArray[i]}\"’" root)\\r"
 
-
-    su -c "guapcoin-cli listmasternodes \"${MNArray[i]}\" -A6 -B6"
-
-
-    fi+
+#    if [[ su -c "guapcoin-cli listmasternodes | grep '\"${MNArray[i]}\"\|\"status\": \"ENABLED\"' > /dev/null" "root" ]]; then
+#
+#    echo "${MNLabelArray[i]} is ${GREEN}ENABLED${NC}"
+#
+#
+#    else
+#
+#
+#    su -c "guapcoin-cli listmasternodes \"${MNArray[i]}\" -A6 -B6"
+#
+#
+#    fi+
 
 done
