@@ -34,9 +34,12 @@ LastGuapTotal='0'
 
 for (( i = 0; i < n; i++ )); do
 
+echo "${MNLabelArray[i]}"
+
+echo -ne "Current block: $(su -c "listmasternodes | grep -A1 \"ENABLED\" | grep -B2 '\"${MNArray[i]}\"’" root)\\r"
 #echo -ne "Current block: $(su -c "/usr/local/bin/guapcoin-cli -conf=/root/.guapcoin$MNID/guapcoin.conf -datadir=/root/.guapcoin$MNID getblockcount" "$USER")\\r"
 
-echo "${MNLabelArray[i]}"
+echo ""
 #guapcoin-cli listmasternodes | grep -A1 'ENABLED' | grep -B2 '${MNArray[i]}’
 
 #echo -ne "Current block: $(su -c "listmasternodes | grep -A1 \"ENABLED\" | grep -B2 '\"${MNArray[i]}\"’" root)\\r"
