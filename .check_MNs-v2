@@ -41,7 +41,7 @@ do
 echo "${MNLabelArray[i]}"
 #guapcoin-cli listmasternodes | grep -A1 'ENABLED' | grep -B2 '${MNArray[i]}’
 
-echo -ne "Current block: $(su -c "listmasternodes | grep -A1 \"ENABLED\" | grep -B2 '\"${MNArray[i]}\"’" root)\\r"
+#echo -ne "Current block: $(su -c "listmasternodes | grep -A1 \"ENABLED\" | grep -B2 '\"${MNArray[i]}\"’" root)\\r"
 
 #    if [[ su -c "guapcoin-cli listmasternodes | grep '\"${MNArray[i]}\"\|\"status\": \"ENABLED\"' > /dev/null" "root" ]]; then
 #
