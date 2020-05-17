@@ -40,6 +40,7 @@ echo -ne "$(su -c "guapcoin-cli listmasternodes | grep -A1 \"ENABLED\" | grep -B
 #echo -ne "Current block: $(su -c "/usr/local/bin/guapcoin-cli -conf=/root/.guapcoin$MNID/guapcoin.conf -datadir=/root/.guapcoin$MNID getblockcount" "$USER")\\r"
 
 echo ""
+echo ""
 #guapcoin-cli listmasternodes | grep -A1 'ENABLED' | grep -B2 '${MNArray[i]}’
 
 #echo -ne "Current block: $(su -c "listmasternodes | grep -A1 \"ENABLED\" | grep -B2 '\"${MNArray[i]}\"’" root)\\r"
