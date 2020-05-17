@@ -32,9 +32,7 @@ done < $filename
 LastGuapTime='0'
 LastGuapTotal='0'
 
-
-for i in "${MNArray[@]}"
-do
+for (( i = 0; i < n; i++ )); do
 
 #echo -ne "Current block: $(su -c "/usr/local/bin/guapcoin-cli -conf=/root/.guapcoin$MNID/guapcoin.conf -datadir=/root/.guapcoin$MNID getblockcount" "$USER")\\r"
 
