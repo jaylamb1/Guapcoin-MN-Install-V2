@@ -130,42 +130,6 @@ sudo apt-get -y install wget nano
 sudo apt-get install unzip
 fi
 
-#Network Settings
-echo -e "${GREEN}Installing Network Settings...${NC}"
-{
-sudo apt-get install ufw -y
-} &> /dev/null
-echo -ne '[##                 ]  (10%)\r'
-{
-sudo apt-get update -y
-} &> /dev/null
-echo -ne '[######             ] (30%)\r'
-{
-sudo ufw default deny incoming
-} &> /dev/null
-echo -ne '[#########          ] (50%)\r'
-{
-sudo ufw default allow outgoing
-sudo ufw allow ssh
-} &> /dev/null
-echo -ne '[###########        ] (60%)\r'
-{
-sudo ufw allow $PORT/tcp
-sudo ufw allow $RPC/tcp
-} &> /dev/null
-echo -ne '[###############    ] (80%)\r'
-{
-sudo ufw allow 22/tcp
-sudo ufw limit 22/tcp
-} &> /dev/null
-echo -ne '[#################  ] (90%)\r'
-{
-echo -e "${YELLOW}"
-sudo ufw --force enable
-echo -e "${NC}"
-} &> /dev/null
-echo -ne '[###################] (100%)\n'
-
 #Generating Random Password for  JSON RPC
 rpcuser=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
