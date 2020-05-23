@@ -372,7 +372,7 @@ then edit the guapcoin.conf file and save it in nano: (Ctrl-X + Y + Enter),
 then start the guapcoind daemon back up:
 to stop:              ${GREEN}guapcoin-cli stop${NC}
 to start:             ${GREEN}guapcoind${NC}
-to edit:              ${GREEN}nano ~/.guapcoin$MNID/guapcoin.conf${NC}
+to edit:              ${GREEN}nano $USERHOME/.guapcoin$MNID/guapcoin.conf${NC}
 to check mn status:   ${GREEN}guapcoin-cli getmasternodestatus${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
