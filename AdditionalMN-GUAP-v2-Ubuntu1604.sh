@@ -299,11 +299,14 @@ addnode=45.63.25.141
 
 EOF
 
-sudo chmod 755 -R ~/.guapcoin$MNID/guapcoin.conf
-sudo chown -R $USER:$USER $USERHOME/.guapcoin$MNID
 
 USER=guapadmin
 USERHOME=`eval echo "~$USER"`
+
+
+sudo chmod 755 -R ~/.guapcoin$MNID/guapcoin.conf
+sudo chown -R $USER:$USER $USERHOME/.guapcoin$MNID
+
 
 cat > /etc/systemd/system/guapcoin$MNID.service << EOL
 [Unit]
