@@ -35,8 +35,13 @@ LastGuapTotal='0'
 for (( i = 0; i < n; i++ )); do
 
   echo "    ${MNLabelArray[i]}:"
-
-  echo -ne "$(su -c "guapcoin-cli listmasternodes | grep -A1 \"ENABLED\" | grep -B1 \"${MNArray[i]}\"" root)\\r"
+  tempList= echo -ne "$(su -c "guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"${MNArray[i]}\"" root)\\r"
+  if [[ "$tempList" == *"ENABLE"* ]];then
+      echo $tempList
+  else
+      echo -ne "$(su -c "guapcoin-cli listmasternodes | grep \"${MNArray[i]}\" -A6 -B6" root)\\r"
+  fi
+  #echo -ne "$(su -c "guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"${MNArray[i]}\"" root)\\r"
   #echo -ne "Current block: $(su -c "/usr/local/bin/guapcoin-cli -conf=/root/.guapcoin$MNID/guapcoin.conf -datadir=/root/.guapcoin$MNID getblockcount" "$USER")\\r"
 
   echo ""
