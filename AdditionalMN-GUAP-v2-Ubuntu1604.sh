@@ -100,19 +100,22 @@ clear
 
 # Determine primary public IP address
 dpkg -s dnsutils 2>/dev/null >/dev/null || sudo apt-get -y install dnsutils
-publicip=$(dig +short myip.opendns.com @resolver1.opendns.com)
+publicip=""
+read -e -p "Enter VPS Public IP Address: " publicip
 
-if [ -n "$publicip" ]; then
-    echo -e "${YELLOW}IP Address detected:" $publicip ${NC}
-else
-    echo -e "${RED}ERROR: Public IP Address was not detected!${NC} \a"
-    clear_stdin
-    read -e -p "Enter VPS Public IP Address: " publicip
-    if [ -z "$publicip" ]; then
-        echo -e "${RED}ERROR: Public IP Address must be provided. Try again...${NC} \a"
-        exit 1
-    fi
-fi
+
+#if [ -n "$publicip" ]; then
+#    echo -e "${YELLOW}IP Address detected:" $publicip ${NC}
+#else
+#    echo -e "${RED}ERROR: Public IP Address was not detected!${NC} \a"
+#    clear_stdin
+#    read -e -p "Enter VPS Public IP Address: " publicip
+#    if [ -z "$publicip" ]; then
+#        echo -e "${RED}ERROR: Public IP Address must be provided. Try again...${NC} \a"
+#        exit 1
+#    fi
+#fi
+
 if [ -d "/var/lib/fail2ban/" ];
 then
     echo -e "${GREEN}Packages already installed...${NC}"
