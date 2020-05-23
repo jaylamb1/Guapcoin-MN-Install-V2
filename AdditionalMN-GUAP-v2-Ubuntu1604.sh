@@ -273,7 +273,7 @@ cd ~/.guapcoin$MNID/ && unzip bootstrap.zip
 cat <<EOF > ~/.guapcoin$MNID/guapcoin.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
-rpcallowip=127.0.0.1
+rpcallowip=::1
 rpcport=5000$MNID
 port=$PORT
 listen=1
@@ -299,7 +299,10 @@ addnode=45.63.25.141
 
 EOF
 
-USER=root
+sudo chmod 755 -R ~/.guapcoin$MNID/guapcoin.conf
+sudo chown -R $USER:$USER $USERHOME/.guapcoin$MNID
+
+USER=guapadmin
 USERHOME=`eval echo "~$USER"`
 
 cat > /etc/systemd/system/guapcoin$MNID.service << EOL
@@ -316,6 +319,10 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOL
+
+echo "Starting guapcoin$MNID service"
+echo ""
+
 sudo systemctl enable guapcoin$MNID.service
 sudo systemctl start guapcoin$MNID.service
 
