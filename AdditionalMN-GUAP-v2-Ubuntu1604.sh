@@ -98,7 +98,7 @@ fi
 sleep .5
 clear
 
-USER=guapadmin
+USER="guapadmin"
 USERHOME=`eval echo "~$USER"`
 
 # Determine primary public IP address
