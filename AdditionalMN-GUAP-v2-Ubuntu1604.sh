@@ -98,6 +98,9 @@ fi
 sleep .5
 clear
 
+USER=guapadmin
+USERHOME=`eval echo "~$USER"`
+
 # Determine primary public IP address
 dpkg -s dnsutils 2>/dev/null >/dev/null || sudo apt-get -y install dnsutils
 publicip=""
@@ -201,7 +204,7 @@ cd ~
 
 
  #Create datadir for new MN
- sudo mkdir ~/.guapcoin$MNID
+ sudo mkdir $USERHOME/.guapcoin$MNID
 
 
 cd ~
@@ -210,12 +213,12 @@ echo -e "${YELLOW}Creating guapcoin.conf...${NC}"
 
 # If genkey was not supplied in command line, we will generate private key on the fly
 if [ -z $genkey ]; then
-    cat <<EOF > ~/.guapcoin$MNID/guapcoin.conf
+    cat <<EOF > $USERHOME/.guapcoin$MNID/guapcoin.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 EOF
 
-    sudo chmod 755 -R ~/.guapcoin$MNID/guapcoin.conf
+    sudo chmod 755 -R $USERHOME/.guapcoin$MNID/guapcoin.conf
 
     #Starting daemon first time just to generate masternode private key
     guapcoind -daemon
@@ -230,14 +233,16 @@ sleep 7
 done
     fi
 
+
+
     #Stopping daemon to create guapcoin.conf
     guapcoin-cli stop
     sleep 5
-cd ~/.guapcoin$MNID/ && rm -rf blocks chainstate sporks
-cd ~/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0/bootstrap.zip
-cd ~/.guapcoin$MNID/ && unzip bootstrap.zip
+cd $USERHOME/.guapcoin$MNID/ && rm -rf blocks chainstate sporks
+cd $USERHOME/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0/bootstrap.zip
+cd $USERHOME/.guapcoin$MNID/ && unzip bootstrap.zip
 # Create guapcoin.conf
-cat <<EOF > ~/.guapcoin$MNID/guapcoin.conf
+cat <<EOF > $USERHOME/.guapcoin$MNID/guapcoin.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=::1
@@ -267,8 +272,7 @@ addnode=45.63.25.141
 EOF
 
 
-USER=guapadmin
-USERHOME=`eval echo "~$USER"`
+
 
 
 sudo chmod 755 -R ~/.guapcoin$MNID/guapcoin.conf
