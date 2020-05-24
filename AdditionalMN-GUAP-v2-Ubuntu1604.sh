@@ -146,7 +146,7 @@ do
   echo "MNIDs for active masternodes detected on this VPS are:"
   #it is assumed that at least the initial masternode is installed
   echo "1"
-  for (( i = 2; i < 10; i++ )); do
+  for (( i = 2; i < 20; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
@@ -160,7 +160,7 @@ do
   if ! [ "$MNID" -eq "$MNID" ] 2> /dev/null
   then
       echo ""
-      echo "Sorry, the ID# must be a single an integer."
+      echo "Sorry, the ID# must be a single integer."
       echo ""
       read -rp "Press any key to continue. " -n1 -s
       clear
