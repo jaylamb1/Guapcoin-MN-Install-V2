@@ -146,12 +146,12 @@ do
   MNarray[0]=0 #MNarray is used to idenitfy which MNs(and their corresponding MNIDs) are present, position #0 is a dummy location
   FILE1=/etc/systemd/system/guapcoin.service #let's test for MN1. if it exist then report that MNID as in use
   if test -f "$FILE1"; then
-    MNarray[1]=1
-    echo "1"
+    MNarray[0]=1
+    echo "0"
   fi
 
 
-  for (( i = 2; i < 20; i++ )); do
+  for (( i = 1; i < 20; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
