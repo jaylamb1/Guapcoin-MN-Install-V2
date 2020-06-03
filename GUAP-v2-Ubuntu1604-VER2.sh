@@ -128,7 +128,7 @@ fi
 rpcuser=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
-#Create 2GB swap file
+#Create 4GB swap file
 if grep -q "SwapTotal" /proc/meminfo; then
     echo -e "${GREEN}Skipping disk swap configuration...${NC} \n"
 else
@@ -190,14 +190,16 @@ sleep 7
 done
     fi
 
-    #Stopping daemon to create guapcoin.conf
-    guapcoin-cli stop
-    sleep 5
+#Stopping daemon to create guapcoin.conf
+guapcoin-cli stop
+sleep 5
+
 cd $USERHOME/.guapcoin/ && rm -rf blocks chainstate sporks
 cd $USERHOME/.guapcoin/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0/bootstrap.zip
 cd $USERHOME/.guapcoin/ && unzip bootstrap.zip
+
 # Create guapcoin.conf
-cat <<EOF > ~/.guapcoin/guapcoin.conf
+cat <<EOF > $USERHOME/.guapcoin/guapcoin.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
@@ -231,7 +233,7 @@ EOF
 
 cat > /etc/systemd/system/guapcoin.service << EOL
 [Unit]
-Description=guapcoind MN1
+Description=guapcoind MNxx
 After=network.target
 [Service]
 Type=forking
@@ -261,6 +263,7 @@ clear
 
 #echo "" && echo "Masternode setup completed." && echo ""
 
+#The follwing sections functionality (crontab, script and pid) has been replaced with the above systemd service
 
 #    guapcoind -daemon
 #Finally, starting daemon with new guapcoin.conf
