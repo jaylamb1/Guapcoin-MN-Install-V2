@@ -52,7 +52,7 @@ LastGuapTime='0'
 LastGuapTotal='0'
 
 #Read in last GUAPtotal and timestamp from output.text
-LastGuapFile="/root/output.text"
+LastGuapFile="/home/guapadmin/output.text"
 if test -f "$LastGuapFile"; then
   while read -r time total; do
     LastGuapTime=$time
@@ -133,7 +133,7 @@ echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; 
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
-echo "$d $MN_Total" > /root/output.text
+echo "$d $MN_Total" > /home/guapadmin/output.text
 echo "" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
@@ -251,6 +251,8 @@ echo "" | tee -a $SnapshotFilename
 echo "GUAP Chain Block Count                         :  $BlockHeight" | tee -a $SnapshotFilename
 echo "" | tee -a $SnapshotFilename
 
+#Save MN_Total and timestamp to the snapshot file
+echo "" | tee -a $SnapshotFilename
 
 
 #Turn off environment variables
