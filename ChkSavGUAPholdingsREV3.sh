@@ -145,8 +145,9 @@ GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN
 GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
 echo "Test:"
 echo ""
-echo "GUAPearned = $GUAPearned"
-echo "Guapear = $GUAPearnedNoComma"
+echo "LastGuapTotal = $LastGuapTotal"
+echo "MN_Total= $MN_Total"
+#echo "GUAPearnedNoComma = $GUAPearnedNoComma"
 echo ""
 #sed -i '/^$/d' $filename #remove empty lines
 #sed 's,\,,,g'
