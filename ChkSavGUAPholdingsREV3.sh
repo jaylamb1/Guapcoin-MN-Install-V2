@@ -131,8 +131,8 @@ GUAPValue=$parm10
 
 GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * 0.18))')
 
-#echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
-echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')" | tee -a $SnapshotFilename
+echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
+#echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
