@@ -16,13 +16,13 @@ set -a
 d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
+SnapshotFilename="/home/guapadmin/GUAP-Snapshot-$d_filename.txt"
+echo "" | cat - > $SnapshotFilename
+echo "                   [GUAP Holdings Snaphot]                       " | cat - > $SnapshotFilename
+echo "-----------------------------------------------------------------" | cat - > $SnapshotFilename
 
-echo "" | cat - > /home/guapadmin/GUAP-Snapshot-$d_filename.txt
-echo "                   [GUAP Holdings Snaphot]                       "
-echo "-----------------------------------------------------------------"
-
-echo "Timestamp : $d_formatted"
-echo ""
+echo "Timestamp : $d_formatted" | cat - > $SnapshotFilename
+echo "" | cat - > $SnapshotFilename
 #echo "Test d: $d"
 
 
