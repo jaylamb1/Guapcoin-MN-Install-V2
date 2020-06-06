@@ -203,7 +203,7 @@ echo "-----------------------------------------------------------------" | tee -
 echo "" | tee -a $SnapshotFilename
 echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))')" | tee -a $SnapshotFilename
 echo "" | tee -a $SnapshotFilename
-echo "Total GUAP Money Supply (USD)                  : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
+echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
 
 
 echo "" | tee -a $SnapshotFilename
