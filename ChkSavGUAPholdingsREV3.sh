@@ -38,6 +38,7 @@ filename=$1
 #Clean up the file, remove bash comments and empty lines (creates a backup before removal)
 sed -i".bkup" 's/^#.*$//' $filename #remove comments
 sed -i '/^$/d' $filename #remove empty lines
+#sed 's,\,,,g'
 
 #While loop to read in each GUAP address and corresponding label
 n=0
@@ -142,6 +143,14 @@ GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN
 
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
+echo "Test:"
+echo ""
+echo "GUAPearned = $GUAPearned"
+echo "Guapear = $GUAPearnedNoComma"
+echo ""
+#sed -i '/^$/d' $filename #remove empty lines
+#sed 's,\,,,g'
+
 GUAPUSDearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["GUAPearnedNoComma"]) * float(os.environ["GUAPValue"])))')
 #GUAPUSDearnedNoComma=$(python -c 'import os; print "{0:.2f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])) * float(os.environ["GUAPValue"])))')
 
