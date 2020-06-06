@@ -15,7 +15,7 @@ set -a
 #d_epoch=$(TZ=":US/Eastern" date +"%s")
 d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
-d_filename=$(date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
+d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y %I:%M:%S%P_EST')
 
 SnapshotFilename="/home/guapadmin/GUAP-Snapshot-$d_filename.txt"
 echo "SnapshotFilename = $SnapshotFilename"
