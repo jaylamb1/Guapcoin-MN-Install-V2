@@ -128,8 +128,10 @@ echo "  Total Current GUAP Holdings                   : $(python -c 'import os; 
 
 parm10=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | sed 's/.*://')
 GUAPValue=$parm10
+#GUAPValue=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')
 
-GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')
+GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * "GUAPValue"))')
+#GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')
 
 echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
 #echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')" | tee -a $SnapshotFilename
