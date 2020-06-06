@@ -251,8 +251,8 @@ echo "" | tee -a $SnapshotFilename
 echo "GUAP Chain Block Count                         :  $BlockHeight" | tee -a $SnapshotFilename
 echo "" | tee -a $SnapshotFilename
 
-#Save MN_Total and timestamp to the snapshot file
-echo "" | tee -a $SnapshotFilename
+#Save MN_Total and timestamp to the snapshot
+echo "$d $MN_Total" | tee -a $SnapshotFilename
 
 
 #Turn off environment variables
