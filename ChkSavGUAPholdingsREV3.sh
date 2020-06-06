@@ -132,8 +132,8 @@ GUAPValue=$parm10
 
 #GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * os.environ["GUAPValue"]))')
 GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')
-testvar1=$(python -c 'import os; print "{0:.3f}".format((float(os.environ["GuapUSD"]))')
-echo "  Test1             : $(python -c 'import os; print "{0:.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["testvar1"])))')"
+GuapUSD2=$(echo $MN_Total*$GUAPValue | bc)
+echo "  Test1             : GuapUSD2=$GuapUSD2"
 echo ""
 echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
 #echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')" | tee -a $SnapshotFilename
