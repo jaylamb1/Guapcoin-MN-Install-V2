@@ -132,7 +132,7 @@ GUAPValue=$parm10
 GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("MN_Total" * "GUAPValue"))')
 
 #echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
-echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
+echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
@@ -156,7 +156,7 @@ echo ""
 #sed -i '/^$/d' $filename #remove empty lines
 #sed 's,\,,,g'
 
-GUAPUSDearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["GUAPearnedNoComma"]) * float(os.environ["GUAPValue"])))')
+#GUAPUSDearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["GUAPearnedNoComma"]) * float(os.environ["GUAPValue"])))')
 #GUAPUSDearnedNoComma=$(python -c 'import os; print "{0:.2f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])) * float(os.environ["GUAPValue"])))')
 
 #TimeElapsed=$((d_epoch-LastGuapTime))
@@ -174,7 +174,7 @@ echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S
 #Remove thousands comma from GUAPearned variable
 #GUAPearned=$(python -c 'import os; print "{0:.0f}".format(float(os.environ["GUAPearned"]))')
 
-  echo "  Earned since  : $GUAPearned GUAP[\$$GUAPUSDearned] in last $TimeElapsed" | tee -a $SnapshotFilename
+  echo "  Earned since  : $GUAPearned GUAP[\$$GuapUSD] in last $TimeElapsed" | tee -a $SnapshotFilename
 
 TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
 TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
@@ -217,7 +217,7 @@ echo "-----------------------------------------------------------------" | tee -
 echo "" | tee -a $SnapshotFilename
 echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))')" | tee -a $SnapshotFilename
 echo "" | tee -a $SnapshotFilename
-echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
+echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * "GUAPValue"))')" | tee -a $SnapshotFilename
 
 
 echo "" | tee -a $SnapshotFilename
