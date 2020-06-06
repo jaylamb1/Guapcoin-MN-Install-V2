@@ -16,16 +16,17 @@ set -a
 d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
+
 SnapshotFilename="/home/guapadmin/GUAP-Snapshot-$d_filename.txt"
-echo "" | cat - > $SnapshotFilename
-echo "                   [GUAP Holdings Snaphot]                       " | cat - > $SnapshotFilename
-echo "-----------------------------------------------------------------" | cat - > $SnapshotFilename
+echo "SnapshotFilename = $SnapshotFilename"
 
-echo "Timestamp : $d_formatted" | cat - > $SnapshotFilename
-echo "" | cat - > $SnapshotFilename
+echo "" | tee $SnapshotFilename
+echo "                   [GUAP Holdings Snaphot]                       " | tee -a $SnapshotFilename
+echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
+
+echo "Timestamp : $d_formatted" | tee -a $SnapshotFilename
+echo "" | tee -a $SnapshotFilename
 #echo "Test d: $d"
-
-
 
 #Create arrays to hold GUAP addresses and address labels from file
 declare -a MNArray
@@ -76,13 +77,13 @@ fi
 #echo "LastGuapTotal = $LastGuapTotal"
 #done
 
-echo ""
+echo "" | tee -a $SnapshotFilename
 
 
-echo "[Label]      [Address]                                [Subtotal] "
-echo "-----------------------------------------------------------------"
+echo "[Label]      [Address]                                [Subtotal] " | tee -a $SnapshotFilename
+echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
-echo ""
+echo "" | tee -a $SnapshotFilename
 
 #For loop to get the current amount of GUAP in each saved GUAP address and print out each address, with its label and its GUAP amount
 n=0
@@ -93,8 +94,8 @@ do
   Addr[$n]=$(curl -s -X GET $parm)
   tempVar=${Addr[$n]}
   tempLabel=${MNLabelArray[$n]}
-  echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')"
-  echo ""
+  echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" | tee -a $SnapshotFilename
+  echo "" | tee -a $SnapshotFilename
 
   ((++n))
 done
@@ -121,20 +122,20 @@ GUAPTotal=$(curl -s -X GET $parm7)
 Perc=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["MN_Total"]) / float(os.environ["GUAPTotal"]) * 100))')
 
 #Print out total holding and total GUAP money supply
-echo "-----------------------------------------------------------------"
-echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')"
+echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
+echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')" | tee -a $SnapshotFilename
 
 parm10=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | sed 's/.*://')
 GUAPValue=$parm10
 
 #echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
-echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
-echo "-----------------------------------------------------------------"
+echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
+echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
 echo "$d $MN_Total" > /root/output.text
-echo ""
-echo "-----------------------------------------------------------------"
+echo "" | tee -a $SnapshotFilename
+echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
 #GUAPUSDearned=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearned"]) * float(os.environ["GUAPValue"])))')
 #GUAPUSDearned=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])) * float(os.environ["GUAPValue"])))')
@@ -154,12 +155,12 @@ TimeElapsed=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%dd:%Hh:%Mm:%Ss')
 #echo "Time elasped is $TimeElapsed"
 #TimeElapsed_s=$(date -d  @$TimeElapsed +'%S')
 #echo "  GUAP earned since last check @ $(date -d  @$LastGuapTime +'%m/%d %I:%M%P')  : $GUAPearned in last $(date -d  @$TimeElapsed +'%M%S') min"
-echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P') EST"
+echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P') EST" | tee -a $SnapshotFilename
 
 #Remove thousands comma from GUAPearned variable
 #GUAPearned=$(python -c 'import os; print "{0:.0f}".format(float(os.environ["GUAPearned"]))')
 
-  echo "  Earned since  : $GUAPearned GUAP[\$$GUAPUSDearned] in last $TimeElapsed"
+  echo "  Earned since  : $GUAPearned GUAP[\$$GUAPUSDearned] in last $TimeElapsed" | tee -a $SnapshotFilename
 
 TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
 TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
@@ -170,7 +171,7 @@ if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr >0"
   GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))')
   GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))')
-  echo "  Earn rate/hr  : $GUAPearnRateH GUAP[\$$GUAPUSDearnRateH]/hour"
+  echo "  Earn rate/hr  : $GUAPearnRateH GUAP[\$$GUAPUSDearnRateH]/hour" | tee -a $SnapshotFilename
 fi
 
 if [[ $TimeElapsedMin > '0' ]]; then
@@ -178,7 +179,7 @@ if [[ $TimeElapsedMin > '0' ]]; then
   #echo "TimeElapsedMin > 0"
   GUAPearnRateM=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))')
   GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))')
-  echo "  Earn rate/min : $GUAPearnRateM GUAP[\$$GUAPUSDearnRateM]/minute"
+  echo "  Earn rate/min : $GUAPearnRateM GUAP[\$$GUAPUSDearnRateM]/minute" | tee -a $SnapshotFilename
 fi
 
 
@@ -195,17 +196,17 @@ fi
 #  echo "  Earn rate        :  [$GUAPearnRateH GUAP/hour   ]"
 #  echo "                   :  [$GUAPearnRateM GUAP/minute ]"
 #  echo "                   :  [$GUAPearnRateS GUAP/second ]"
-echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second"
+echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second" | tee -a $SnapshotFilename
 
 
-echo "-----------------------------------------------------------------"
-echo ""
-echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))')"
-echo ""
-echo "Total GUAP Money Supply (USD)                  : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')"
+echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
+echo "" | tee -a $SnapshotFilename
+echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))')" | tee -a $SnapshotFilename
+echo "" | tee -a $SnapshotFilename
+echo "Total GUAP Money Supply (USD)                  : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
 
 
-echo ""
+echo "" | tee -a $SnapshotFilename
 #Get total number of GUAP masternodes and do some formating
 parm8="http://159.65.221.180:3001/ext/getmasternodecount"
 MNCount=$(curl -s -X GET $parm8)
@@ -225,30 +226,30 @@ parm9="http://159.65.221.180:3001/api/getblockcount"
 BlockHeight=$(curl -s -X GET $parm9)
 BlockHeight=$(printf '%14s' $BlockHeight)
 
-echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format( float(os.environ["GUAPValue"]) ) )')"
+echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format( float(os.environ["GUAPValue"]) ) )')" | tee -a $SnapshotFilename
 
 
 
-echo ""
+echo "" | tee -a $SnapshotFilename
 
 #Print out percentage of GUAP money supply, Masternode count, and GUAP chain block count/height
-echo "Percentage of total GUAP Money Supply          :  $Perc%"
-echo ""
+echo "Percentage of total GUAP Money Supply          :  $Perc%" | tee -a $SnapshotFilename
+echo "" | tee -a $SnapshotFilename
 
-echo "Total number of GUAP masternodes               :  $MNCount"
+echo "Total number of GUAP masternodes               :  $MNCount" | tee -a $SnapshotFilename
 MNCount=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["MNCount"]))')
 n=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["n"]))')
-echo ""
+echo "" | tee -a $SnapshotFilename
 
 #Get percentage of total GUAP voting power
 #decrease n variable because of the 2 change addresses we are tracking
 #n=$((n-2))
 Perc2=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["n"]) / float(os.environ["MNCount"]) * 100))')
 
-echo "Percentage of total GUAP Voting Power          :  $Perc2%"
-echo ""
-echo "GUAP Chain Block Count                         :  $BlockHeight"
-echo ""
+echo "Percentage of total GUAP Voting Power          :  $Perc2%" | tee -a $SnapshotFilename
+echo "" | tee -a $SnapshotFilename
+echo "GUAP Chain Block Count                         :  $BlockHeight" | tee -a $SnapshotFilename
+echo "" | tee -a $SnapshotFilename
 
 
 
