@@ -131,7 +131,7 @@ GUAPValue=$parm10
 
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
 GuapUSD=$(printf "%.2f\n" $GuapUSD)
-GuapUSDoffset=$(printf "%'14.2f\n" $GuapUSD)
+GuapUSDoffset=$(printf "\$%'14.2f\n" $GuapUSD)
 
 echo "  Total Current GUAP Holdings (USD)             : $GuapUSDoffset" | tee -a $SnapshotFilename
 
@@ -206,7 +206,7 @@ echo "Total GUAP Money Supply                        :  $(python -c 'import os; 
 echo "" | tee -a $SnapshotFilename
 
 GuapTotalUSD=$(echo $GUAPTotal*$GUAPValue | bc)
-GuapTotalUSDoffset=$(printf "%'14.3f\n" $GuapTotalUSD)
+GuapTotalUSDoffset=$(printf "\$% '14.3f\n" $GuapTotalUSD)
 echo "Total GUAP Money Supply (USD)                  :  $GuapTotalUSDoffset" | tee -a $SnapshotFilename
 #echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
 
