@@ -130,9 +130,9 @@ parm10=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | se
 GUAPValue=$parm10
 
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
-GuapUSD=$(printf "%'.3f\n" $GuapUSD)
+GuapUSD=$(printf "%'.2f\n" $GuapUSD)
 
-echo "  Total Current GUAP Holdings (USD)             : \$$GuapUSD"
+echo "  Total Current GUAP Holdings (USD)             :   \$$GuapUSD"
 
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
