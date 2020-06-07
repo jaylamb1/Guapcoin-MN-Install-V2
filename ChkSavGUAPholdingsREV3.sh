@@ -130,29 +130,22 @@ parm10=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | se
 GUAPValue=$parm10
 
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
-GuapUSD=$(printf "%'.3f\n" $GuapUSD2)
+GuapUSD=$(printf "%'.3f\n" $GuapUSD)
 
-echo ""
-echo "  Total Current GUAP Holdings (USD)             : $$GuapUSD"
+echo "  Total Current GUAP Holdings (USD)             : \$$GuapUSD"
 
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
 echo "$d $MN_Total" > /home/guapadmin/output.text
-echo "" | tee -a $SnapshotFilename
+#echo "" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-
+GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
 echo ""
-#sed -i '/^$/d' $filename #remove empty lines
-#sed 's,\,,,g'
 
-#GUAPUSDearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["GUAPearnedNoComma"]) * float(os.environ["GUAPValue"])))')
-#GUAPUSDearnedNoComma=$(python -c 'import os; print "{0:.2f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])) * float(os.environ["GUAPValue"])))')
-
-#TimeElapsed=$((d_epoch-LastGuapTime))
 d_var=$(TZ=":US/Eastern" date -d @$d +'%Y-%m-%dT%H:%M:%S')
 LastGuapTime_var=$(TZ=":US/Eastern" date -d @$LastGuapTime +'%Y-%m-%dT%H:%M:%S')
 #echo "d= $d_var"
@@ -167,7 +160,7 @@ echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S
 #Remove thousands comma from GUAPearned variable
 #GUAPearned=$(python -c 'import os; print "{0:.0f}".format(float(os.environ["GUAPearned"]))')
 
-  echo "  Earned since  : $GUAPearned GUAP[\$$GuapUSD] in last $TimeElapsed" | tee -a $SnapshotFilename
+  echo "  Earned since  : $GUAPearned GUAP[\$$GUAPearnedUSD] in last $TimeElapsed" | tee -a $SnapshotFilename
 
 TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
 TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
