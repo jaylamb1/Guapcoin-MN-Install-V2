@@ -143,11 +143,11 @@ echo "$d $MN_Total" > /home/guapadmin/output.text
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 GUAPearned=$(echo $MN_Total-$LastGuapTotal | bc)
 #GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-echo "Test GUAPearned= $GUAPearned"
+#echo "Test GUAPearned= $GUAPearned"
 GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
-echo "Test GUAPearnedUSD= $GUAPearnedUSD"
+#echo "Test GUAPearnedUSD= $GUAPearnedUSD"
 GUAPearnedUSD=$(printf "%'.2f\n" $GUAPearnedUSD)
-echo "Test GUAPearnedUSD 2nd format= $GUAPearnedUSD"
+#echo "Test GUAPearnedUSD 2nd format= $GUAPearnedUSD"
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
 
