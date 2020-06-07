@@ -134,6 +134,7 @@ echo ""
 #GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * os.environ["GUAPValue"]))')
 GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')
 GuapUSD2=$(echo $MN_Total*$GUAPValue | bc)
+GuapUSD2=$(printf "%'.3f\n" $GuapUSD2)
 echo "  Test1             : GuapUSD2=$GuapUSD2"
 echo ""
 echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
