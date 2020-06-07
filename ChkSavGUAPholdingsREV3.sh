@@ -128,17 +128,13 @@ echo "  Total Current GUAP Holdings                   : $(python -c 'import os; 
 
 parm10=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | sed 's/.*://')
 GUAPValue=$parm10
-#GUAPValue=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')
-echo "GUAPValue= $GUAPValue"
+
+GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
+GuapUSD=$(printf "%'.3f\n" $GuapUSD2)
+
 echo ""
-#GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * os.environ["GUAPValue"]))')
-GuapUSD=$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')
-GuapUSD2=$(echo $MN_Total*$GUAPValue | bc)
-GuapUSD2=$(printf "%'.3f\n" $GuapUSD2)
-echo "  Test1             : GuapUSD2=$GuapUSD2"
-echo ""
-echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14,.3f}".format((float(os.environ["MN_Total"]) * float(os.environ["GUAPValue"])))')"
-#echo "  Total Current GUAP Holdings (USD)             : $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format("GuapUSD"))')" | tee -a $SnapshotFilename
+echo "  Total Current GUAP Holdings (USD)             : $$GuapUSD"
+
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
@@ -146,18 +142,9 @@ echo "$d $MN_Total" > /home/guapadmin/output.text
 echo "" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-#GUAPUSDearned=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearned"]) * float(os.environ["GUAPValue"])))')
-#GUAPUSDearned=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])) * float(os.environ["GUAPValue"])))')
 
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-echo "Test:"
-echo ""
-echo "LastGuapTotal = $LastGuapTotal"
-echo "MN_Total= $MN_Total"
-
-echo "GuapUSD = $GuapUSD"
-#echo "GUAPearnedNoComma = $GUAPearnedNoComma"
 echo ""
 #sed -i '/^$/d' $filename #remove empty lines
 #sed 's,\,,,g'
