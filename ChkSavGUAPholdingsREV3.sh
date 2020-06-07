@@ -132,7 +132,7 @@ GUAPValue=$parm10
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
 GuapUSD=$(printf "%'.2f\n" $GuapUSD)
 
-echo "  Total Current GUAP Holdings (USD)             :   \$$GuapUSD"
+echo "  Total Current GUAP Holdings (USD)             : " | printf "0:>14'.2f\n" $GuapUSD
 
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
@@ -145,7 +145,6 @@ GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
 GUAPearnedUSD=$(printf "%'.2f\n" $GUAPearnedUSD)
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-echo ""
 
 d_var=$(TZ=":US/Eastern" date -d @$d +'%Y-%m-%dT%H:%M:%S')
 LastGuapTime_var=$(TZ=":US/Eastern" date -d @$LastGuapTime +'%Y-%m-%dT%H:%M:%S')
