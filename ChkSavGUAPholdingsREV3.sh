@@ -141,7 +141,8 @@ echo "-----------------------------------------------------------------" | tee -
 echo "$d $MN_Total" > /home/guapadmin/output.text
 #echo "" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
-GUAPearned=$(python -c 'import os; print "{0:,.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
+GUAPearned=$(echo $MN_Total*$LastGuapTotal | bc)
+#GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
 echo "Test GUAPearned= $GUAPearned"
 GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
 echo "Test GUAPearnedUSD= $GUAPearnedUSD"
@@ -210,7 +211,7 @@ echo "" | tee -a $SnapshotFilename
 
 GuapTotalUSD=$(echo $GUAPTotal*$GUAPValue | bc)
 GuapTotalUSDoffset=$(printf "\$% '14.3f\n" $GuapTotalUSD)
-echo "Total GUAP Money Supply (USD)                  :  $GuapTotalUSDoffset" | tee -a $SnapshotFilename
+echo "Total GUAP Money Supply (USD)                  : $GuapTotalUSDoffset" | tee -a $SnapshotFilename
 #echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
 
 
