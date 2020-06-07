@@ -131,7 +131,7 @@ GUAPValue=$parm10
 
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
 GuapUSD=$(printf "%.2f\n" $GuapUSD)
-GuapUSDoffset=$(printf "\$%'14.2f\n" $GuapUSD)
+GuapUSDoffset=$(printf "\$%'13.2f\n" $GuapUSD)
 
 echo "  Total Current GUAP Holdings (USD)             : $GuapUSDoffset" | tee -a $SnapshotFilename
 
