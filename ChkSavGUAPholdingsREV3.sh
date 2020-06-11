@@ -18,7 +18,7 @@ d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
 
 SnapshotFilename="/home/guapadmin/GUAP-Snapshot-$d_filename.txt"
-#echo "TEST SnapshotFilename = $SnapshotFilename"
+
 
 echo "" | tee $SnapshotFilename
 echo "                   [GUAP Holdings Snaphot]                       " | tee -a $SnapshotFilename
@@ -262,7 +262,7 @@ echo "" | tee -a $SnapshotFilename
 
 #Save MN_Total and timestamp to the snapshot
 echo "$d $MN_Total" >> tee -a $SnapshotFilename
-
+echo "GUAP Snapshot saved to $SnapshotFilename"
 
 #Turn off environment variables
 set +a
