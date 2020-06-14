@@ -55,12 +55,14 @@ As soon as all 10K transactions are done, we will wait for 15 confirmations. You
 ### Generate your Masternode Private Key.
 
 - In your wallet, open Settings -> Debug -> Console and run the following command to get your masternode key:
-    > createmasternodekey
+
+    `createmasternodekey`
 
     Please note: If you plan to set up more than one masternode, you need to create a key with the above command for each one.
 
 - Run this command to get your output information:
-    > getmasternodeoutputs
+
+    `getmasternodeoutputs`
 
 - Copy both the key and output information to a text file.
 
