@@ -375,8 +375,8 @@ echo -e "${NC}-------------------------------------------------
 NOTE: To edit guapcoin.conf, first stop the guapcoind daemon,
 then edit the guapcoin.conf file and save it in nano: (Ctrl-X + Y + Enter),
 then start the guapcoind daemon back up:
-to stop:              ${GREEN}guapcoin-cli stop${NC}
-to start:             ${GREEN}guapcoind${NC}
+to stop:              ${GREEN}systemctl stop guapcoin$MNID ${NC}
+to start:             ${GREEN}systemctl start guapcoin$MNID ${NC}
 to edit:              ${GREEN}nano $USERHOME/.guapcoin$MNID/guapcoin.conf${NC}
 to check mn status:   ${GREEN}guapcoin-cli getmasternodestatus${NC}
 ========================================================================
