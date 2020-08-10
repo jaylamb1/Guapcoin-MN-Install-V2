@@ -127,7 +127,7 @@ GUAPValue=$parm10
 
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
 GuapUSD=$(printf "%.2f\n" $GuapUSD) #Reformat to 2 decimal points
-GuapUSDoffset=$(printf "\$%'13.2f\n" $GuapUSD) #Reformat to right justified for presentation purposes
+GuapUSDoffset=$(printf "\$%'13,.2f\n" $GuapUSD) #Reformat to right justified for presentation purposes
 
 echo "  Total Current GUAP Holdings (USD)             : $GuapUSDoffset" | tee -a $SnapshotFilename
 
@@ -138,8 +138,10 @@ echo "$d $MN_Total" > /home/guapadmin/output.text
 #echo "" | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 GUAPearned=$(echo $MN_Total-$LastGuapTotal | bc)
-#GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-#echo "Test GUAPearned= $GUAPearned"
+echo "Test GUAPearned= $MN_Total-$LastGuapTotal"
+GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
+echo "Test GUAPearned= $GUAPearned"
+
 GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
 #echo "Test GUAPearnedUSD= $GUAPearnedUSD"
 GUAPearnedUSD=$(printf "%'.2f\n" $GUAPearnedUSD)
@@ -206,7 +208,7 @@ echo "Total GUAP Money Supply                        :  $(python -c 'import os; 
 echo "" | tee -a $SnapshotFilename
 
 GuapTotalUSD=$(echo $GUAPTotal*$GUAPValue | bc)
-GuapTotalUSDoffset=$(printf "\$% '14.3f\n" $GuapTotalUSD)
+GuapTotalUSDoffset=$(printf "\$% '14,.3f\n" $GuapTotalUSD)
 echo "Total GUAP Money Supply (USD)                  : $GuapTotalUSDoffset" | tee -a $SnapshotFilename
 #echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" | tee -a $SnapshotFilename
 
@@ -235,7 +237,7 @@ parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 
 BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
 
-echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.2f}".format( float(os.environ["GUAPValue"]) ) )')" | tee -a $SnapshotFilename
+echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )')" | tee -a $SnapshotFilename
 
 
 
