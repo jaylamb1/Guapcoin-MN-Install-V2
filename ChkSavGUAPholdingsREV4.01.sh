@@ -29,7 +29,7 @@ SnapshotFilename="/home/guapadmin/GUAP-Snapshot-$d_filename.txt"
 
 echo "" | tee $SnapshotFilename
 #Note: the tee command writes the onscreen report to a file also
-echo "                   [GUAP Holdings Snaphot]                       " | tee -a $SnapshotFilename
+echo "               [GUAP Holdings Snaphot Rev 4.01]                  " | tee -a $SnapshotFilename
 echo "-----------------------------------------------------------------" | tee -a $SnapshotFilename
 
 echo "Timestamp : $d_formatted" | tee -a $SnapshotFilename
@@ -243,7 +243,7 @@ MNCount=$(printf '%14s' $MNCount)
 #Get current block count/height
 #parm9="http://159.65.221.180:3001/api/getblockcount"
 #parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 's/.*://')
-parm9==$(guapcoin-cli getblockcount)
+parm9=$(guapcoin-cli getblockcount)
 #BlockHeight=$(curl -s -X GET $parm9)
 BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
