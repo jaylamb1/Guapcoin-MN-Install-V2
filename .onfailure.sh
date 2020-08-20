@@ -7,4 +7,4 @@ MN=$(systemctl | grep "$Service" | head -1 | awk '{ print $NF }')
 
 Message="ALERT: On $VPS, $Service, $MN FAILED"
 
-curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/T013XQUDZB5/B014N8CRZDF/J2t0fkUSIEVd7kX$
+curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}'
