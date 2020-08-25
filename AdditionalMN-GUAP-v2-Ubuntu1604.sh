@@ -288,6 +288,7 @@ cat > /etc/systemd/system/guapcoin$MNID.service << EOL
 [Unit]
 Description=guapcoind MN$MNID
 After=network.target
+OnFailure=unit-status-alert@%n.service
 [Service]
 Type=forking
 User=${USER}
