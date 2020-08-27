@@ -170,7 +170,7 @@ echo "Your masternode MN$MNID is syncing. Please wait for this process to finish
 echo "This can take a while. Do not close this window."
 echo ""
 
-until [ -n "$(/usr/local/bin/guapcoin-cli -conf=/root/.guapcoin$MNID/guapcoin.conf -datadir=/root/.guapcoin$MNID getconnectioncount 2>/dev/null)"  ]; do
+until [ -n "$(/usr/local/bin/guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID getconnectioncount 2>/dev/null)"  ]; do
   sleep 1
 done
 
