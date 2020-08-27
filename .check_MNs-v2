@@ -36,11 +36,8 @@ for (( i = 0; i < n; i++ )); do
 
   echo "    ${MNLabelArray[i]}:"
 dir="/home/guapadmin/.guapcoin"
-#$testDir=echo "$(test -d "/home/guapadmin/.guapcoin1" && echo 1 || echo 0)"
-#parm8=$(guapcoin-cli getmasternodecount | awk '/stable/' | sed 's/.*://' | sed 's/,$//')
-testDir=$(test -d $dir && echo 1)
 
-  if $testDir == 1; then
+  if $(test -d $dir && echo true); then
       echo -ne "$(su -c "guapcoin-cli -conf=/home/guapadmin/.guapcoin/guapcoin.conf -datadir=/home/guapadmin/.guapcoin listmasternodes | grep -A1 \"status\" | grep -B1 \"${MNArray[i]}\"" root)"
   else
       echo -ne "$(su -c "guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep -A1 \"status\" | grep -B1 \"${MNArray[i]}\"" root)"
