@@ -60,17 +60,21 @@ echo "" | tee -a $StatusReportFilename
 n=0
 for i in "${MNArray[@]}"
 do
-
+  tempLabel=${MNLabelArray[$n]}
   dir="/home/guapadmin/.guapcoin"
 
+  if ! [["$tempLabel" == *"MN"* ]]; then #Skip addresses that are not labeled as masternodes
+    continue
+  fi
+
     if $(test -d $dir && echo true); then
-        tempStatus=$(guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 "GajS6csTmrZtZLbN1APK7dwNPYqtUX9JjW" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
+        tempStatus=$(guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
     else
-        tempStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep -A1 \"status\" | grep -B1 "GajS6csTmrZtZLbN1APK7dwNPYqtUX9JjW" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
+        tempStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
     fi
 
 
-  tempLabel=${MNLabelArray[$n]}
+
   echo "  $tempLabel        $i     Status: $tempStatus" | tee -a $StatusReportFilename
   echo "" | tee -a $StatusReportFilename
 
