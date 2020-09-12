@@ -63,7 +63,7 @@ do
   tempLabel=${MNLabelArray[$n]}
   dir="/home/guapadmin/.guapcoin"
 
-  if ! [["$tempLabel" == *"MN"* ]]; then #Skip addresses that are not labeled as masternodes
+  if ! [[ $tempLabel == *MN* ]]; then #Skip addresses that are not labeled as masternodes
     continue
   fi
 
@@ -78,7 +78,7 @@ do
   echo "  $tempLabel        $i     Status: $tempStatus" | tee -a $StatusReportFilename
   echo "" | tee -a $StatusReportFilename
 
-  if ! [["$tempStatus" == "ENABLED"]]; then
+  if ! [[ $tempStatus == "ENABLED" ]]; then
     Message="ALERT: On $tempLabel, $i, Status: $tempStatus"
 
     curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/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
