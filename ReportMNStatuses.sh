@@ -64,27 +64,32 @@ do
   dir="/home/guapadmin/.guapcoin"
 
   if ! [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
-    continue
+    echo "$tempLabel skipped because it is not a mastsernode" | tee -a $StatusReportFilename
+    echo "" | tee -a $StatusReportFilename
+  else
+      if $(test -d $dir && echo true); then
+          tempStatus=$(guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
+      else
+          tempStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
+      fi
+
+
+
+      echo "  $tempLabel        $i     Status: $tempStatus" | tee -a $StatusReportFilename
+      echo "" | tee -a $StatusReportFilename
+
+      if ! [[ $tempStatus == "ENABLED" ]]; then
+        echo "Uh OH!!"
+        Message="ALERT: On $tempLabel, $i, Status: $tempStatus"
+
+        curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/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
+
+      fi
+
+
   fi
 
-    if $(test -d $dir && echo true); then
-        tempStatus=$(guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
-    else
-        tempStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
-    fi
 
-
-
-  echo "  $tempLabel        $i     Status: $tempStatus" | tee -a $StatusReportFilename
-  echo "" | tee -a $StatusReportFilename
-
-  if ! [[ $tempStatus == "ENABLED" ]]; then
-    echo "Uh OH!!"
-    Message="ALERT: On $tempLabel, $i, Status: $tempStatus"
-
-    curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/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
-
-  fi
 
   ((++n))
 done
