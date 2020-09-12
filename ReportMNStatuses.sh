@@ -11,7 +11,7 @@ d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
 
-StatusReportFilename="/home/guapadmin/MN-Status-Report-$d_filename.txt"
+StatusReportFilename="/home/guapadmin/MN_Status/MN-Status-Report-$d_filename.txt"
 
 
 echo "" | tee $StatusReportFilename
@@ -81,7 +81,7 @@ do
       if ! [[ $tempStatus == "ENABLED" ]]; then
 
         Message="ALERT: *Masternode:* $tempLabel, *Address:* $i, *Timestamp:* $d_formatted, *Status:* $tempStatus"
-        curl -X POST -H 'Content-type: application/json' --data '{"username":"MN_Status_Monitor", "text":"'"$Message"'"}' https://hooks.slack.com/services/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
+        curl -X POST -H 'Content-type: application/json' --data '{"username":"MN_Status_Monitor", "text":"'"$Message"'"}' https://hooks.slack.com/services/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
 
       fi
 
