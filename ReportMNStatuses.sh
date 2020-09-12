@@ -82,7 +82,7 @@ do
 
         Message="ALERT: On $tempLabel, $i, Status: $tempStatus"
 
-        curl -X POST --data-urlencode "payload={\"channel\": \"#jl_mns-monitor-blockchainstatus\", \"username\": \"MN_monitor\", \"text\": \"$Message\", \"icon_emoji\": \":wrench:\"}" https://hooks.slack.com/services/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
+        curl -X POST --data-urlencode "payload={\"channel\": \"#jl_mns-monitor-blockchainstatus\", \"username\": \"MN_monitor\", \"text\": \"$Message\", \"icon_emoji\": \":wrench:\"}" https://hooks.slack.com/services/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
       fi
 
 
