@@ -79,6 +79,7 @@ do
   echo "" | tee -a $StatusReportFilename
 
   if ! [[ $tempStatus == "ENABLED" ]]; then
+    echo "Uh OH!!"
     Message="ALERT: On $tempLabel, $i, Status: $tempStatus"
 
     curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/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
