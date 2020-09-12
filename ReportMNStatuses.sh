@@ -81,7 +81,7 @@ do
       if ! [[ $tempStatus == "ENABLED" ]]; then
 
         Message="ALERT: *Masternode:* $tempLabel, *Address:* $i, *Timestamp:* $d_formatted, *Status:* $tempStatus"
-        curl -X POST -H 'Content-type: application/json' --data '{"username":"MN_Status_Monitor", "text":"'"$Message"'"}' https://hooks.slack.com/services/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
+        curl -X POST -H 'Content-type: application/json' --data '{"username":"MN_Status_Monitor", "text":"'"$Message"'"}' https://hooks.slack.com/services/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
 
       fi
 
