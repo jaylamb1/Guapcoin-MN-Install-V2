@@ -83,7 +83,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 #JL custom aliases
-alias ckMN='/home/guapadmin/.check_MNs-v2 /home/guapadmin/file.txt'
+alias ckMN='/home/guapadmin/ReportMNStatuses.sh /home/guapadmin/file.txt'
 alias mn='ckMN'
 alias ckguap='systemctl | grep guap'
 alias ckguapH='/home/guapadmin/cksavguapHoldings.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
