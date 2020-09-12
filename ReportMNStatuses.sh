@@ -64,7 +64,7 @@ do
   dir="/home/guapadmin/.guapcoin"
 
   if ! [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
-    echo "$tempLabel skipped because it is not a mastsernode" | tee -a $StatusReportFilename
+    echo "  $tempLabel skipped because it is not a mastsernode" | tee -a $StatusReportFilename
     echo "" | tee -a $StatusReportFilename
   else
       if $(test -d $dir && echo true); then
@@ -82,7 +82,7 @@ do
         echo "Uh OH!!"
         Message="ALERT: On $tempLabel, $i, Status: $tempStatus"
 
-        curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/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
+      #  curl -X POST -H 'Content-type: application/json' --data '{"text":"'"$Message"'"}' https://hooks.slack.com/services/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
 
       fi
 
