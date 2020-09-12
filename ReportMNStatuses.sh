@@ -63,7 +63,7 @@ do
   tempLabel=${MNLabelArray[$n]}
   dir="/home/guapadmin/.guapcoin"
 
-  if ! [[ $tempLabel == *MN* ]]; then #Skip addresses that are not labeled as masternodes
+  if ! [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
     continue
   fi
 
