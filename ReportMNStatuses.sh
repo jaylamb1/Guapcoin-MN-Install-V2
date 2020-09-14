@@ -80,8 +80,8 @@ do
 
       if ! [[ $tempStatus == "ENABLED" ]]; then
 
-        Message="ALERT: *Masternode:* $tempLabel, *Address:* $i, *Timestamp:* $d_formatted, *Status:* $tempStatus"
-        curl -X POST -H 'Content-type: application/json' --data '{"username":"MN_Status_Monitor", "text":"'"$Message"'"}'
+        #Message="ALERT: *Masternode:* $tempLabel, *Address:* $i, *Timestamp:* $d_formatted, *Status:* $tempStatus"
+        curl -X POST -H 'Content-type: application/json' --data '{ "blocks": [ { "type": "section", "text": { "type": "mrkdwn", "text": ":wrench::exclamation:*Alert!* *Status:* $tempStatus \n $tempLabel \n <https://guapexplorer.com/#/address/$i|$i> \n $d_formatted \n\n" } }, { "type": "section", "block_id": "section567", "text": { "type": "mrkdwn", "text": "Attention Needed: Please take a closer look at $tempLabel." } } ] }'
 
       fi
 
