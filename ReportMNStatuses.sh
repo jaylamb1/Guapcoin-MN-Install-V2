@@ -82,7 +82,7 @@ do
 
         detailedStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6)
         #Message="ALERT: *Masternode:* $tempLabel, *Address:* $i, *Timestamp:* $d_formatted, *Status:* $tempStatus"
-        curl -X POST -H 'Content-type: application/json' --data '{ "blocks": [ { "type": "section", "text": { "type": "mrkdwn", "text": ":wrench::exclamation:*Alert!* *Status:* '"$tempStatus"' \n" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "'"$tempLabel"' \n <https://guapexplorer.com/#/address/'"$i"'|'"$i"'> \n '"$d_formatted"' \n\n" } }, { "type": "divider" }, { "type": "section", "block_id": "section567", "text": { "type": "mrkdwn", "text": "Attention Needed: Please take a closer look at '"$tempLabel"' \n '"$detailedStatus"'." } } ] }'
+        curl -X POST -H 'Content-type: application/json' --data '{ "blocks": [ { "type": "section", "text": { "type": "mrkdwn", "text": ":wrench::exclamation:*Alert!* *Status:* '"$tempStatus"' \n" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "'"$tempLabel"' \n <https://guapexplorer.com/#/address/'"$i"'|'"$i"'> \n '"$d_formatted"' \n\n" } }, { "type": "divider" }, { "type": "section", "block_id": "section567", "text": { "type": "mrkdwn", "text": "Attention Needed: Please take a closer look at '"$tempLabel"'." } } ] }'
 
       fi
 
