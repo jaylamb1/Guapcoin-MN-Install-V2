@@ -42,7 +42,7 @@
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*Total Current GUAP Holdings*                                                                 *'"$MN_Total"'*\n*Total Current GUAP Holdings (USD)*                                                      *\$'"$GuapUSD"'"
+				"text": "*Total Current GUAP Holdings*                                                                 *'"$MN_Total"'*\n*Total Current GUAP Holdings (USD)*                                                      *'"$GuapUSD"'"
 			}
 		},
 		{
@@ -52,7 +52,7 @@
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "\nLast report was generated on '"$LastGuapTime_var"' \nGUAP earned since last report: '"$GUAPearned"'[\$'"$GUAPearnedUSD"'] in last '"$TimeElapsed"' \nEarn rate: '"$GUAPearnRateH"'/hour '"$GUAPearnRateM"'/min '"$GUAPearnRateS"'/sec \nEarn rate(\$): '"$GUAPUSDearnRateH"'/hour '"$GUAPUSDearnRateM"'/min '"$GUAPUSDearnRateS"'/sec"
+				"text": "\nLast report was generated on '"$LastGuapTime_var"' \nGUAP earned since last report: '"$GUAPearned"'['"$GUAPearnedUSD"'] in last '"$TimeElapsed"' \nEarn rate: '"$GUAPearnRateH"'/hour '"$GUAPearnRateM"'/min '"$GUAPearnRateS"'/sec \nEarn rate(USD): '"$GUAPUSDearnRateH"'/hour '"$GUAPUSDearnRateM"'/min '"$GUAPUSDearnRateS"'/sec"
 			}
 		},
 		{
@@ -62,7 +62,7 @@
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*GUAP Stats* \nTotal GUAP Money Supply                                                                      '"$GUAPTotal"' \nTotal GUAP Money Supply (USD)                                                           \$'"$GuapTotalUSD"' \nCurrent per GUAP Value (USD)                                                               \$'"$GUAPValue"' \nPercentage of total GUAP Money Supply held here                             '"$Perc"'% \nTotal number of GUAP masternodes                                                      '"$MNCount"' \nPercentage of total GUAP voting power represented here                  '"$Perc2"'% \nGUAP Chain Block Count                                                                        '"$BlockHeight"'"
+				"text": "*GUAP Stats* \nTotal GUAP Money Supply                                                                      '"$GUAPTotal"' \nTotal GUAP Money Supply (USD)                                                           '"$GuapTotalUSD"' \nCurrent per GUAP Value (USD)                                                               '"$GUAPValue"' \nPercentage of total GUAP Money Supply held here                             '"$Perc"'% \nTotal number of GUAP masternodes                                                      '"$MNCount"' \nPercentage of total GUAP voting power represented here                  '"$Perc2"'% \nGUAP Chain Block Count                                                                        '"$BlockHeight"'"
 			}
 		},
 		{
