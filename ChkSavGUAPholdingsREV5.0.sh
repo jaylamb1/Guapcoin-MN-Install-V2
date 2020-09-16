@@ -106,31 +106,31 @@ do
   temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
   temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
   #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 50 entries)
-  if [ "$n" -lt 11 ];then
+  if [ "$n" -lt "11" ];then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
     MNs_Data_Block="{ \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
     continue
-  elif [ 10 -lt "$n" -a "$n" -lt 21 ]; then
+  elif [ "10" -lt "$n" -a "$n" -lt "21" ]; then
     MNs_data2A="$MNs_data2A$temp_MNs_dataA"
     MNs_data2B="$MNs_data2B$temp_MNs_dataB"
     MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2B\" } ] }"
     continue
-  elif (( 20 < $n && $n < 31 )); then
-    MNs_data3A="$MNs_data3A$temp_MNs_dataA"
-    MNs_data3B="$MNs_data3B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3B\" } ] }"
-    continue
-  elif (( 30 < $n && $n < 41 )); then
-    MNs_data4A="$MNs_data4A$temp_MNs_dataA"
-    MNs_data4B="$MNs_data4B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4B\" } ] }"
-    continue
-  elif (( 40 < $n && $n < 51 )); then
-    MNs_data5A="$MNs_data5A$temp_MNs_dataA"
-    MNs_data5B="$MNs_data5B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
-    continue
+  #elif (( 20 < $n && $n < 31 )); then
+  #  MNs_data3A="$MNs_data3A$temp_MNs_dataA"
+  #  MNs_data3B="$MNs_data3B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3B\" } ] }"
+  #  continue
+  #elif (( 30 < $n && $n < 41 )); then
+  #  MNs_data4A="$MNs_data4A$temp_MNs_dataA"
+  #  MNs_data4B="$MNs_data4B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4B\" } ] }"
+  #  continue
+  #elif (( 40 < $n && $n < 51 )); then
+  #  MNs_data5A="$MNs_data5A$temp_MNs_dataA"
+  #  MNs_data5B="$MNs_data5B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
+  #  continue
   fi
 
   ((++n))
