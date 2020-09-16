@@ -35,6 +35,11 @@ MNs_data4B=""
 MNs_data5A=""
 MNs_data5B=""
 MNs_Data_Block=""
+MNs_Data_Block1=""
+MNs_Data_Block2=""
+MNs_Data_Block3=""
+MNs_Data_Block4=""
+MNs_Data_Block5=""
 SnapshotFilename="/home/guapadmin/MN_Report/GUAP-Snapshot-$d_filename.txt"
 
 
@@ -109,28 +114,28 @@ do
   if [ "$n" -lt 11 ];then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
-    MNs_Data_Block="{ \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
-    #continue
+    MNs_Data_Block1="{ \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block1
   elif [[ "$n" -gt 10 ]] && [[ "$n" -lt 21 ]]; then
     MNs_data2A="$MNs_data2A$temp_MNs_dataA"
     MNs_data2B="$MNs_data2B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2B\" } ] }"
-    #continue
-  #elif (( 20 < $n && $n < 31 )); then
-  #  MNs_data3A="$MNs_data3A$temp_MNs_dataA"
-  #  MNs_data3B="$MNs_data3B$temp_MNs_dataB"
-  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3B\" } ] }"
-  #  continue
-  #elif (( 30 < $n && $n < 41 )); then
-  #  MNs_data4A="$MNs_data4A$temp_MNs_dataA"
-  #  MNs_data4B="$MNs_data4B$temp_MNs_dataB"
-  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4B\" } ] }"
-  #  continue
-  #elif (( 40 < $n && $n < 51 )); then
-  #  MNs_data5A="$MNs_data5A$temp_MNs_dataA"
-  #  MNs_data5B="$MNs_data5B$temp_MNs_dataB"
-  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
-  #  continue
+    MNs_Data_Block2="$MNs_Data_Block1, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block2
+  elif [[ "$n" -gt 10 ]] && [[ "$n" -lt 21 ]]; then
+    MNs_data3A="$MNs_data3A$temp_MNs_dataA"
+    MNs_data3B="$MNs_data3B$temp_MNs_dataB"
+    MNs_Data_Block3="$MNs_Data_Block2, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block3
+  elif [[ "$n" -gt 10 ]] && [[ "$n" -lt 21 ]]; then
+    MNs_data4A="$MNs_data4A$temp_MNs_dataA"
+    MNs_data4B="$MNs_data4B$temp_MNs_dataB"
+    MNs_Data_Block4="$MNs_Data_Block3, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block4
+  elif [[ "$n" -gt 10 ]] && [[ "$n" -lt 21 ]]; then
+    MNs_data5A="$MNs_data5A$temp_MNs_dataA"
+    MNs_data5B="$MNs_data5B$temp_MNs_dataB"
+    MNs_Data_Block5="$MNs_Data_Block4, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block5
   fi
 
   ((++n))
