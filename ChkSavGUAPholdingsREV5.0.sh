@@ -111,7 +111,7 @@ do
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
     MNs_Data_Block="{ \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
     #continue
-  elif [ 10 -lt $n ] && [$n -lt 21 ]; then
+  elif [[ "$n" -gt 10 && "$n" -lt 21 ]]; then
     MNs_data2A="$MNs_data2A$temp_MNs_dataA"
     MNs_data2B="$MNs_data2B$temp_MNs_dataB"
     MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2B\" } ] }"
