@@ -92,7 +92,7 @@ do
   tempLabel=${MNLabelArray[$n]}
   echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" >> $SnapshotFilename
   echo "" >> $SnapshotFilename
-  temp_MNs_data=" \n"$tempLabel" <https://guapexplorer.com/#/address/"$i"|"$i"> "$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["tempVar"])))"'"
+  temp_MNs_data="\n\"$tempLabel\" <https://guapexplorer.com/#/address/\"$i\"|\"$i\"> \"$(python -c \'import os; print \"{0:>14,.2f}\".format(float(os.environ[\"tempVar\"]))\')\""
   MNs_data="$MNs_data$temp_MNs_data"
   ((++n))
 done
