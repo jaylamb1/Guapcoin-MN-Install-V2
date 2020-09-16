@@ -109,23 +109,23 @@ do
   if (( $n < 11 ));then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
-    MNs_Data_Block="{ \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data1A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data1B\"\'\" } ] }"
-  elif (( 11 <= $n  && $n < 21 )); then
-    MNs_data2A="$MNs_data2A$temp_MNs_dataA"
-    MNs_data2B="$MNs_data2B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data2A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data2B\"\'\" } ] }"
-  elif (( 21 <= $n  && $n < 31 )); then
-    MNs_data3A="$MNs_data3A$temp_MNs_dataA"
-    MNs_data3B="$MNs_data3B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data3A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data3B\"\'\" } ] }"
-  elif (( 31 <= $n  && $n < 41 )); then
-    MNs_data4A="$MNs_data4A$temp_MNs_dataA"
-    MNs_data4B="$MNs_data4B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data4A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data4B\"\'\" } ] }"
-  elif (( 41 <= $n  && $n < 51 )); then
-    MNs_data5A="$MNs_data5A$temp_MNs_dataA"
-    MNs_data5B="$MNs_data5B$temp_MNs_dataB"
-    MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data5A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data5B\"\'\" } ] }"
+    MNs_Data_Block="{ \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
+  #elif (( 11 <= $n  && $n < 21 )); then
+  #  MNs_data2A="$MNs_data2A$temp_MNs_dataA"
+  #  MNs_data2B="$MNs_data2B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data2A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data2B\"\'\" } ] }"
+  #elif (( 21 <= $n  && $n < 31 )); then
+  #  MNs_data3A="$MNs_data3A$temp_MNs_dataA"
+  #  MNs_data3B="$MNs_data3B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data3A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data3B\"\'\" } ] }"
+  #elif (( 31 <= $n  && $n < 41 )); then
+  #  MNs_data4A="$MNs_data4A$temp_MNs_dataA"
+  #  MNs_data4B="$MNs_data4B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data4A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data4B\"\'\" } ] }"
+  #elif (( 41 <= $n  && $n < 51 )); then
+  #  MNs_data5A="$MNs_data5A$temp_MNs_dataA"
+  #  MNs_data5B="$MNs_data5B$temp_MNs_dataB"
+  #  MNs_Data_Block="$MNs_Data_Block, { \"type\": \"section\", \"text\": { \"text\": \"MN Subtotals:\", \"type\": \"mrkdwn\" }, \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*Masternode ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data5A\"\'\" }, { \"type\": \"mrkdwn\", \"text\": \"\'\"$MNs_data5B\"\'\" } ] }"
   fi
 
   ((++n))
