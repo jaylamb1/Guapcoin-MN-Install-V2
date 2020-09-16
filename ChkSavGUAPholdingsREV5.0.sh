@@ -103,9 +103,9 @@ do
   echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" >> $SnapshotFilename
   echo "" >> $SnapshotFilename
   temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
-  temp_MNs_dataB="$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["tempVar"]))')\n"
+  temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
   #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here
-  if [[ "$n" -lt 11 ]];then
+  if (( $n < 11 ));then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
   #elif [[ "$n" -ge 10 && "$n" -lt 20 ]]; then
