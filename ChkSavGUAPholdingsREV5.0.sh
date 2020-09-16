@@ -97,7 +97,7 @@ do
   ((++n))
 done
 
-MNs_data=$(echo $MNs_data | sed "s/\'//g")
+MNs_data=$(echo "$MNs_data" | sed "s/\'//g")
 #Var to hold the total amount of GUAP from all saved GUAP addresses, and For loop to iterate through MNArray and calculate the total of all the addresses
 MN_Total=0
 n=0
