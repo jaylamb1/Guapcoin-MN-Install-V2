@@ -24,9 +24,16 @@ d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
 server=$(hostname)
-MNs_data=""
-MNs_data2=""
-MNs_data3=""
+MNs_data1A=""
+MNs_data1B=""
+MNs_data2A=""
+MNs_data2B=""
+MNs_data3A=""
+MNs_data3B=""
+MNs_data4A=""
+MNs_data4B=""
+MNs_data5A=""
+MNs_data5B=""
 SnapshotFilename="/home/guapadmin/MN_Report/GUAP-Snapshot-$d_filename.txt"
 
 
@@ -85,7 +92,8 @@ n=0
 
 for i in "${MNArray[@]}"
 do
-  temp_MNs_data=""
+  temp_MNs_dataA=""
+  temp_MNs_dataB=""
   #parm="http://159.65.221.180:3001/ext/getbalance/$i"
   #Addr[$n]=$(curl -s -X GET $parm)
   Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://')
@@ -94,14 +102,24 @@ do
   tempLabel=${MNLabelArray[$n]}
   echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" >> $SnapshotFilename
   echo "" >> $SnapshotFilename
-  temp_MNs_data="$tempLabel <https://guapexplorer.com/#/address/$i|$i> $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["tempVar"]))')\n "
-  #curl command to send data to slack can only handle about 23 entries per section block, so it is broken up here
-  if [[ "$n" -lt 20 ]];then
-    MNs_data="$MNs_data$temp_MNs_data"
-  elif [[ "$n" -ge 20 && "$n" -lt 40 ]]; then
-    MNs_data2="$MNs_data2$temp_MNs_data"
-  elif [[ "$n" -ge 40 && "$n" -lt 60 ]]; then
-    MNs_data3="$MNs_data3$temp_MNs_data"
+  temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
+  temp_MNs_dataB="$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["tempVar"]))')\n"
+  #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here
+  if [[ "$n" -lt 45 ]];then
+    MNs_data1A="$MNs_data1A$temp_MNs_dataA"
+    MNs_data1B="$MNs_data1B$temp_MNs_dataB"
+  #elif [[ "$n" -ge 10 && "$n" -lt 20 ]]; then
+  #  MNs_data2A="$MNs_data2A$temp_MNs_dataA"
+  #  MNs_data2B="$MNs_data2B$temp_MNs_dataB"
+  #elif [[ "$n" -ge 20 && "$n" -lt 30 ]]; then
+  #  MNs_data3A="$MNs_data3A$temp_MNs_dataA"
+  #  MNs_data3B="$MNs_data3B$temp_MNs_dataB"
+  #elif [[ "$n" -ge 30 && "$n" -lt 40 ]]; then
+  #  MNs_data4A="$MNs_data4A$temp_MNs_dataA"
+  #  MNs_data4B="$MNs_data4B$temp_MNs_dataB"
+  #elif [[ "$n" -ge 40 && "$n" -lt 50 ]]; then
+  #  MNs_data5A="$MNs_data5A$temp_MNs_dataA"
+  #  MNs_data5B="$MNs_data5B$temp_MNs_dataB"
   fi
 
   ((++n))
@@ -287,7 +305,7 @@ echo "GUAP Snapshot saved to $SnapshotFilename"
 
 echo "test \n $MNs_data"
 
-curl -X POST -H 'Content-type: application/json' --data '{ "text": "Alert: GUAP MASTERNODE EARNINGS REPORT", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": " ", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":dollar::moneybag: *GUAP MASTERNODE EARNINGS REPORT - JL - * :moneybag::dollar:\nReport for server '"$server"'; owner Jason Lamb." } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Please see below a snapshot of your masternodes. See also included below links for your masternodes where you can view their recent transaction activity on the GUAP Blockchain Explorer. " } ] }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|Posted '"$d_formatted"'>" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "'"$MNs_data"' \n\n" } }, { "type": "divider" },  { "type": "section", "text": { "type": "mrkdwn", "text": "'"$MNs_data2"' \n\n" } }, { "type": "section", "text": { "type": "mrkdwn", "text": "'"$MNs_data3"' \n\n" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Holdings*                                                                 *'"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')"'*\n*GUAP Holdings (USD)*                                                      *'"$GuapUSDoffset"'*" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "\nLast report was generated on '"$(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P')"' EST \nGUAP earned since last report: '"$GUAPearned"' ['"$GUAPearnedUSD"'] in last '"$TimeElapsed"' \nEarn rate: '"$GUAPearnRateS"'/sec '"$GUAPearnRateM"'/min '"$GUAPearnRateH"'/hour   \nEarn rate(USD): '"$GUAPUSDearnRateS"'/sec '"$GUAPUSDearnRateM"'/min '"$GUAPUSDearnRateH"'/hour" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Stats* \nGUAP Money Supply                                                                      '"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["GUAPTotal"]))')"' \nGUAP Money Supply (USD)                                                           '"$GuapTotalUSDoffset"' \nGUAP Value (USD)                                                               '"$(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )')"' \n% of GUAP Money Supply                             '"$Perc"'% \nTotal GUAP masternodes                                                      '"$MNCount"' \n% of GUAP voting power                  '"$Perc2"'% \nGUAP Chain Block Count                                                                        '"$BlockHeight"'" } }, { "type": "divider" }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Report automatically generated by masternode monitoring system. Please message <@U013QSJTGEA> for more information." } ] }, { "type": "divider" }, { "type": "divider" } ] }'
+curl -X POST -H 'Content-type: application/json' --data '{ "text": ":moneybag: GUAP MASTERNODE EARNINGS REPORT :moneybag:", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": " ", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":dollar::moneybag: *GUAP MASTERNODE EARNINGS REPORT - JL - * :moneybag::dollar:\nReport for server '"$server"'; owner Jason Lamb." } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Please see below a snapshot of your masternodes. See also included below links for your masternodes where you can view their recent transaction activity on the GUAP Blockchain Explorer. " } ] }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|Posted '"$d_formatted"'>" } }, { "type": "divider" },  { "type": "section", "text": { "text": "MN Subtotals:", "type": "mrkdwn" }, "fields": [ { "type": "mrkdwn", "text": "*Masternode ID*" }, { "type": "mrkdwn", "text": "*Subtotal*" }, { "type": "mrkdwn", "text": "'"$MNs_data1A"'" }, { "type": "mrkdwn", "text": ""'"$MNs_data1B"'" } ] }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Holdings*                                                                 *'"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')"'*\n*GUAP Holdings (USD)*                                                      *'"$GuapUSDoffset"'*" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "\nLast report was generated on '"$(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P')"' EST \nGUAP earned since last report: '"$GUAPearned"' ['"$GUAPearnedUSD"'] in last '"$TimeElapsed"' \nEarn rate: '"$GUAPearnRateS"'/sec '"$GUAPearnRateM"'/min '"$GUAPearnRateH"'/hour   \nEarn rate(USD): '"$GUAPUSDearnRateS"'/sec '"$GUAPUSDearnRateM"'/min '"$GUAPUSDearnRateH"'/hour" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Stats* \nGUAP Money Supply                                                                      '"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["GUAPTotal"]))')"' \nGUAP Money Supply (USD)                                                           '"$GuapTotalUSDoffset"' \nGUAP Value (USD)                                                               '"$(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )')"' \n% of GUAP Money Supply                             '"$Perc"'% \nTotal GUAP masternodes                                                      '"$MNCount"' \n% of GUAP voting power                  '"$Perc2"'% \nGUAP Chain Block Count                                                                        '"$BlockHeight"'" } }, { "type": "divider" }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Report automatically generated by masternode monitoring system. Please message <@U013QSJTGEA> for more information." } ] }, { "type": "divider" }, { "type": "divider" } ] }'
 
 #Turn off environment variables
 set +a
