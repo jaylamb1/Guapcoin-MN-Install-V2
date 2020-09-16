@@ -183,7 +183,7 @@ parm10=$(echo $parm10a*$parm10b | bc)
 GUAPValue=$parm10
 
 GuapUSD=$(echo $MN_Total*$GUAPValue | bc)
-GuapUSD=$(printf "%.2f\n" $GuapUSD) #Reformat to 2 decimal points
+#GuapUSD=$(printf "%.2f\n" $GuapUSD) #Reformat to 2 decimal points
 GuapUSDoffset=$(printf "\$%'13.2f\n" $GuapUSD) #Reformat to right justified for presentation purposes
 
 echo "  Total Current GUAP Holdings (USD)             : $GuapUSDoffset" >> $SnapshotFilename
