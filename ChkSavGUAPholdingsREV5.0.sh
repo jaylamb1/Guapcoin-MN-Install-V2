@@ -227,7 +227,7 @@ TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
 TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
 TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
 
-echo "TimeElapsedSec = $TimeElapsedSec"
+echo "TimeElapsedSec = $(abs($TimeElapsedSec))"
 echo "TimeElapsedMin = $TimeElapsedMin"
 echo "TimeElapsedHr = $TimeElapsedHr"
 
