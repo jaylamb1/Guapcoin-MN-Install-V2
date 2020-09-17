@@ -230,7 +230,7 @@ TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
 GUAPearnRateH=""
 GUAPUSDearnRateH=""
 
-EarnRateVar=""
+EarnRateVar="Earn rate(USD):"
 if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr = $TimeElapsedHr"
   #echo "TimeElapsedHr >0"
@@ -238,7 +238,7 @@ if [[ $TimeElapsedHr > '0' ]]; then
   GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))')
   GUAPUSDearnRateHb=$(echo $GUAPearnedUSD/$TimeElapsedHr| bc)
   echo "  Earn rate/hr  : $GUAPearnRateH GUAP[\$$GUAPUSDearnRateH]/hour" >> $SnapshotFilename
-  EarnRateVar="Earn rate(USD):            '"$GUAPUSDearnRateH"'/hour"
+  EarnRateVar="$EarnRateVar            '"$GUAPUSDearnRateH"'/hour"
 fi
 
 GUAPearnRateM=""
