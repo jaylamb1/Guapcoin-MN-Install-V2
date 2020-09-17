@@ -109,12 +109,12 @@ do
   echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" >> $SnapshotFilename
   echo "" >> $SnapshotFilename
 
-  if ! [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
+  if [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
     temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
   else
     temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| GUAP ID $tempLabel>\n "
   fi
-  temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
+
   temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
   #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 50 entries)
   if [ "$n" -lt 10 ];then
