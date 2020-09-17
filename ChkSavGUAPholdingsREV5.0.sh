@@ -111,22 +111,22 @@ do
   temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
   temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
   #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 50 entries)
-  if [ "$n" -lt 11 ];then
+  if [ "$n" -lt 10 ];then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
     MNs_Data_Block1="{ \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block1
-  elif [[ "$n" -gt 10 ]] && [[ "$n" -lt 21 ]]; then
+  elif [[ "$n" -gt 10 ]] && [[ "$n" -lt 20 ]]; then
     MNs_data2A="$MNs_data2A$temp_MNs_dataA"
     MNs_data2B="$MNs_data2B$temp_MNs_dataB"
     MNs_Data_Block2="$MNs_Data_Block1, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data2B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block2
-  elif [[ "$n" -gt 20 ]] && [[ "$n" -lt 31 ]]; then
+  elif [[ "$n" -gt 20 ]] && [[ "$n" -lt 30 ]]; then
     MNs_data3A="$MNs_data3A$temp_MNs_dataA"
     MNs_data3B="$MNs_data3B$temp_MNs_dataB"
     MNs_Data_Block3="$MNs_Data_Block2, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data3B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block3
-  elif [[ "$n" -gt 30 ]] && [[ "$n" -lt 41 ]]; then
+  elif [[ "$n" -gt 30 ]] && [[ "$n" -lt 40 ]]; then
     MNs_data4A="$MNs_data4A$temp_MNs_dataA"
     MNs_data4B="$MNs_data4B$temp_MNs_dataB"
     MNs_Data_Block4="$MNs_Data_Block3, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4B\" } ] }"
@@ -227,7 +227,7 @@ TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
 TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
 TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
 
-echo "TimeElapsedSec = $(abs($TimeElapsedSec))"
+echo "TimeElapsedSec = $TimeElapsedSec"
 echo "TimeElapsedMin = $TimeElapsedMin"
 echo "TimeElapsedHr = $TimeElapsedHr"
 
