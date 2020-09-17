@@ -235,8 +235,8 @@ TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
 
 GUAPearnRateH=""
 GUAPUSDearnRateH=""
-EarnRateVar="Earn rate:         "
-EarnRateVarUSD="Earn rate(USD):   "
+EarnRateVar="Earn rate:     "
+EarnRateVarUSD="Earn rate(USD):"
 if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr = $TimeElapsedHr"
   #echo "TimeElapsedHr >0"
@@ -333,7 +333,7 @@ echo "" >> $SnapshotFilename
 
 #Save MN_Total and timestamp to the snapshot
 echo "$d $MN_Total" >> tee -a $SnapshotFilename
-echo "GUAP Snapshot saved to $SnapshotFilename"
+#echo "GUAP Snapshot saved to $SnapshotFilename"
 
 #echo "MNs_Data_Block= $MNs_Data_Block\n\n"
 echo ""
