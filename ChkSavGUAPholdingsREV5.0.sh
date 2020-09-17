@@ -266,7 +266,7 @@ GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.envir
 
 echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second" >> $SnapshotFilename
 EarnRateVar="$EarnRateVar  $GUAPearnRateS GUAP/sec"
-EarnRateVarUSD="$EarnRateVarUSD  $GUAPUSDearnRateS USD/sec"
+EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateS USD/sec"
 
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
