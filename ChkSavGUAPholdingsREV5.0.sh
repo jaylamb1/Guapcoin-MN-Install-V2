@@ -260,6 +260,7 @@ echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second" >> $Sna
 EarnRateVar="$EarnRateVar  '"$GUAPUSDearnRateS"'/sec"
 
 echo "EarnRateVar= $EarnRateVar\n"
+
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
 echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))')" >> $SnapshotFilename
