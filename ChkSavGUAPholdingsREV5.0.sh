@@ -238,7 +238,7 @@ if [[ $TimeElapsedHr > '0' ]]; then
   GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))')
   GUAPUSDearnRateHb=$(echo $GUAPearnedUSD/$TimeElapsedHr| bc)
   echo "  Earn rate/hr  : $GUAPearnRateH GUAP[\$$GUAPUSDearnRateH]/hour" >> $SnapshotFilename
-  EarnRateVar="$EarnRateVar            '"$GUAPUSDearnRateH"'/hour"
+  EarnRateVar="$EarnRateVar            $GUAPUSDearnRateH/hour"
 fi
 
 GUAPearnRateM=""
@@ -250,14 +250,14 @@ if [[ $TimeElapsedMin > '0' ]]; then
   GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))')
   GUAPUSDearnRateMb=$(echo $GUAPearnedUSD/$TimeElapsedMin | bc)
   echo "  Earn rate/min : $GUAPearnRateM GUAP[\$$GUAPUSDearnRateM]/minute" >> $SnapshotFilename
-  EarnRateVar="$EarnRateVar  '"$GUAPUSDearnRateM"'/min"
+  EarnRateVar="$EarnRateVar  $GUAPUSDearnRateM/min"
 fi
 
 GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))')
 GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))')
 GUAPUSDearnRateSb=$(echo $GUAPearnedUSD/$TimeElapsedSec | bc)
 echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second" >> $SnapshotFilename
-EarnRateVar="$EarnRateVar  '"$GUAPUSDearnRateS"'/sec"
+EarnRateVar="$EarnRateVar  $GUAPUSDearnRateS/sec"
 
 echo "EarnRateVar= $EarnRateVar\n"
 
