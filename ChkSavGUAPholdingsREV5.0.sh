@@ -235,8 +235,8 @@ TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
 
 GUAPearnRateH=""
 GUAPUSDearnRateH=""
-EarnRateVar="Earn rate:               "
-EarnRateVarUSD="Earn rate(USD):       "
+EarnRateVar="Earn rate:         "
+EarnRateVarUSD="Earn rate(USD):   "
 if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr = $TimeElapsedHr"
   #echo "TimeElapsedHr >0"
