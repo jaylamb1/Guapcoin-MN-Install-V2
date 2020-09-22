@@ -88,7 +88,20 @@ alias mn='ckMN'
 alias mn2='/home/guapadmin/ReportMNStatuses-D.sh /home/guapadmin/file.txt'
 alias ckguap='systemctl | grep guap'
 alias ckguapH='/home/guapadmin/ChkSavGUAPholdingsREV5.0.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
-ckguapP () { printf "\$% '0.4f\n"  $(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | sed 's/.*://'); }
+ckguapP () {
+
+#printf "\$% '0.4f\n"  $(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | sed 's/.*://');
+
+#Get current per GUAP value in USD (currently must be pulled from probit.com APIs)
+#Value of GUAP in BTC
+parm10a=$(curl -s https://api.probit.com/api/exchange/v1/ticker?market_ids=GUAP-BTC | awk -F, '{print $1}' | sed 's/.*://' | sed 's/"//g');
+
+#Value of BTC in USDT
+parm10b=$(curl -s https://api.probit.com/api/exchange/v1/ticker?market_ids=BTC-USDT | awk -F, '{print $1}' | sed 's/.*://' | sed 's/"//g');
+GuapUSD=$(echo $parm10a*$parm10b | bc);
+printf "\$%.4f\n" $GuapUSD;
+
+}
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
