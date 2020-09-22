@@ -66,7 +66,7 @@ echo -e "${GREEN} ------- Additional GuapCoin MASTERNODE INSTALLER v2.0.0-------
  | ------------------------------------------------------ |
  |                                                        |
  |  If you have NOT ALREADY INSTALLED a first MN on this  |
- |   VPS using the standard GUAP-v2-Ubunutu1604-VER2.sh   |
+ |   VPS using the standard GUAP-v2-Ubunutu1804-VER2.sh   |
  |       script then this installer is not for you.       |
  |                                                        |
  |  It is assumed that at least one MN has been installed |

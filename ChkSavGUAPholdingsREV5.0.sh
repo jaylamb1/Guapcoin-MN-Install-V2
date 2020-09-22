@@ -34,12 +34,15 @@ MNs_data4A=""
 MNs_data4B=""
 MNs_data5A=""
 MNs_data5B=""
+MNs_data6A=""
+MNs_data6B=""
 MNs_Data_Block=""
 MNs_Data_Block1=""
 MNs_Data_Block2=""
 MNs_Data_Block3=""
 MNs_Data_Block4=""
 MNs_Data_Block5=""
+MNs_Data_Block6=""
 SnapshotFilename="/home/guapadmin/MN_Report/GUAP-Snapshot-$d_filename.txt"
 
 
@@ -116,7 +119,7 @@ do
   fi
 
   temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
-  #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 50 entries)
+  #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 60 entries)
   if [ "$n" -lt 10 ];then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
@@ -137,11 +140,16 @@ do
     MNs_data4B="$MNs_data4B$temp_MNs_dataB"
     MNs_Data_Block4="$MNs_Data_Block3, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data4B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block4
-  elif [[ "$n" -gt 39 ]] && [[ "$n" -lt 51 ]]; then
+  elif [[ "$n" -gt 39 ]] && [[ "$n" -lt 50 ]]; then
     MNs_data5A="$MNs_data5A$temp_MNs_dataA"
     MNs_data5B="$MNs_data5B$temp_MNs_dataB"
     MNs_Data_Block5="$MNs_Data_Block4, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block5
+  elif [[ "$n" -gt 49 ]] && [[ "$n" -lt 60 ]]; then
+    MNs_data6A="$MNs_data6A$temp_MNs_dataA"
+    MNs_data6B="$MNs_data5B$temp_MNs_dataB"
+    MNs_Data_Block6="$MNs_Data_Block5, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block6
   fi
 
   ((++n))
@@ -331,6 +339,10 @@ echo "Percentage of total GUAP Voting Power          :  $Perc2%" >> $SnapshotFil
 echo "" >> $SnapshotFilename
 echo "GUAP Chain Block Count                         :  $BlockHeight" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
+echo "" >> $SnapshotFilename
+
+#Save Previous timestamp and total to the snapshot
+echo "$LastGuapTime $LastGuapTotal" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
 #Save MN_Total and timestamp to the snapshot
 echo "$d $MN_Total" >> $SnapshotFilename
