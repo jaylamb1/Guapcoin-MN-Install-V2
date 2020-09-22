@@ -147,8 +147,8 @@ do
     MNs_Data_Block=$MNs_Data_Block5
   elif [[ "$n" -gt 49 ]] && [[ "$n" -lt 60 ]]; then
     MNs_data6A="$MNs_data6A$temp_MNs_dataA"
-    MNs_data6B="$MNs_data5B$temp_MNs_dataB"
-    MNs_Data_Block6="$MNs_Data_Block5, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data5B\" } ] }"
+    MNs_data6B="$MNs_data6B$temp_MNs_dataB"
+    MNs_Data_Block6="$MNs_Data_Block5, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data6A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data6B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block6
   fi
 
