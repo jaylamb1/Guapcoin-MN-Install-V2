@@ -14,13 +14,13 @@ d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
 StatusReportFilename="/home/guapadmin/MN_Status/MN-Status-Report-$d_filename.txt"
 
 
-echo "" >> $StatusReportFilename
+echo "" | tee $StatusReportFilename
 #Note: the tee command writes the onscreen report to a file also
-echo "               [Masternode Status Report Rev 1.0]                " >> $StatusReportFilename
-echo "-----------------------------------------------------------------" >> $StatusReportFilename
+echo "               [Masternode Status Report Rev 1.0]                " | tee $StatusReportFilename
+echo "-----------------------------------------------------------------" | tee $StatusReportFilename
 
-echo "Timestamp : $d_formatted" >> $StatusReportFilename
-echo "" >> $StatusReportFilename
+echo "Timestamp : $d_formatted" | tee $StatusReportFilename
+echo "" | tee $StatusReportFilename
 #echo "Test d: $d"
 
 #Create arrays to hold GUAP addresses and address labels from file, and to store the MN statuses later on
@@ -48,13 +48,13 @@ done < $filename
 LastGuapTime='0'
 LastGuapTotal='0'
 
-echo "" >> $StatusReportFilename
+echo "" | tee $StatusReportFilename
 
 
-echo "[Label]      [Address]                                [Subtotal] " >> $StatusReportFilename
-echo "-----------------------------------------------------------------" >> $StatusReportFilename
+echo "[Label]      [Address]                                [Subtotal] " | tee $StatusReportFilename
+echo "-----------------------------------------------------------------" | tee $StatusReportFilename
 
-echo "" >> $StatusReportFilename
+echo "" | tee $StatusReportFilename
 
 #For loop to get the current status each saved GUAP address and print out each address, with its label and its GUAP amount. Also send an alert through slack for that MN if the status is not "ENABLED"
 n=0
@@ -64,8 +64,8 @@ do
   dir="/home/guapadmin/.guapcoin"
 
   if ! [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
-    echo "  $tempLabel skipped because it is not a mastsernode" >> $StatusReportFilename
-    echo "" >> $StatusReportFilename
+    echo "  $tempLabel skipped because it is not a mastsernode" | tee $StatusReportFilename
+    echo "" | tee $StatusReportFilename
   else
       if $(test -d $dir && echo true); then
           tempStatus=$(guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
@@ -75,8 +75,8 @@ do
 
 
 
-      echo "  $tempLabel        $i     Status: $tempStatus" >> $StatusReportFilename
-      echo "" >> $StatusReportFilename
+      echo "  $tempLabel        $i     Status: $tempStatus" | tee $StatusReportFilename
+      echo "" | tee $StatusReportFilename
 
       if ! [[ $tempStatus == "ENABLED" ]]; then
 
