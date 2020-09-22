@@ -85,10 +85,9 @@ alias l='ls -CF'
 #JL custom aliases
 alias ckMN='/home/guapadmin/ReportMNStatuses.sh /home/guapadmin/file.txt'
 alias mn='ckMN'
+alias mn2='/home/guapadmin/ReportMNStatuses-D.sh /home/guapadmin/file.txt'
 alias ckguap='systemctl | grep guap'
-alias ckguapH='/home/guapadmin/cksavguapHoldings.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
-alias ckguapH2='/home/guapadmin/ChkSavGUAPholdingsREV4.01.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
-
+alias ckguapH='/home/guapadmin/ChkSavGUAPholdingsREV5.0.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
 ckguapP () { printf "\$% '0.4f\n"  $(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $13}' | sed 's/.*://'); }
 
 # Alias definitions.
