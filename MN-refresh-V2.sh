@@ -134,7 +134,7 @@ rm -rf "$USERHOME/.guapcoin$MNID/chainstate"
 rm -rf "$USERHOME/.guapcoin$MNID/peers.dat"
 
 #Load bootstrap
-cd ~/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0.1/bootstrap.zip
+cd ~/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.2.0/bootstrap.zip
 cd ~/.guapcoin$MNID/ && unzip bootstrap.zip
 
 #backup the conf file just in case
