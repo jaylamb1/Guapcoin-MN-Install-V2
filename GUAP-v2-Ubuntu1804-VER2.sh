@@ -150,8 +150,8 @@ fi
 #Installing Daemon
 cd ~
 rm -rf /usr/local/bin/guapcoin*
-wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0.1/Guapcoin-2.0.1-Daemon-Ubuntu_18.04.tar.gz
-tar -xzvf Guapcoin-2.0.1-Daemon-Ubuntu_18.04.tar.gz
+wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.2.0/Guapcoin-2.2.0-Daemon-Ubuntu.tar.gz
+tar -xzvf Guapcoin-2.2.0-Daemon-Ubuntu.tar.gz
 sudo chmod -R 755 guapcoin-cli
 sudo chmod -R 755 guapcoind
 cp -p -r guapcoind /usr/local/bin
@@ -195,7 +195,7 @@ guapcoin-cli stop
 sleep 5
 
 cd $USERHOME/.guapcoin/ && rm -rf blocks chainstate sporks
-cd $USERHOME/.guapcoin/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0.1/bootstrap.zip
+cd $USERHOME/.guapcoin/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.2.0/bootstrap.zip
 cd $USERHOME/.guapcoin/ && unzip bootstrap.zip
 
 # Create guapcoin.conf

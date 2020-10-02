@@ -244,7 +244,7 @@ done
     guapcoin-cli stop
     sleep 5
 cd $USERHOME/.guapcoin$MNID/ && rm -rf blocks chainstate sporks
-cd $USERHOME/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.0.1/bootstrap.zip
+cd $USERHOME/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.2.0/bootstrap.zip
 cd $USERHOME/.guapcoin$MNID/ && unzip bootstrap.zip
 # Create guapcoin.conf
 cat <<EOF > $USERHOME/.guapcoin$MNID/guapcoin.conf
