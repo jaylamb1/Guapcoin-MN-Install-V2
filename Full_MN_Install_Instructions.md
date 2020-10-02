@@ -9,7 +9,7 @@ For those that are interested please see below instructions for setting up a MN 
 
   Both are needed, but once setup and started the cold wallet (which is your desktop wallet) need not be on all the time, and really only needs to be opened once in a while to sync to the blockchain and collect all your rewards earned since the last sync. For the masternode (the always on hot wallet) you need only about single core 1Ghz machine with about 2GB of ram and 10-20GB in storage available.
 
-  HOWEVER, the hot wallet needs to been connected to the internet and the blockchain all the time, so relying on your home internet connection for this purpose puts your masternode and the GUAP network at risk (remember that masternodes contribute to the robustness and speed of the GUAP network). Best practice is to run the masternode from a virtual private server on a service like vultr.com or digitalocean.com . Right now it cost about $10/month to run a VPS on Vultr with those specs and get your masternode going (these are linux systems and the linux versions of the wallet run on Ubunut 16.04 and Ubuntu 18.04). The cold wallet (desktop wallet) can run on any Mac or PC made within the last 5 years without any issue.
+  HOWEVER, the hot wallet needs to been connected to the internet and the blockchain all the time, so relying on your home internet connection for this purpose puts your masternode and the GUAP network at risk (remember that masternodes contribute to the robustness and speed of the GUAP network). Best practice is to run the masternode from a virtual private server on a service like vultr.com or digitalocean.com . Right now it cost about $10/month to run a VPS on Vultr with those specs and get your masternode going (these are linux systems and the linux versions of the wallet run on Ubunut 16.04 and Ubuntu 18.04). The cold wallet (desktop wallet) can run on any Mac or PC made within the last 5 years without any issue, and for the PC there are desktop wallets available for both the Windows and Linux operating systems.
 
 #### See full instructions below.
 
@@ -34,7 +34,7 @@ We also recommend you do not use elastic cloud services like AWS or Google Cloud
 ## 2. Then you need to fund your node:
 ### Funding your Masternode.
 
-First, we will do the initial collateral TX and send exactly 10000 GUAP to one of our addresses. 
+First, we will do the initial collateral TX and send exactly 10,000 GUAP to one of our addresses. 
 To keep things sorted in case we setup more masternodes we will label the addresses we use.
 
 - Open your GUAP wallet and switch to the “Receive” tab.
@@ -45,7 +45,7 @@ To keep things sorted in case we setup more masternodes we will label the addres
 
 The generated address will now be labelled as MN1. If you want to setup more masternodes just repeat the steps above so you end up with several addresses for the total number of nodes you wish to setup. Example: For 10 nodes you will need 10 addresses (make sure you label them all).
 
-Once all addresses are created send 10000 GUAP each to them. Ensure that you send exactly 10000 GUAP and do it in a single transaction. You can double check where the coins are coming from by checking it via coin control usually, that’s not an issue.
+Once all addresses are created send 10,000 GUAP each to them. Ensure that you send exactly 10,000 GUAP and do it in a single transaction. You can double check where the coins are coming from by checking it via coin control usually, that’s not an issue.
 
 As soon as all 10K transactions are done, we will wait for 15 confirmations. You can check this in your wallet or use the explorer. It should take around 30 minutes if all transaction have 15 confirmations.
 
@@ -93,15 +93,13 @@ As soon as all 10K transactions are done, we will wait for 15 confirmations. You
 
 - SSH into to your VPS server (using Putty on Windows, Terminal.app on macOS, or any other ssh client of your choice), login as root (Please note: It’s normal that you don’t see your password after typing or pasting it) and run the following command:
 
-  `bash <( curl https://raw.githubusercontent.com/guapcrypto/Guapcoin-MN-Install-V2/master/GUAP-v2-Ubuntu1604.sh )`
+  `bash <( curl https://raw.githubusercontent.com/guapcrypto/Guapcoin-MN-Install-V2/master/GUAP-v2.2.0-MN.sh )`
 
 
-  The above command assumes that you chose Ubuntu 16.04 for your VPS. If you instead setup your VPS as Ubuntu 18.04 the masternode installer for Ubuntu 18.04 can be found here: https://github.com/guapcrypto/Guapcoin-MN-Install-V2
-
-- When the script asks, confirm your VPS IP Address and paste in your masternode key (You can copy your key and paste into the VPS if connected with Putty by right clicking)
+- When the script asks, confirm your VPS IP Address and paste in your masternode key (You can copy your key and paste into the VPS, and if connected with Putty by right clicking)
 
 - The installer will then present you with a few options.
-Follow the instructions on screen.
+Carefully follow the instructions on screen.
 
 - After the basic installation is done, the wallet will sync.
 
