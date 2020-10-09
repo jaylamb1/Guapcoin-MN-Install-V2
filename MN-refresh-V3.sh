@@ -63,8 +63,13 @@ fi
 
 while ! [ "$MNID" -eq "$MNID" ] 2> /dev/null
 do
-  #MNarray[0]=0 #not used
+  MNarray[0]=0 #not used
   #MNarray[1]=1 #MN1 (the original MN)
+  FILE=/etc/systemd/system/guapcoin.service
+  if test -f "$FILE"; then
+      MNarray[0]=1
+      echo "0"
+  fi
   echo "Enter the single digit Masternode ID# for the MN you want to refresh."
   echo "MNIDs for active masternodes detected on this VPS are:"
   #it is assumed that at least the initial masternode is installed
