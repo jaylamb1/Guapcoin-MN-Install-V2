@@ -162,6 +162,7 @@ cp -p -r guapcoin-cli /usr/local/bin
  #Create datadir
  if [ ! -f $USERHOME/.guapcoin/guapcoin.conf ]; then
  	sudo mkdir $USERHOME/.guapcoin
+  sudo chown -R guapadmin:guapadmin $USERHOME/.guapcoin/
  fi
 
 cd ~
