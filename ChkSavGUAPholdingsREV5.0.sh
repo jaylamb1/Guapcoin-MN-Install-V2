@@ -1,7 +1,8 @@
 #!/bin/bash
 
-#VERSION 4.0 of the Check and Save Guap Holdings script
-#This script exclusively uses the API calls from https://guapexplorer.com
+#VERSION 5.0 of the Check and Save Guap Holdings script
+#This script uses the API calls from https://guapexplorer.com, from https://probit.com and direct calls from the Guapcoin Blockchain
+#This script assumes that the default wallet via guapcoin-cli calls is fully synced
 
 #This script should be called with text input file (e.g. file.txt) and an output file (e.g. output.text) as an argument:
 # e.g sudo /home/guapadmin/ChkGuapHoldingsv3.sh /home/guapadmin/file.text /home/guapadmin/ouput.text
@@ -55,10 +56,10 @@ echo "Timestamp : $d_formatted" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
 #echo "Test d: $d"
 
-#Create arrays to hold GUAP addresses and address labels from file
+#Create arrays to hold GUAP addresses and address labels from file, and Guap totals from API calls
 declare -a MNArray
 declare -a MNLabelArray
-
+declare -a Addr
 #capture the external file
 filename=$1
 
