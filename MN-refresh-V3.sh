@@ -63,18 +63,19 @@ fi
 
 while ! [ "$MNID" -eq "$MNID" ] 2> /dev/null
 do
-  MNarray[0]=0 #not used
-  #MNarray[1]=1 #MN1 (the original MN)
+  echo "Enter the single digit Masternode ID# for the MN you want to refresh."
+  echo "MNIDs for active masternodes detected on this VPS are:"
+  MNarray[0]=0 #test for .guapcoin
+  Starti=0
   FILE=/etc/systemd/system/guapcoin.service
+
   if test -f "$FILE"; then
       MNarray[0]=1
       echo "0"
+      Starti=1
   fi
-  echo "Enter the single digit Masternode ID# for the MN you want to refresh."
-  echo "MNIDs for active masternodes detected on this VPS are:"
-  #it is assumed that at least the initial masternode is installed
-  echo "1"
-  for (( i = 0; i < 12; i++ )); do
+
+  for (( i = $Starti; i < 12; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
