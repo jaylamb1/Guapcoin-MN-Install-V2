@@ -115,7 +115,7 @@ fi
 
 done
 
-if [[ "$MNID" == "1" ]]; then
+if [[ "$MNID" == "0" ]]; then
   #statements
   MNID=""
   #echo " test guapcoin$MNID"
