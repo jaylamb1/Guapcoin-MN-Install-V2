@@ -172,8 +172,8 @@ done
 
 #Get total current GUAP chain money supply
 #parm7="http://159.65.221.180:3001/ext/getmoneysupply"
-#parm7=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $12}' | sed 's/.*://')
-parm7=$(guapcoin-cli getinfo | awk '/moneysupply/' | sed 's/.*://' | sed 's/,$//')
+parm7=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $12}' | sed 's/.*://')
+#parm7=$(guapcoin-cli getinfo | awk '/moneysupply/' | sed 's/.*://' | sed 's/,$//')
 #GUAPTotal=$(curl -s -X GET $parm7)
 GUAPTotal=$parm7
 
