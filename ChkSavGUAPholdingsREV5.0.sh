@@ -293,8 +293,8 @@ echo "" >> $SnapshotFilename
 #echo "$d $MN_Total" >> $SnapshotFilename
 #Get total number of GUAP masternodes and do some formating
 #parm8="http://159.65.221.180:3001/ext/getmasternodecount"
-#parm8=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $8}' | sed 's/.*://')
-parm8=$(guapcoin-cli getmasternodecount | awk '/stable/' | sed 's/.*://' | sed 's/,$//')
+parm8=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $8}' | sed 's/.*://')
+#parm8=$(guapcoin-cli getmasternodecount | awk '/stable/' | sed 's/.*://' | sed 's/,$//')
 #MNCount=$(curl -s -X GET $parm8)
 MNCount=$parm8
 
@@ -310,8 +310,8 @@ MNCount=$(printf '%14s' $MNCount)
 
 #Get current block count/height
 #parm9="http://159.65.221.180:3001/api/getblockcount"
-#parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 's/.*://')
-parm9=$(guapcoin-cli getblockcount)
+parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 's/.*://')
+#parm9=$(guapcoin-cli getblockcount)
 #BlockHeight=$(curl -s -X GET $parm9)
 BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
