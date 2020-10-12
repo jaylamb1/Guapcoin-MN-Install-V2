@@ -125,9 +125,16 @@ USER="guapadmin"
 USERHOME=`eval echo "~$USER"`
 
 echo "Stopping service for MNID #$MNID"
+sleep 1
 
 sudo systemctl stop guapcoin$MNID.service
-
+sleep 2
+if systemctl status guapcoin$MNID | grep -q "inactive (dead)"; then
+  echo "guapcoin$MNID.service stopped. Continue process."
+else
+  echo "ERROR: Failed to stop guapcoin$MNID.service. Please contact support. Exiting script."
+  exit
+fi
 
 clear
 echo "Refreshing node, please wait."
@@ -162,7 +169,7 @@ done
 clear
 
 if ! systemctl status guapcoin$MNID | grep -q "active (running)"; then
-  echo "ERROR: Failed to start guapcoin$MNID.service. Please contact support."
+  echo "ERROR: Failed to start guapcoin$MNID.service. Please contact support. Exiting script."
   exit
 fi
 
