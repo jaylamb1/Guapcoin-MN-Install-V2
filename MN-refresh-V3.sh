@@ -134,6 +134,7 @@ echo "Refreshing node, please wait."
 
 sleep 5
 
+rm -rf "$USERHOME/.guapcoin$MNID/sporks"
 rm -rf "$USERHOME/.guapcoin$MNID/blocks"
 rm -rf "$USERHOME/.guapcoin$MNID/database"
 rm -rf "$USERHOME/.guapcoin$MNID/chainstate"
