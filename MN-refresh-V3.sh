@@ -131,6 +131,7 @@ sudo systemctl stop guapcoin$MNID.service
 sleep 2
 if systemctl status guapcoin$MNID | grep -q "inactive (dead)"; then
   echo "guapcoin$MNID.service stopped. Continue process."
+  sleep 2
 else
   echo "ERROR: Failed to stop guapcoin$MNID.service. Please contact support. Exiting script."
   exit
