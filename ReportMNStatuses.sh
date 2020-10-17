@@ -16,7 +16,7 @@ StatusReportFilename="/home/guapadmin/MN_Status/MN-Status-Report-$d_filename.txt
 
 echo "" >> $StatusReportFilename
 #Note: the tee command writes the onscreen report to a file also
-echo "               [Masternode Status Report Rev 1.0]                " >> $StatusReportFilename
+echo "               [Masternode Status Report Rev 2.0]                " >> $StatusReportFilename
 echo "-----------------------------------------------------------------" >> $StatusReportFilename
 
 echo "Timestamp : $d_formatted" >> $StatusReportFilename
