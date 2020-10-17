@@ -71,7 +71,7 @@ do
       if $(test -d $dir && echo true); then
         #First check to see if the masternode has been started. If not stop here and send an alert, then move on to the next MN
         isListed=$(guapcoin-cli listmasternodes | grep \"GHyWcQFbWagURrSppNyxgY859iVsc3b3aK\" >/dev/null 2>&1 || echo "nope")
-        if [[ $isListed == "nope"]]; then
+        if [[ $isListed == "nope" ]]; then
 
           echo "  $tempLabel ERROR: Active Masternode not initialized." >> $StatusReportFilename
           echo "" >> $StatusReportFilename
@@ -93,7 +93,7 @@ do
 
       else
         isListed=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"GHyWcQFbWagURrSppNyxgY859iVsc3b3aK\" >/dev/null 2>&1 || echo "nope")
-        if [[ $isListed == "nope"]]; then
+        if [[ $isListed == "nope" ]]; then
 
           echo "  $tempLabel ERROR: Active Masternode not initialized." >> $StatusReportFilename
           echo "" >> $StatusReportFilename
