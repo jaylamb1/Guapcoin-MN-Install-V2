@@ -58,7 +58,6 @@ echo "" >> $StatusReportFilename
 
 #For loop to get the current status each saved GUAP address and print out each address, with its label and its GUAP amount. Also send an alert through slack for that MN if the status is not "ENABLED"
 n=0
-alt=0
 for i in "${MNArray[@]}"
 do
   tempLabel=${MNLabelArray[$n]}
@@ -69,11 +68,24 @@ do
     echo "" >> $StatusReportFilename
   else
       if $(test -d $dir && echo true); then
+          walletVerion=$(guapcoin-cli getinfo | grep -A1 \"version\" | sed '$d' | sed 's/,//g' | sed 's/\"version\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
+          if [[ $walletVerion == "2020000" ]]; then
+            tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+          else
+            tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+          fi
+
           tempStatus=$(guapcoin-cli listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
-          tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+
       else
+          walletVerion=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 getinfo | grep -A1 \"version\" | sed '$d' | sed 's/,//g' | sed 's/\"version\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
+          if [[ $walletVerion == "2020000" ]]; then
+            tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+          else
+            tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+          fi
           tempStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep -A1 \"status\" | grep -B1 \"$i\" | sed '$d' | sed 's/,//g' | sed 's/\"status\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
-          tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//') #remove whitespaces, linebreaks, and trailing comma
+
       fi
 
 
@@ -81,15 +93,10 @@ do
       echo "  $tempLabel        $i     Status: $tempStatus" >> $StatusReportFilename
       echo "" >> $StatusReportFilename
 
-      if ! [[ $tempStatus == "ENABLED" ]]; then
+      if ! [[ $tempStatus == "ENABLED" ]]; then   #if not "ENABLED" send alet to slack, else send no alert
 
               server=$(hostname)
 
-            #  if [[ "$alt" -eq 1 ]]; then
-            #      status=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//') #remove whitespaces, linebreaks, and trailing comma
-            #  else
-            #      status=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//') #remove whitespaces, linebreaks, and trailing comma
-            #  fi
               #status=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//') #remove whitespaces, linebreaks, and trailing comma
               status=$tempFullStatus
               status2=$(echo "$status" | sed 's/,/ /g' | sed 's/"//g') #replace internal commas with spaces and remove quotes
@@ -103,34 +110,74 @@ do
 
               version=$(echo "${status3[7]}" | sed 's/.*://')
 
-              lastseen=$(echo "${status3[8]}" | sed 's/.*://')
+              if [[ $walletVerion == "2020000" ]]; then
 
-              if [[ $lastseen == "0" ]]; then
-                lastseen_formatted="0"
+                ip=$(echo "${status3[8]}" | sed 's/.*://')
+                lastseen=$(echo "${status3[9]}" | sed 's/.*://')
 
-              else
-                lastseen_formatted=$(TZ=":US/Eastern" date -d @$lastseen +'%a %m-%d-%Y %I:%M:%S%P EST')
+                if [[ $lastseen == "0" ]]; then
+                  lastseen_formatted="0"
 
-              fi
+                else
+                  lastseen_formatted=$(TZ=":US/Eastern" date -d @$lastseen +'%a %m-%d-%Y %I:%M:%S%P EST')
 
-              activetime=$(echo "${status3[9]}" | sed 's/.*://')
-              if [[ $activetime == "0" ]]; then
-                activetime_formatted="0"
+                fi
 
-              else
-      	        activetime_formatted=$(TZ=":US/Eastern" date -d @$activetime +'%Hhrs %Mms %Ssecs')
-              fi
+                activetime=$(echo "${status3[10]}" | sed 's/.*://')
+                if [[ $activetime == "0" ]]; then
+                  activetime_formatted="0"
 
-              lastpaid=$(echo "${status3[10]}" | sed 's/.*://')
-              if [[ $lastpaid == "0" ]]; then
-                lastpaid_formatted="0"
+                else
+                  activetime_formatted=$(TZ=":US/Eastern" date -d @$activetime +'%Hhrs %Mms %Ssecs')
+                fi
 
-              else
-                lastpaid_formatted=$(TZ=":US/Eastern" date -d @$lastpaid +'%a %m-%d-%Y %I:%M:%S%P EST')
+                lastpaid=$(echo "${status3[11]}" | sed 's/.*://')
+                if [[ $lastpaid == "0" ]]; then
+                  lastpaid_formatted="0"
 
-              fi
+                else
+                  lastpaid_formatted=$(TZ=":US/Eastern" date -d @$lastpaid +'%a %m-%d-%Y %I:%M:%S%P EST')
+
+                fi
+
+                #send alert for ver 2.02 wallet (includes IP address)
+
+                curl -X POST -H 'Content-type: application/json' --data '{ "text": "Alert: '"$tempLabel"' '"$i"' not ENABLED", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": "--------------------------------------------------------------\n--------------------------------------------------------------", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":mag::exclamation: *ALERT!* *STATUS:* '"$tempStatus"' :exclamation::mag_right:\n'"$tempLabel"' on server '"$server"' is not ENABLED " } }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|'"$d_formatted"'>" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "'"$tempLabel"' <https://guapexplorer.com/#/address/'"$i"'|'"$i"'> \n\n" } }, { "type": "divider" }, { "type": "section", "block_id": "section567", "text": { "type": "mrkdwn", "text": "*Attention Needed:* Please take a closer look at '"$tempLabel"'. \n\n Current data reported for '"$tempLabel"': \nstatus='"$tempStatus"' \nIP='"$ip"' \nnetwork='"$network"' \ntxid='"$txhash"' \nversion='"$version"' \nlastseen='"$lastseen_formatted"' \nactivetime='"$activetime_formatted"' \nlastpaid='"$lastpaid_formatted"'\n\n" } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Alert automatically generated by masternode monitoring system.\nPlease message <@U013QSJTGEA> for more information.\n\n" } ] }, {"type": "divider" }, {"type": "divider" } ] }'
+
+              else  #else if not a version 2.02 wallet
+
+                lastseen=$(echo "${status3[8]}" | sed 's/.*://')
+
+                if [[ $lastseen == "0" ]]; then
+                  lastseen_formatted="0"
+
+                else
+                  lastseen_formatted=$(TZ=":US/Eastern" date -d @$lastseen +'%a %m-%d-%Y %I:%M:%S%P EST')
+
+                fi
+
+                activetime=$(echo "${status3[9]}" | sed 's/.*://')
+                if [[ $activetime == "0" ]]; then
+                  activetime_formatted="0"
+
+                else
+                  activetime_formatted=$(TZ=":US/Eastern" date -d @$activetime +'%Hhrs %Mms %Ssecs')
+                fi
+
+                lastpaid=$(echo "${status3[10]}" | sed 's/.*://')
+                if [[ $lastpaid == "0" ]]; then
+                  lastpaid_formatted="0"
+
+                else
+                  lastpaid_formatted=$(TZ=":US/Eastern" date -d @$lastpaid +'%a %m-%d-%Y %I:%M:%S%P EST')
+
+                fi
+
 
               curl -X POST -H 'Content-type: application/json' --data '{ "text": "Alert: '"$tempLabel"' '"$i"' not ENABLED", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": "--------------------------------------------------------------\n--------------------------------------------------------------", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":mag::exclamation: *ALERT!* *STATUS:* '"$tempStatus"' :exclamation::mag_right:\n'"$tempLabel"' on server '"$server"' is not ENABLED " } }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|'"$d_formatted"'>" } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "'"$tempLabel"' <https://guapexplorer.com/#/address/'"$i"'|'"$i"'> \n\n" } }, { "type": "divider" }, { "type": "section", "block_id": "section567", "text": { "type": "mrkdwn", "text": "*Attention Needed:* Please take a closer look at '"$tempLabel"'. \n\n Current data reported for '"$tempLabel"': \nstatus='"$tempStatus"' \nnetwork='"$network"' \ntxid='"$txhash"' \nversion='"$version"' \nlastseen='"$lastseen_formatted"' \nactivetime='"$activetime_formatted"' \nlastpaid='"$lastpaid_formatted"'\n\n" } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Alert automatically generated by masternode monitoring system.\nPlease message <@U013QSJTGEA> for more information.\n\n" } ] }, {"type": "divider" }, {"type": "divider" } ] }'
+
+              fi
+
 
       fi
 
