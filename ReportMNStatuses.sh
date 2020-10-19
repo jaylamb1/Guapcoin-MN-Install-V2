@@ -142,8 +142,7 @@ do
               version=$(echo "${status3[7]}" | sed 's/.*://')
 
               if [[ $walletVerion == "2020000" ]]; then
-                echo "wallet is version 2020000"
-                eho ""
+
                 ip=$(echo "${status3[8]}" | sed 's/.*://')
                 lastseen=$(echo "${status3[9]}" | sed 's/.*://')
 
