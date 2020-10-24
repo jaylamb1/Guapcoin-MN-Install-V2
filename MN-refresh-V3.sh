@@ -149,8 +149,10 @@ rm -rf /home/guapadmin/.guapcoin$MNID/chainstate
 rm -rf /home/guapadmin/.guapcoin$MNID/peers.dat
 
 #Load bootstrap
-cd /home/guapadmin/.guapcoin$MNID/ && wget https://github.com/guapcrypto/Guapcoin/releases/download/v2.2.0/bootstrap.zip
-cd /home/guapadmin/.guapcoin$MNID/ && unzip bootstrap.zip
+cd /home/guapadmin/.guapcoin$MNID/ && wget http://45.63.25.141/bootstrap.tar.gz
+cd /home/guapadmin/.guapcoin$MNID/ && tar -xzvf bootstrap.tar.gz
+
+rm -rf /home/guapadmin/.guapcoin$MNID/bootstrap.tar.gz
 
 #backup the conf file just in case
 cp $USERHOME/.guapcoin$MNID/guapcoin.conf $USERHOME/.guapcoin$MNID/guapcoin.conf.backup
@@ -175,6 +177,19 @@ if ! systemctl status guapcoin$MNID | grep -q "active (running)"; then
   exit
 fi
 
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 159.65.221.180 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 45.76.61.148 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 209.250.250.121 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 136.244.112.117 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 199.247.20.128 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 78.141.203.208 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 155.138.140.38 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 45.76.199.11 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 45.63.25.141 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 108.61.252.179 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 155.138.219.187 onetry
+guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 66.42.93.170 onetry
+
 echo "Waiting for wallet to load..."
 until su -c "/usr/local/bin/guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID getinfo 2>/dev/null | grep -q \"version\"" "$USER"; do
   sleep 1;
@@ -185,6 +200,8 @@ clear
 echo "Your masternode MN$MNID is syncing. Please wait for this process to finish."
 echo "This can take a while. Do not close this window."
 echo ""
+
+
 
 until [ -n "$(/usr/local/bin/guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID getconnectioncount 2>/dev/null)"  ]; do
   sleep 1
