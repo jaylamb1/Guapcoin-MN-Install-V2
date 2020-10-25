@@ -99,6 +99,10 @@ tar -xzvf bootstrap.tar.gz
 
 cd ..
 rm -rf /home/guapadmin/.guapcoin$MNID/.guapcoin/bootstrap.tar.gz ~/GUAP_2.2.0
+
+# fix permissions
+chown -R guapadmin:guapadmin /home/guapadmin/.guapcoin$MNID
+
 systemctl start guapcoin$MNID.service
 sleep 10
 
