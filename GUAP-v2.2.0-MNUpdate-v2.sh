@@ -21,6 +21,8 @@ do
       if test -f "$FILE"; then
           MNarray[$i]=1
           echo "$i"
+          guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
+          systemctl stop guapcoin$i.service
       fi
   done
   echo ""
@@ -68,14 +70,14 @@ USERHOME=`eval echo "~$USER"`
 echo "Stopping service for active masternodes"
 sleep 1
 
-for (( i = 0; i < 12; i++ )); do
-    if [[ "$MNarray[$i]" == "1" ]]; then
-        guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
-        systemctl stop guapcoin$i.service
-        echo "service  guapcoin$i stopped"
-        echo ""
-    fi
-done
+#for (( i = 0; i < 12; i++ )); do
+#    if [[ "$MNarray[$i]" == "1" ]]; then
+#        guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
+#        systemctl stop guapcoin$i.service
+#        echo "service  guapcoin$i stopped"
+#        echo ""
+#    fi
+#done
 
 echo "Your GuapCoin Masternode, ID=$MNID, Will be Updated To Version 2.2.0 Now"
 
