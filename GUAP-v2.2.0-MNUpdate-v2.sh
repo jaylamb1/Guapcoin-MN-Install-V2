@@ -21,7 +21,7 @@ do
       if test -f "$FILE"; then
           MNarray[$i]=1
           echo "$i"
-          guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
+          #guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
           systemctl stop guapcoin$i.service
       fi
   done
