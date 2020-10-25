@@ -172,11 +172,6 @@ do
       continue
   fi
 
-  if [[ "$MNID" == "0" ]]; then
-    #statements
-    MNID=""
-    #echo " test guapcoin$MNID"
-  fi
 
 echo ""
 echo "Your chosen MNID is: $MNID"
@@ -195,6 +190,12 @@ echo "Your chosen MNID is: $MNID"
     continue
   fi
 
+  if [[ "$MNID" == "0" ]]; then
+    #statements
+    MNID=""
+    #echo " test guapcoin$MNID"
+  fi
+  
 done
 
 
