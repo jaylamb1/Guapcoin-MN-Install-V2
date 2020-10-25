@@ -69,7 +69,7 @@ echo "Stopping service for active masternodes"
 sleep 1
 
 for (( i = 0; i < 12; i++ )); do
-    if [[ "$MNarray[$i]" == "1" ]];; then
+    if [[ "$MNarray[$i]" == "1" ]]; then
         guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
         systemctl stop guapcoin$i.service
         echo "service  guapcoin$i stopped"
