@@ -127,7 +127,7 @@ USERHOME=`eval echo "~$USER"`
 echo "Stopping service for MNID #$MNID"
 sleep 1
 
-sudo systemctl stop guapcoin$MNID.service
+systemctl stop guapcoin$MNID.service
 sleep 2
 if systemctl status guapcoin$MNID | grep -q "inactive (dead)"; then
   echo "guapcoin$MNID.service stopped. Continue process..."
@@ -158,7 +158,7 @@ rm -rf /home/guapadmin/.guapcoin$MNID/bootstrap.tar.gz
 cp $USERHOME/.guapcoin$MNID/guapcoin.conf $USERHOME/.guapcoin$MNID/guapcoin.conf.backup
 
 
-sudo systemctl start guapcoin$MNID.service
+systemctl start guapcoin$MNID.service
 
 TimeToWait=40
 echo "Starting guapcoin$MNID.service, will check status in $TimeToWait seconds..."
