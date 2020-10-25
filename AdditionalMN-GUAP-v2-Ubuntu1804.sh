@@ -172,6 +172,12 @@ do
       continue
   fi
 
+  if [[ "$MNID" == "0" ]]; then
+    #statements
+    MNID=""
+    #echo " test guapcoin$MNID"
+  fi
+
 echo ""
 echo "Your chosen MNID is: $MNID"
 
@@ -191,11 +197,7 @@ echo "Your chosen MNID is: $MNID"
 
 done
 
-if [[ "$MNID" == "0" ]]; then
-  #statements
-  MNID=""
-  #echo " test guapcoin$MNID"
-fi
+
 
 #*********************** Assumes additional Masternode is being created; creates a .guapcoin$MNID dir and sets up the guapcoin$MNID.service *****************************************************
 
