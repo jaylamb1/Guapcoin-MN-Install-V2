@@ -157,6 +157,8 @@ rm -rf /home/guapadmin/.guapcoin$MNID/bootstrap.tar.gz
 #backup the conf file just in case
 cp $USERHOME/.guapcoin$MNID/guapcoin.conf $USERHOME/.guapcoin$MNID/guapcoin.conf.backup
 
+# fix permissions
+chown -R guapadmin:guapadmin /home/guapadmin/.guapcoin$MNID
 
 systemctl start guapcoin$MNID.service
 
