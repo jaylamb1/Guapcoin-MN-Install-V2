@@ -30,7 +30,7 @@ echo "
 /| []|\\
 ()/|___|\()
 |_|_|
-/_|_\  ----------- MASTERNODE REFRESH v2 ----------------+
+/_|_\  ----------- MASTERNODE REFRESH v3 ----------------+
 |                                                        |
 |    This script will refresh the MN of your choice.     |
 |    This script is compatible with V2 od GUAP only.     |

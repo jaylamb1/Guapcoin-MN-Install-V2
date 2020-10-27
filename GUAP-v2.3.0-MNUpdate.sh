@@ -80,7 +80,7 @@ USERHOME=`eval echo "~$USER"`
 #    fi
 #done
 
-echo "Your GuapCoin Masternode, ID=$MNID, Will be Updated To Version 2.2.0 Now"
+echo "Your GuapCoin Masternode, ID=$MNID, Will be Updated To Version 2.3.0 Now"
 
 #systemctl stop guapcoin$MNID.service
 sleep 10
