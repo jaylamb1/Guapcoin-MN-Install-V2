@@ -59,7 +59,7 @@ fi
 genkey=$1
 clear
 
-echo -e "${GREEN} ------- Additional GuapCoin MASTERNODE INSTALLER v2.3.0--------+
+echo -e "${GREEN} ------- Additional GuapCoin MASTERNODE INSTALLER v2.3.001--------+
  |                                                        |
  |                                                        |::
  |     This script will install an additional MN.         |
