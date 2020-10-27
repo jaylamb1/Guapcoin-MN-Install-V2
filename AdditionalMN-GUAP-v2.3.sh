@@ -188,6 +188,12 @@ echo "Your chosen MNID is: $MNID"
     if [ "$REINSTALL" == "Y" ] 2> /dev/null
     then
 
+      if [[ "$MNID" == "0" ]]; then
+        #statements
+        MNID=""
+        #echo " test guapcoin$MNID"
+      fi
+      
       echo ""
       echo "MN$MNID will be deleted."
 
