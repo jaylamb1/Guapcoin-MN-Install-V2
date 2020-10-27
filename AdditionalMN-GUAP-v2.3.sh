@@ -141,8 +141,8 @@ rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 #ID existing MNs and setup for installing an additional one
 while ! [ "$MNID" -eq "$MNID" ] 2> /dev/null
 do
-  echo "Enter the single digit number for this Masternode's ID#. It must not match the ID# of an existing MN on this VPS"
-  echo "MNIDs for active masternodes detected on this VPS are:"
+  echo "Enter the single digit number for this Masternode's Guapcoin Service ID#. It must not match the ID# of an existing MN on this VPS"
+  echo "Service IDs for active masternodes detected on this VPS are:"
 
   MNarray[0]=0 #MNarray is used to idenitfy which MNs(and their corresponding MNIDs) are present, position #0 is a dummy location
   FILE1=/etc/systemd/system/guapcoin.service #let's test for MN1. if it exist then report that MNID as in use
@@ -160,13 +160,13 @@ do
       fi
   done
   echo ""
-  read -e -p "Please choose an ID# for your new Masternode that does not appear on the list of detected MNs above : " MNID
+  read -e -p "Please choose an ID# for your new Masternode that does not appear on the list of detected Service IDs above : " MNID
 
   # Make sure that $MNID is a number
   if ! [ "$MNID" -eq "$MNID" ] 2> /dev/null
   then
       echo ""
-      echo "Sorry, the ID# must be a single integer."
+      echo "Sorry, the Service ID# must be a single integer."
       echo ""
       read -rp "Press any key to continue. " -n1 -s
       clear
@@ -175,15 +175,15 @@ do
 
 
 echo ""
-echo "Your chosen MNID is: $MNID"
+echo "Your chosen Service ID is: $MNID"
 
   # Make sure that the masternode ID chosen is not already is use on this VPS.
   if [ "${MNarray["$MNID"]}" == "1" ] 2> /dev/null
   then
     #statements
-    echo "Sorry, the ID# you've chosen corresponds to another MN detected on this VPS."
+    echo "Sorry, the Service ID# you've chosen corresponds to another MN detected on this VPS."
     echo ""
-    read -e -p "Would you like to replace the current install for MN$MNID with a fresh install? Y/n : " REINSTALL
+    read -e -p "Would you like to replace the current install for guapcoin$MNID.service with a fresh install? Y/n : " REINSTALL
 
     if [ "$REINSTALL" == "Y" ] 2> /dev/null
     then
@@ -193,9 +193,9 @@ echo "Your chosen MNID is: $MNID"
         MNID=""
         #echo " test guapcoin$MNID"
       fi
-      
+
       echo ""
-      echo "MN$MNID will be deleted."
+      echo "guapcoin$MNID.service will be deleted."
 
       systemctl stop guapcoin$MNID
       sleep 4
