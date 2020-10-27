@@ -19,6 +19,7 @@ PORT=9633
 RPC=9634
 
 MNID=""
+REINSTALL=""
 
 #Clear keyboard input buffer
 function clear_stdin { while read -r -t 0; do read -r; done; }
@@ -182,12 +183,32 @@ echo "Your chosen MNID is: $MNID"
     #statements
     echo "Sorry, the ID# you've chosen corresponds to another MN detected on this VPS."
     echo ""
-    read -rp "Press any key to continue and chose another. " -n1 -s
-    echo ""
-    echo ""
-    MNID=""
-    clear
-    continue
+    echo "Would you like to replace the current install for MN$MNID with a fresh install? Y/n: " REINSTALL
+    if [ "$REINSTALL" == "Y" ] 2> /dev/null
+    then
+
+      echo ""
+      echo "MN$MNID will be deleted and removed from the list."
+
+      systemctl stop guapcoin$MNID
+      sleep 4
+      systemctl disable guapcoin$MNID
+      sleep 2
+      rm -r /home/guapadmin/.guapcoin$MNID
+      rm -r /etc/systemd/system/guapcoin$MNID.service
+      clear
+      continue
+    else
+
+      read -rp "Press any key to continue and chose another. " -n1 -s
+      echo ""
+      echo ""
+      MNID=""
+      clear
+      continue
+
+    fi
+
   fi
 
   if [[ "$MNID" == "0" ]]; then
