@@ -23,7 +23,7 @@ do
           echo "$i"
           #guapcoin-cli -conf=/home/guapadmin/.guapcoin$i/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$i stop
           systemctl stop guapcoin$i.service
-          echo "service  guapcoin$i.service stopped"
+          #echo "service  guapcoin$i.service stopped"
       fi
   done
   echo ""
