@@ -183,7 +183,7 @@ echo "Your chosen MNID is: $MNID"
     #statements
     echo "Sorry, the ID# you've chosen corresponds to another MN detected on this VPS."
     echo ""
-    echo "Would you like to replace the current install for MN$MNID with a fresh install? Y/n: " REINSTALL
+    read -e -p "Would you like to replace the current install for MN$MNID with a fresh install? Y/n: " REINSTALL
     if [ "$REINSTALL" == "Y" ] 2> /dev/null
     then
 
