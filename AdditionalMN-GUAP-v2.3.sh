@@ -189,7 +189,7 @@ echo "Your chosen MNID is: $MNID"
     then
 
       echo ""
-      echo "MN$MNID will be deleted and removed from the list."
+      echo "MN$MNID will be deleted."
 
       systemctl stop guapcoin$MNID
       sleep 4
@@ -245,7 +245,7 @@ cd ~
 
 cd ~
 clear
-echo -e "${YELLOW}Creating guapcoin.conf...${NC}"
+echo -e "${YELLOW}Creating guapcoin$MNID.conf...${NC}"
 
 # If genkey was not supplied in command line, we will generate private key on the fly
 if [ -z $genkey ]; then
