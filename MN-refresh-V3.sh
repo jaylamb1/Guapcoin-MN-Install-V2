@@ -149,6 +149,10 @@ rm -rf /home/guapadmin/.guapcoin$MNID/chainstate
 rm -rf /home/guapadmin/.guapcoin$MNID/peers.dat
 
 #Load bootstrap
+
+#remove old bootstrap if it exists
+rm -rf /home/guapadmin/.guapcoin$MNID/bootstrap.tar.gz 2> /dev/null
+
 cd /home/guapadmin/.guapcoin$MNID/ && wget http://45.63.25.141/bootstrap.tar.gz
 cd /home/guapadmin/.guapcoin$MNID/ && tar -xzvf bootstrap.tar.gz
 
