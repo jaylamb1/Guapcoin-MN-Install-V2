@@ -142,11 +142,19 @@ echo "Refreshing node, please wait."
 
 sleep 5
 
-rm -rf /home/guapadmin/.guapcoin$MNID/sporks
-rm -rf /home/guapadmin/.guapcoin$MNID/blocks
-rm -rf /home/guapadmin/.guapcoin$MNID/database
-rm -rf /home/guapadmin/.guapcoin$MNID/chainstate
-rm -rf /home/guapadmin/.guapcoin$MNID/peers.dat
+rm -rf /home/guapadmin/.guapcoin$MNID/sporks 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/blocks 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/database 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/chainstate 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/peers.dat 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/db.log 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/debug.log 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/fee_estimates.dat 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/mncache.dat 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/mnpayments.dat 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/banlist.dat 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/budget.dat 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin$MNID/.lock 2> /dev/null
 
 #Load bootstrap
 
