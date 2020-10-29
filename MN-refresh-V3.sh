@@ -203,7 +203,7 @@ done
 
 clear
 
-echo "Your masternode MN$MNID is syncing. Please wait for this process to finish."
+echo "Your masternode MN at guapcoin$MNID.service is syncing. Please wait for this process to finish."
 echo "This can take a while. Do not close this window."
 echo ""
 
@@ -234,6 +234,6 @@ clear
 
 sleep 1
 
-echo "" && echo "Masternode$MNID refresh completed." && echo ""
-echo "" && echo "Please see details for the refreshed Masternode$MNID below:"
+echo "" && echo "Masternode at guapcoin$MNID.service refresh completed." && echo ""
+echo "" && echo "Please see details for the refreshed Masternode below:"
 echo -ne "$(su -c "/usr/local/bin/guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID getmasternodestatus" "$USER")\\r"
