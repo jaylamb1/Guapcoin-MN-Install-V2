@@ -85,7 +85,7 @@ do
         fi
 
           walletVerion=$(guapcoin-cli getinfo | grep -A1 \"version\" | sed '$d' | sed 's/,//g' | sed 's/\"version\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
-          if [[ $walletVerion == "2020000" ]]; then
+          if [[ $walletVerion == "2020000" ]] || [[ $walletVerion == "2030000" ]]; then
             tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
           else
             tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
@@ -108,7 +108,7 @@ do
         fi
 
           walletVerion=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 getinfo | grep -A1 \"version\" | sed '$d' | sed 's/,//g' | sed 's/\"version\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
-          if [[ $walletVerion == "2020000" ]]; then
+          if [[ $walletVerion == "2020000" ]] || [[ $walletVerion == "2030000" ]]; then
             tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
           else
             tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
@@ -141,7 +141,7 @@ do
 
               version=$(echo "${status3[7]}" | sed 's/.*://')
 
-              if [[ $walletVerion == "2020000" ]]; then
+              if [[ $walletVerion == "2020000" ]] || [[ $walletVerion == "2030000" ]]; then
 
                 ip=$(echo "${status3[8]}" | 's/[^:]*://')
                 lastseen=$(echo "${status3[9]}" | sed 's/.*://')
