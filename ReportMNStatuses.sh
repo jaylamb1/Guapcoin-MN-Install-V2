@@ -86,7 +86,7 @@ do
 
           walletVerion=$(guapcoin-cli getinfo | grep -A1 \"version\" | sed '$d' | sed 's/,//g' | sed 's/\"version\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
           if [[ $walletVerion == "2020000" ]] || [[ $walletVerion == "2030000" ]]; then
-            tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+            tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//' | sed 's/[{}]//g')
           else
             tempFullStatus=$(guapcoin-cli listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
           fi
@@ -109,7 +109,7 @@ do
 
           walletVerion=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 getinfo | grep -A1 \"version\" | sed '$d' | sed 's/,//g' | sed 's/\"version\"://g' | sed 's/"//g' | sed 's/^[[:space:]]*//g')
           if [[ $walletVerion == "2020000" ]] || [[ $walletVerion == "2030000" ]]; then
-            tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
+            tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A5 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//' | sed 's/[{}]//g')
           else
             tempFullStatus=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 listmasternodes | grep \"$i\" -A4 -B6 | sed '/^$/d;s/[[:blank:]]//g' | sed ':a;N;$!ba;s/\n//g' | sed 's/,$//')
           fi
@@ -146,7 +146,7 @@ do
                 ip=$(echo "${status3[8]}" | sed 's/[^:]*://')
                 lastseen=$(echo "${status3[9]}" | sed 's/.*://')
 
-                if [[ $lastseen == "0" ]]; then
+                if [[ $lastseen == "0" ]] || [[ $lastseen == "" ]]; then
                   lastseen_formatted="0"
 
                 else
@@ -155,7 +155,7 @@ do
                 fi
 
                 activetime=$(echo "${status3[10]}" | sed 's/.*://')
-                if [[ $activetime == "0" ]]; then
+                if [[ $activetime == "0" ]] || [[ $activetime == "" ]]; then
                   activetime_formatted="0"
 
                 else
@@ -163,7 +163,7 @@ do
                 fi
 
                 lastpaid=$(echo "${status3[11]}" | sed 's/.*://')
-                if [[ $lastpaid == "0" ]]; then
+                if [[ $lastpaid == "0" ]] || [[ $lastpaid == "" ]]; then
                   lastpaid_formatted="0"
 
                 else
