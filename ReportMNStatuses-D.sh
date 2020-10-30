@@ -143,7 +143,7 @@ do
 
               if [[ $walletVerion == "2020000" ]] || [[ $walletVerion == "2030000" ]]; then
 
-                ip=$(echo "${status3[8]}" | 's/[^:]*://')
+                ip=$(echo "${status3[8]}" | sed 's/[^:]*://')
                 lastseen=$(echo "${status3[9]}" | sed 's/.*://')
 
                 if [[ $lastseen == "0" ]] || [[ $lastseen == "" ]]; then
