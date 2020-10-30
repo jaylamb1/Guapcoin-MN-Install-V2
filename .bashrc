@@ -83,6 +83,7 @@ alias la='ls -A'
 alias l='ls -CF'
 
 #JL custom aliases
+alias h='cd /home/guapadmin/'
 alias ckMN='/home/guapadmin/ReportMNStatuses.sh /home/guapadmin/file.txt'
 alias mn='ckMN'
 alias mn2='/home/guapadmin/ReportMNStatuses-D.sh /home/guapadmin/file.txt'
