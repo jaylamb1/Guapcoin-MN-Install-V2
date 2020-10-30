@@ -179,7 +179,7 @@ do
 
                 lastseen=$(echo "${status3[8]}" | sed 's/.*://')
 
-                if [[ $lastseen == "0" ]] || [[ $lastseen == "" ]];; then
+                if [[ $lastseen == "0" ]] || [[ $lastseen == "" ]]; then
                   lastseen_formatted="0"
 
                 else
