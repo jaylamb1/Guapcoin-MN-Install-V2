@@ -165,7 +165,7 @@ for i in "${Addr[@]}"
 do
   tempVar=${Addr[$n]}
 
-  MN_Total=$(python -c 'import os; print "{:>14.3f}".format((float(os.environ["MN_Total"]) + float(os.environ["tempVar"])))')
+  MN_Total=$(python -c 'import os; print "{:>14.3f}".format((float(os.environ["MN_Total"]) + float(os.environ["tempVar"])))' >/dev/null 2>&1)
 
   ((++n))
 done
@@ -178,11 +178,11 @@ parm7=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $12}' | sed
 GUAPTotal=$parm7
 
 #Get percentage of total GUAP money suppy held by the addressed evaluated
-Perc=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["MN_Total"]) / float(os.environ["GUAPTotal"]) * 100))')
+Perc=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["MN_Total"]) / float(os.environ["GUAPTotal"]) * 100))' >/dev/null 2>&1)
 
 #Print out total holding and total GUAP money supply
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
-echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')" >> $SnapshotFilename
+echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))' >/dev/null 2>&1)" >> $SnapshotFilename
 
 #Get current per GUAP value in USD (currently must be pulled from probit.com APIs)
 #Value of GUAP in BTC
@@ -221,7 +221,7 @@ GUAPearnedUSD=$(printf "%'.2f\n" $GUAPearnedUSD)
 GUAPearnedUSD1="\$$GUAPearnedUSD"
 #echo "Test GUAPearnedUSD 2nd format= $GUAPearnedUSD"
 #For use in the per hour, minute, sec calculations below
-GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
+GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))' >/dev/null 2>&1)
 
 d_var=$(TZ=":US/Eastern" date -d @$d +'%Y-%m-%dT%H:%M:%S')
 LastGuapTime_var=$(TZ=":US/Eastern" date -d @$LastGuapTime +'%Y-%m-%dT%H:%M:%S')
@@ -250,8 +250,8 @@ EarnRateVarUSD="Earn rate(USD):          "
 if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr = $TimeElapsedHr"
   #echo "TimeElapsedHr >0"
-  GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))')
-  GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))')
+  GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))' >/dev/null 2>&1)
+  GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
   echo "  Earn rate/hr  : $GUAPearnRateH GUAP[\$$GUAPUSDearnRateH]/hour" >> $SnapshotFilename
   EarnRateVar="$EarnRateVar  $GUAPearnRateH GUAP/hour"
@@ -263,16 +263,16 @@ GUAPUSDearnRateM=""
 if [[ $TimeElapsedMin > '0' ]]; then
   #echo "TimeElapsedMin = $TimeElapsedMin"
   #echo "TimeElapsedMin > 0"
-  GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))')
-  GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))')
+  GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))' >/dev/null 2>&1)
+  GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
   echo "  Earn rate/min : $GUAPearnRateM GUAP[\$$GUAPUSDearnRateM]/minute" >> $SnapshotFilename
   EarnRateVar="$EarnRateVar  $GUAPearnRateM GUAP/min"
   EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateM/min"
 fi
 
-GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))')
-GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))')
+GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))' >/dev/null 2>&1)
+GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
 echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second" >> $SnapshotFilename
 EarnRateVar="$EarnRateVar  $GUAPearnRateS GUAP/sec"
@@ -280,7 +280,7 @@ EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateS/sec"
 
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
-echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))')" >> $SnapshotFilename
+echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))' >/dev/null 2>&1)" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
 
 GuapTotalUSD=$(echo $GUAPTotal*$GUAPValue | bc)
@@ -316,7 +316,7 @@ parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 
 BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
 
-echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )')" >> $SnapshotFilename
+echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )' >/dev/null 2>&1)" >> $SnapshotFilename
 
 
 
@@ -327,14 +327,14 @@ echo "Percentage of total GUAP Money Supply          :  $Perc%" >> $SnapshotFile
 echo "" >> $SnapshotFilename
 
 echo "Total number of GUAP masternodes               :  $MNCount" >> $SnapshotFilename
-MNCount=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["MNCount"]))')
-n=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["n"]))')
+MNCount=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["MNCount"]))' >/dev/null 2>&1)
+n=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["n"]))' >/dev/null 2>&1)
 echo "" >> $SnapshotFilename
 
 #Get percentage of total GUAP voting power
 #decrease n variable because of the 2 change addresses we are tracking
 #n=$((n-2))
-Perc2=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["n"]) / float(os.environ["MNCount"]) * 100))')
+Perc2=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["n"]) / float(os.environ["MNCount"]) * 100))' >/dev/null 2>&1)
 
 echo "Percentage of total GUAP Voting Power          :  $Perc2%" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
