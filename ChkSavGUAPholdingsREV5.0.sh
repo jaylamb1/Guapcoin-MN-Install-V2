@@ -340,15 +340,19 @@ echo "" >> $SnapshotFilename
 
 echo "Total number of GUAP masternodes               :  $MNCount" >> $SnapshotFilename
 #MNCount=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["MNCount"]))' >/dev/null 2>&1)
-n=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["n"]))' >/dev/null 2>&1)
+#n=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["n"]))' >/dev/null 2>&1)
+n=$(echo "$n-2" | bc)
 echo "" >> $SnapshotFilename
 
 #Get percentage of total GUAP voting power
 #decrease n variable because of the 2 change addresses we are tracking
 #n=$((n-2))
+
+
 Perc2=$(echo "scale=4;$n/$parm8" | bc -l)
 Perc2=$(echo $Perc2*100 | bc)
 #Perc2=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["n"]) / float(os.environ["MNCount"]) * 100))' >/dev/null 2>&1)
+#Perc2b=$(python -c 'import os; print "{:>13,.2f}".format(float(os.environ["Perc2"]))' >/dev/null 2>&1)
 
 echo "Percentage of total GUAP Voting Power          :  $Perc2%" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
