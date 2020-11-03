@@ -179,7 +179,7 @@ parm7=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $12}' | sed
 GUAPTotal=$parm7
 
 #Get percentage of total GUAP money suppy held by the addressed evaluated
-Perc=$(echo "scale=2;$MN_Total/$GUAPTotal" | bc -l)
+Perc=$(echo "scale=4;$MN_Total/$GUAPTotal" | bc -l)
 Perc=$(echo $Perc*100 | bc)
 #Perc=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["MN_Total"]) / float(os.environ["GUAPTotal"]) * 100))' >/dev/null 2>&1)
 
@@ -210,42 +210,38 @@ echo "-----------------------------------------------------------------" >> $Sna
 
 #Save MN_Total and timestamp to file output.text
 echo "$d $MN_Total" > /home/guapadmin/output.text
-#echo "" >> $SnapshotFilename
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
-GUAPearned=$(echo $MN_Total-$LastGuapTotal | bc)
+GUAPearned=$(echo "$MN_Total-$LastGuapTotal" | bc)
+GUAPearned=$(printf "%.3f\n" $GUAPearned)
 #echo "Test GUAPearned= $MN_Total-$LastGuapTotal"
 #GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
-#echo "Test GUAPearned= $GUAPearned"
 
 GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
 
-#echo "Test GUAPearnedUSD= $GUAPearnedUSD"
 GUAPearnedUSD=$(printf "%'.2f\n" $GUAPearnedUSD)
+
 GUAPearnedUSD1="\$$GUAPearnedUSD"
-#echo "Test GUAPearnedUSD 2nd format= $GUAPearnedUSD"
+
+
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$GUAPearned
 #GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))' >/dev/null 2>&1)
 
 d_var=$(TZ=":US/Eastern" date -d @$d +'%Y-%m-%dT%H:%M:%S')
 LastGuapTime_var=$(TZ=":US/Eastern" date -d @$LastGuapTime +'%Y-%m-%dT%H:%M:%S')
-#echo "d= $d_var"
-#echo "LastGuapTime= $LastGuapTime_var"
 
 TimeElapsed=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%dd:%Hh:%Mm:%Ss')
-#echo "Time elasped is $TimeElapsed"
-#TimeElapsed_s=$(date -d  @$TimeElapsed +'%S')
-#echo "  GUAP earned since last check @ $(date -d  @$LastGuapTime +'%m/%d %I:%M%P')  : $GUAPearned in last $(date -d  @$TimeElapsed +'%M%S') min"
+
 echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P') EST" >> $SnapshotFilename
 
-#Remove thousands comma from GUAPearned variable
-#GUAPearned=$(python -c 'import os; print "{0:.0f}".format(float(os.environ["GUAPearned"]))')
 
-  echo "  Earned since  : $GUAPearned GUAP[\$$GUAPearnedUSD] in last $TimeElapsed" >> $SnapshotFilename
+
+echo "  Earned since  : $GUAPearned GUAP[\$$GUAPearnedUSD] in last $TimeElapsed" >> $SnapshotFilename
 
 TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
 TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
 TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
+TimeElapsedSec=$(echo "$TimeElapsedSec" | sed 's/-//g')
 
 GUAPearnRateH=""
 GUAPUSDearnRateH=""
@@ -255,8 +251,8 @@ if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr = $TimeElapsedHr"
   #echo "TimeElapsedHr >0"
   tempRate=3600
-  GUAPearnRateH=$(echo $GUAPearned/$TimeElapsedSec/$tempRate | bc -l)
-  GUAPUSDearnRateH=$(echo $GUAPearnRateH*$GUAPValue | bc)
+  GUAPearnRateH=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
+  GUAPUSDearnRateH=$(echo "$GUAPearnRateH*$GUAPValue" | bc)
   #GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))' >/dev/null 2>&1)
   #GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
@@ -271,8 +267,8 @@ if [[ $TimeElapsedMin > '0' ]]; then
   #echo "TimeElapsedMin = $TimeElapsedMin"
   #echo "TimeElapsedMin > 0"
   tempRate=60
-  GUAPearnRateM=$(echo $GUAPearned/$TimeElapsedSec/$tempRate | bc -l)
-  GUAPUSDearnRateM=$(echo $GUAPearnRateH*$GUAPValue | bc)
+  GUAPearnRateM=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
+  GUAPUSDearnRateM=$(echo "$GUAPearnRateH*$GUAPValue" | bc)
   #GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))' >/dev/null 2>&1)
   #GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
@@ -281,8 +277,8 @@ if [[ $TimeElapsedMin > '0' ]]; then
   EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateM/min"
 fi
 
-GUAPearnRateS=$(echo $GUAPearned/$TimeElapsedSec | bc -l)
-GUAPUSDearnRateS=$(echo $GUAPearnRateS*$GUAPValue | bc)
+GUAPearnRateS=$(echo "scale=2;$GUAPearned/$TimeElapsedSec" | bc -l)
+GUAPUSDearnRateS=$(echo "$GUAPearnRateS*$GUAPValue" | bc)
 #GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))' >/dev/null 2>&1)
 #GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
@@ -349,7 +345,7 @@ echo "" >> $SnapshotFilename
 #n=$((n-2))
 
 
-Perc2=$(echo "scale=2;$n/$parm8" | bc -l)
+Perc2=$(echo "scale=4;$n/$parm8" | bc -l)
 Perc2=$(echo $Perc2*100 | bc)
 #Perc2=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["n"]) / float(os.environ["MNCount"]) * 100))' >/dev/null 2>&1)
 #Perc2b=$(python -c 'import os; print "{:>13,.2f}".format(float(os.environ["Perc2"]))' >/dev/null 2>&1)
@@ -369,7 +365,7 @@ echo "$d $MN_Total" >> $SnapshotFilename
 
 #echo "MNs_Data_Block= $MNs_Data_Block\n\n"
 echo ""
-curl -X POST -H 'Content-type: application/json' --data '{ "text": ":moneybag: GUAP MASTERNODE EARNINGS REPORT :moneybag:", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": "--------------------------------------------------------------\n--------------------------------------------------------------", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":dollar::moneybag: *GUAP MASTERNODE EARNINGS REPORT* :moneybag::dollar:\nMasternode Report for owner '"$server"'." } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Please see below a snapshot of your masternodes. See also included below links for your masternodes where you can view their recent transaction activity on the GUAP Blockchain Explorer. " } ] }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|Posted '"$d_formatted"'>" } }, { "type": "divider" },  '"$MNs_Data_Block"', { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Holdings*                                                                                       *'"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')"'*\n*GUAP Holdings (USD)*                                                                          *'"$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GuapUSD"])))')"'* " } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "\nLast report was generated on '"$(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P')"' EST \nEarned since:                '"$GUAPearned"' GUAP ['"$GUAPearnedUSD1"'] in last '"$TimeElapsed"' \n'"$EarnRateVar"'   \n'"$EarnRateVarUSD"' "} }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Stats* \nGUAP Money Supply                                                                                '"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["GUAPTotal"]))')"' \nGUAP Money Supply (USD)                                                                     '"$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GuapTotalUSD"])))')"' \nGUAP Value (USD)                                                                              '"$(python -c 'import os; print "{0:>14}".format("${:,.4f}".format(float(os.environ["GUAPValue"])))')"' \n% of GUAP Money Supply                                                                        '"$Perc"'% \nTotal GUAP masternodes                                                                        '"$parm8"' \n% of GUAP voting power                                                                          '"$Perc2"'% \nGUAP Chain Block Count                                                                  '"$BlockHeight"' " } }, { "type": "divider" }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Report automatically generated by masternode monitoring system. \nPlease message <@U013QSJTGEA> for further details or with questions/concerns." } ] }, { "type": "divider" }, { "type": "divider" } ] }'
+curl -X POST -H 'Content-type: application/json' --data '{ "text": ":moneybag: GUAP MASTERNODE EARNINGS REPORT :moneybag:", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": "--------------------------------------------------------------\n--------------------------------------------------------------", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":dollar::moneybag: *GUAP MASTERNODE EARNINGS REPORT* :moneybag::dollar:\nMasternode Report for owner '"$server"'." } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Please see below a snapshot of your masternodes. See also included below links for your masternodes where you can view their recent transaction activity on the GUAP Blockchain Explorer. " } ] }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|Posted '"$d_formatted"'>" } }, { "type": "divider" },  '"$MNs_Data_Block"', { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Holdings*                                                                                       *'"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')"'*\n*GUAP Holdings (USD)*                                                                          *'"$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GuapUSD"])))')"'* " } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "\nLast report was generated on '"$(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P')"' EST \nEarned since:                '"$GUAPearned"' GUAP ['"$GUAPearnedUSD1"'] in last '"$TimeElapsed"' \n'"$EarnRateVar"'   \n'"$EarnRateVarUSD"' "} }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Stats* \nGUAP Money Supply                                                                                '"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["GUAPTotal"]))')"' \nGUAP Money Supply (USD)                                                                     '"$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GuapTotalUSD"])))')"' \nGUAP Value (USD)                                                                              '"$(python -c 'import os; print "{0:>14}".format("${:,.4f}".format(float(os.environ["GUAPValue"])))')"' \n% of GUAP Money Supply                                                                '"$Perc"'% \nTotal GUAP masternodes                                                                '"$parm8"' \n% of GUAP voting power                                                                  '"$Perc2"'% \nGUAP Chain Block Count                                                                  '"$BlockHeight"' " } }, { "type": "divider" }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Report automatically generated by masternode monitoring system. \nPlease message <@U013QSJTGEA> for further details or with questions/concerns." } ] }, { "type": "divider" }, { "type": "divider" } ] }' https://hooks.slack.com/services/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
 
 #Turn off environment variables
 set +a
