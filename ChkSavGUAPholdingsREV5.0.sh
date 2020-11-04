@@ -251,14 +251,15 @@ if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr = $TimeElapsedHr"
   #echo "TimeElapsedHr >0"
   tempRate=3600
-  GUAPearnRateH=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
-  GUAPUSDearnRateH=$(echo "scale=2;$GUAPearnRateH*$GUAPValue" | bc -l)
+  GUAPearnRateH=$(echo "$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
+  GUAPUSDearnRateH=$(echo "$GUAPearnRateH*$GUAPValue" | bc -l)
+  GUAPearnRateH1=$(printf "%.2f\n" $GUAPearnRateH)
   GUAPUSDearnRateH1=$(printf "%.2f\n" $GUAPUSDearnRateH)
   #GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))' >/dev/null 2>&1)
   #GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
-  echo "  Earn rate/hr  : $GUAPearnRateH GUAP[\$$GUAPUSDearnRateH]/hour" >> $SnapshotFilename
-  EarnRateVar="$EarnRateVar  $GUAPearnRateH GUAP/hour"
+  echo "  Earn rate/hr  : $GUAPearnRateH1 GUAP[\$$GUAPUSDearnRateH1]/hour" >> $SnapshotFilename
+  EarnRateVar="$EarnRateVar  $GUAPearnRateH1 GUAP/hour"
   EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateH1/hour"
 fi
 
@@ -268,25 +269,27 @@ if [[ $TimeElapsedMin > '0' ]]; then
   #echo "TimeElapsedMin = $TimeElapsedMin"
   #echo "TimeElapsedMin > 0"
   tempRate=60
-  GUAPearnRateM=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
-  GUAPUSDearnRateM=$(echo "scale=2;$GUAPearnRateM*$GUAPValue" | bc -l)
+  GUAPearnRateM=$(echo "$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
+  GUAPUSDearnRateM=$(echo "$GUAPearnRateM*$GUAPValue" | bc -l)
+  GUAPearnRateM1=$(printf "%.2f\n" $GUAPearnRateM)
   GUAPUSDearnRateM1=$(printf "%.2f\n" $GUAPUSDearnRateM)
   #GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))' >/dev/null 2>&1)
   #GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
-  echo "  Earn rate/min : $GUAPearnRateM GUAP[\$$GUAPUSDearnRateM]/minute" >> $SnapshotFilename
-  EarnRateVar="$EarnRateVar  $GUAPearnRateM GUAP/min"
+  echo "  Earn rate/min : $GUAPearnRateM1 GUAP[\$$GUAPUSDearnRateM1]/minute" >> $SnapshotFilename
+  EarnRateVar="$EarnRateVar  $GUAPearnRateM1 GUAP/min"
   EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateM1/min"
 fi
 
-GUAPearnRateS=$(echo "scale=2;$GUAPearned/$TimeElapsedSec" | bc -l)
-GUAPUSDearnRateS=$(echo "scale=2;$GUAPearnRateS*$GUAPValue" | bc -l)
+GUAPearnRateS=$(echo "$GUAPearned/$TimeElapsedSec" | bc -l)
+GUAPUSDearnRateS=$(echo "$GUAPearnRateS*$GUAPValue" | bc -l)
+GUAPearnRateS1=$(printf "%.2f\n" $GUAPearnRateS)
 GUAPUSDearnRateS1=$(printf "%.2f\n" $GUAPUSDearnRateS)
 #GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))' >/dev/null 2>&1)
 #GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
-echo "  Earn rate/sec : $GUAPearnRateS GUAP[\$$GUAPUSDearnRateS]/second" >> $SnapshotFilename
-EarnRateVar="$EarnRateVar  $GUAPearnRateS GUAP/sec"
+echo "  Earn rate/sec : $GUAPearnRateS1 GUAP[\$$GUAPUSDearnRateS1]/second" >> $SnapshotFilename
+EarnRateVar="$EarnRateVar  $GUAPearnRateS1 GUAP/sec"
 EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateS1/sec"
 
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
