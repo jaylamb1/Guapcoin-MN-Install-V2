@@ -268,7 +268,7 @@ if [[ $TimeElapsedMin > '0' ]]; then
   #echo "TimeElapsedMin > 0"
   tempRate=60
   GUAPearnRateM=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
-  GUAPUSDearnRateM=$(echo "scale=2;$GUAPearnRateH*$GUAPValue" | bc -l)
+  GUAPUSDearnRateM=$(echo "scale=2;$GUAPearnRateM*$GUAPValue" | bc -l)
   #GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))' >/dev/null 2>&1)
   #GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
