@@ -252,7 +252,7 @@ if [[ $TimeElapsedHr > '0' ]]; then
   #echo "TimeElapsedHr >0"
   tempRate=3600
   GUAPearnRateH=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
-  GUAPUSDearnRateH=$(echo "$GUAPearnRateH*$GUAPValue" | bc)
+  GUAPUSDearnRateH=$(echo "scale=2;$GUAPearnRateH*$GUAPValue" | bc -l)
   #GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))' >/dev/null 2>&1)
   #GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
@@ -268,7 +268,7 @@ if [[ $TimeElapsedMin > '0' ]]; then
   #echo "TimeElapsedMin > 0"
   tempRate=60
   GUAPearnRateM=$(echo "scale=2;$GUAPearned/$TimeElapsedSec*$tempRate" | bc -l)
-  GUAPUSDearnRateM=$(echo "$GUAPearnRateH*$GUAPValue" | bc)
+  GUAPUSDearnRateM=$(echo "scale=2;$GUAPearnRateH*$GUAPValue" | bc -l)
   #GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))' >/dev/null 2>&1)
   #GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
@@ -278,7 +278,7 @@ if [[ $TimeElapsedMin > '0' ]]; then
 fi
 
 GUAPearnRateS=$(echo "scale=2;$GUAPearned/$TimeElapsedSec" | bc -l)
-GUAPUSDearnRateS=$(echo "$GUAPearnRateS*$GUAPValue" | bc)
+GUAPUSDearnRateS=$(echo "scale=2;$GUAPearnRateS*$GUAPValue" | bc -l)
 #GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))' >/dev/null 2>&1)
 #GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
