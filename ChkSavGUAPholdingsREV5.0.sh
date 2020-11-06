@@ -238,10 +238,10 @@ echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S
 
 echo "  Earned since  : $GUAPearned GUAP[\$$GUAPearnedUSD] in last $TimeElapsed" >> $SnapshotFilename
 
-TimeElapsedSec=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%S')
-TimeElapsedMin=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%M')
-TimeElapsedHr=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%H')
-TimeElapsedSec=$(echo "$TimeElapsedSec" | sed 's/-//g')
+TimeElapsedSec=$(dateutils.ddiff $LastGuapTime_var $d_var -f '%S')
+TimeElapsedMin=$(dateutils.ddiff $LastGuapTime_var $d_var -f '%M')
+TimeElapsedHr=$(dateutils.ddiff  $LastGuapTime_var $d_var -f '%H')
+#TimeElapsedSec=$(echo "$TimeElapsedSec" | sed 's/-//g')
 
 GUAPearnRateH=""
 GUAPUSDearnRateH=""
