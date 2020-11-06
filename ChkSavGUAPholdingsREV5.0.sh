@@ -230,7 +230,7 @@ GUAPearnedNoComma=$GUAPearned
 d_var=$(TZ=":US/Eastern" date -d @$d +'%Y-%m-%dT%H:%M:%S')
 LastGuapTime_var=$(TZ=":US/Eastern" date -d @$LastGuapTime +'%Y-%m-%dT%H:%M:%S')
 
-TimeElapsed=$(dateutils.ddiff $d_var $LastGuapTime_var -f '%dd:%Hh:%Mm:%Ss')
+TimeElapsed=$(dateutils.ddiff $LastGuapTime_var $d_var -f '%dd:%Hh:%Mm:%Ss')
 
 echo "  Last check @ $(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P') EST" >> $SnapshotFilename
 
