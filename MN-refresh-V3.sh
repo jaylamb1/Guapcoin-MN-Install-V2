@@ -33,7 +33,7 @@ echo "
 /_|_\  ----------- MASTERNODE REFRESH v3 ----------------+
 |                                                        |
 |    This script will refresh the MN of your choice.     |
-|    This script is compatible with V2 od GUAP only.     |
+|    This script is compatible with GUAP V2.3 only.      |
 |                                                        |
 | You must specify the ID# of the MN you wish to refresh |
 |   E.g. If you want to refresh your initial MN, which   |
@@ -44,8 +44,8 @@ echo "
 |  If you used an a different naming convention than the |
 |    sequential one described above, then follow that.   |
 |                                                        |
-| It's assumed that your MN(s) were installed under root |
-|                                                        |::
+|    It's assumed that your MN(s) were installed under   |
+|                   user: guapadmin                      |::
 +--------------------------------------------------------+::
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 "

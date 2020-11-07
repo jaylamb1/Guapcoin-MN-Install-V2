@@ -187,7 +187,8 @@ cp -p -r guapcoin-cli /usr/local/bin
 
  #Create datadir
  if [ ! -f  /home/guapadmin/.guapcoin/guapcoin.conf ]; then
- 	sudo mkdir  /home/guapadmin/.guapcoin
+ 	mkdir  /home/guapadmin/.guapcoin
+  chmod 755 -R  /home/guapadmin/.guapcoin
  fi
 
 cd ~
@@ -201,7 +202,7 @@ rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 EOF
 
-    sudo chmod 755 -R  /home/guapadmin/.guapcoin/guapcoin.conf
+    chmod 755 -R  /home/guapadmin/.guapcoin/guapcoin.conf
 
     #Starting daemon first time just to generate masternode private key
     guapcoind -daemon
@@ -237,10 +238,10 @@ rm -rf /home/guapadmin/.guapcoin/.lock 2> /dev/null
 
 cd  /home/guapadmin/.guapcoin/ && wget http://45.63.25.141/bootstrap.tar.gz
 cd  /home/guapadmin/.guapcoin/ && tar -xzvf bootstrap.tar.gz
-rm -rf ~/.guapcoin/bootstrap.tar.gz 2> /dev/null
+rm -rf /home/guapadmin/.guapcoin/bootstrap.tar.gz 2> /dev/null
 
 # Create guapcoin.conf
-cat <<EOF > ~/.guapcoin/guapcoin.conf
+cat <<EOF > /home/guapadmin/.guapcoin/guapcoin.conf
 rpcuser=$rpcuser
 rpcpassword=$rpcpassword
 rpcallowip=127.0.0.1
@@ -284,6 +285,10 @@ Restart=on-abort
 [Install]
 WantedBy=multi-user.target
 EOL
+
+# fix permissions
+chown -R guapadmin:guapadmin /home/guapadmin/.guapcoin
+
 sudo systemctl enable guapcoin.service
 sudo systemctl start guapcoin.service
 
@@ -347,6 +352,7 @@ then start the guapcoind daemon back up:
 to stop:              ${GREEN}guapcoin-cli stop${NC}
 to start:             ${GREEN}systemctl start guapcoin${NC}
 to edit:              ${GREEN}nano /home/guapadmin/.guapcoin/guapcoin.conf${NC}
+to edit service:      ${GREEN}nano /etc/systemd/sysetem/guapcoin.service${NC}
 to check mn status:   ${GREEN}guapcoin-cli getmasternodestatus${NC}
 ========================================================================
 To monitor system resource utilization and running processes:

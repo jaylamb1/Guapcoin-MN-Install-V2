@@ -317,7 +317,7 @@ EOF
 
 
 
-sudo chmod 755 -R ~/.guapcoin$MNID/guapcoin.conf
+sudo chmod 755 -R ${USERHOME}/.guapcoin$MNID/guapcoin.conf
 sudo chown -R $USER:$USER $USERHOME/.guapcoin$MNID
 
 
@@ -416,6 +416,7 @@ then start the guapcoind daemon back up:
 to stop:              ${GREEN}systemctl stop guapcoin$MNID ${NC}
 to start:             ${GREEN}systemctl start guapcoin$MNID ${NC}
 to edit:              ${GREEN}nano $USERHOME/.guapcoin$MNID/guapcoin.conf${NC}
+to edit service:      ${GREEN}nano /etc/systemd/sysetem/guapcoin$MNID.service${NC}
 to check mn status:   ${GREEN}guapcoin-cli -conf=${USERHOME}/.guapcoin$MNID/guapcoin.conf -datadir=${USERHOME}/.guapcoin$MNID getmasternodestatus${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
