@@ -342,7 +342,7 @@ parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 
 BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
 GUAPValueoffset=$(printf "\$%'14.4f\n" $GUAPValue)
-echo "Current per GUAP Value (USD)                   :  $GUAPValueoffset"
+echo "Current per GUAP Value (USD)                   :  $GUAPValueoffset"  >> $SnapshotFilename
 #echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )' >/dev/null 2>&1)" >> $SnapshotFilename
 
 echo "" >> $SnapshotFilename
