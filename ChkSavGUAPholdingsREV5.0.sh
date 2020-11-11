@@ -156,7 +156,7 @@ do
     MNs_data7B="$MNs_data7B$temp_MNs_dataB"
     MNs_Data_Block7="$MNs_Data_Block6, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data7A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data7B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block7
-  elif [[ "$n" -gt 79 ]] && [[ "$n" -lt 80 ]]; then
+  elif [[ "$n" -gt 69 ]] && [[ "$n" -lt 80 ]]; then
     MNs_data8A="$MNs_data8A$temp_MNs_dataA"
     MNs_data8B="$MNs_data8B$temp_MNs_dataB"
     MNs_Data_Block8="$MNs_Data_Block7, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data8A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data8B\" } ] }"
@@ -195,7 +195,8 @@ Perc=$(echo $Perc*100 | bc)
 
 #Print out total holding and total GUAP money supply
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
-echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))' >/dev/null 2>&1)" >> $SnapshotFilename
+echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')" >> $SnapshotFilename
+#echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))' >/dev/null 2>&1)" >> $SnapshotFilename
 
 #Get current per GUAP value in USD (currently must be pulled from probit.com APIs)
 #Value of GUAP in BTC
@@ -304,12 +305,13 @@ EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateS1/sec"
 
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
-echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["GUAPTotal"]))' >/dev/null 2>&1)" >> $SnapshotFilename
+echo "  Total Current GUAP Holdings                   :  $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')" >> $SnapshotFilename
+#echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["MN_Total"]))' >/dev/null 2>&1)" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
 
 GuapTotalUSD=$(echo $GUAPTotal*$GUAPValue | bc)
 GuapTotalUSDoffset=$(printf "\$% '14.3f\n" $GuapTotalUSD)
-echo "Total GUAP Money Supply (USD)                  : $GuapTotalUSDoffset" >> $SnapshotFilename
+echo "Total GUAP Money Supply (USD)                  :  $GuapTotalUSDoffset" >> $SnapshotFilename
 #echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" >> $SnapshotFilename
 
 echo "" >> $SnapshotFilename
@@ -339,10 +341,9 @@ parm9=$(curl -s https://guapexplorer.com/api/coin/ | awk -F, '{print $4}' | sed 
 #BlockHeight=$(curl -s -X GET $parm9)
 BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
-
-echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )' >/dev/null 2>&1)" >> $SnapshotFilename
-
-
+GUAPValueoffset=$(printf "\$%'14.4f\n" $GUAPValue)
+echo "Current per GUAP Value (USD)                   :  $GUAPValueoffset"
+#echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )' >/dev/null 2>&1)" >> $SnapshotFilename
 
 echo "" >> $SnapshotFilename
 
