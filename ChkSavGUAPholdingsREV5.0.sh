@@ -151,6 +151,16 @@ do
     MNs_data6B="$MNs_data6B$temp_MNs_dataB"
     MNs_Data_Block6="$MNs_Data_Block5, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data6A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data6B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block6
+  elif [[ "$n" -gt 59 ]] && [[ "$n" -lt 70 ]]; then
+    MNs_data7A="$MNs_data7A$temp_MNs_dataA"
+    MNs_data7B="$MNs_data7B$temp_MNs_dataB"
+    MNs_Data_Block7="$MNs_Data_Block6, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data7A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data7B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block7
+  elif [[ "$n" -gt 79 ]] && [[ "$n" -lt 80 ]]; then
+    MNs_data8A="$MNs_data8A$temp_MNs_dataA"
+    MNs_data8B="$MNs_data8B$temp_MNs_dataB"
+    MNs_Data_Block8="$MNs_Data_Block7, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data8A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data8B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block8
   fi
 
   ((++n))
