@@ -37,6 +37,14 @@ MNs_data5A=""
 MNs_data5B=""
 MNs_data6A=""
 MNs_data6B=""
+MNs_data7A=""
+MNs_data7B=""
+MNs_data8A=""
+MNs_data8B=""
+MNs_data9A=""
+MNs_data9B=""
+MNs_data10A=""
+MNs_data10B=""
 MNs_Data_Block=""
 MNs_Data_Block1=""
 MNs_Data_Block2=""
@@ -44,6 +52,11 @@ MNs_Data_Block3=""
 MNs_Data_Block4=""
 MNs_Data_Block5=""
 MNs_Data_Block6=""
+MNs_Data_Block7=""
+MNs_Data_Block8=""
+MNs_Data_Block9=""
+MNs_Data_Block10=""
+
 SnapshotFilename="/home/guapadmin/MN_Report/GUAP-Snapshot-$d_filename.txt"
 
 
@@ -161,6 +174,16 @@ do
     MNs_data8B="$MNs_data8B$temp_MNs_dataB"
     MNs_Data_Block8="$MNs_Data_Block7, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data8A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data8B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block8
+  elif [[ "$n" -gt 79 ]] && [[ "$n" -lt 90 ]]; then
+    MNs_data9A="$MNs_data9A$temp_MNs_dataA"
+    MNs_data9B="$MNs_data9B$temp_MNs_dataB"
+    MNs_Data_Block9="$MNs_Data_Block8, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data9A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data9B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block9
+  elif [[ "$n" -gt 89 ]] && [[ "$n" -lt 100 ]]; then
+    MNs_data10A="$MNs_data10A$temp_MNs_dataA"
+    MNs_data10B="$MNs_data10B$temp_MNs_dataB"
+    MNs_Data_Block10="$MNs_Data_Block9, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data10A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data10B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block10
   fi
 
   ((++n))
