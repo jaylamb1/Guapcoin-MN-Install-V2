@@ -352,7 +352,7 @@ then start the guapcoind daemon back up:
 to stop:              ${GREEN}guapcoin-cli stop${NC}
 to start:             ${GREEN}systemctl start guapcoin${NC}
 to edit:              ${GREEN}nano /home/guapadmin/.guapcoin/guapcoin.conf${NC}
-to edit service:      ${GREEN}nano /etc/systemd/sysetem/guapcoin.service${NC}
+to edit service:      ${GREEN}nano /etc/systemd/system/guapcoin.service${NC}
 to check mn status:   ${GREEN}guapcoin-cli getmasternodestatus${NC}
 ========================================================================
 To monitor system resource utilization and running processes:
