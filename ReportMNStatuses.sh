@@ -51,7 +51,7 @@ LastGuapTotal='0'
 echo "" >> $StatusReportFilename
 
 
-echo "[Label]      [Address]                                [Subtotal] " >> $StatusReportFilename
+echo "[Label]      [Address]                                [Status] " >> $StatusReportFilename
 echo "-----------------------------------------------------------------" >> $StatusReportFilename
 
 echo "" >> $StatusReportFilename

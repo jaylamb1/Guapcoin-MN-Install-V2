@@ -51,7 +51,7 @@ LastGuapTotal='0'
 echo "" | tee $StatusReportFilename
 
 
-echo "[Label]      [Address]                                [Subtotal] " | tee $StatusReportFilename
+echo "[Label]      [Address]                                [Status] " | tee $StatusReportFilename
 echo "-----------------------------------------------------------------" | tee $StatusReportFilename
 
 echo "" | tee $StatusReportFilename
