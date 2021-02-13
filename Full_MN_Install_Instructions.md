@@ -94,7 +94,7 @@ As soon as all 10K transactions are done, we will wait for 15 confirmations. You
 
 ## 4. Install the Masternode server on the hot/VPS wallet:
 
-- SSH into to your VPS server (using Putty on Windows, Terminal.app on macOS, or any other ssh client of your choice), login as root (Please note: It’s normal that you don’t see your password after typing or pasting it) and run the following commands:
+- SSH into to your VPS server as root using the public IP of VPS (using Putty on Windows, Terminal.app on macOS, or any other ssh client of your choice). Please note: It’s normal that you don’t see your password after typing or pasting it when logging in through SSH. Run the following commands:
 
   `wget -q https://raw.githubusercontent.com/guapcrypto/Guapcoin-MN-Install-V2/master/GUAP-v2.3.1-MN.sh`
   
