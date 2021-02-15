@@ -100,7 +100,7 @@ As soon as all 10K transactions are done, we will wait for 15 confirmations. You
   
   `sudo chmod +x GUAP-v2.3.1-MN.sh`
   
-  `./GUAP-v2.3.1-MN.sh'
+  `./GUAP-v2.3.1-MN.sh`
 
 
 - When the script asks, paste in and then confirm your masternodekey. 
