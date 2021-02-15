@@ -46,7 +46,7 @@ To keep things sorted in case we setup more masternodes we will label the addres
 - Click on 'Edit Label' to create a label for this new address; Let's use “MN1".
 
 
-The generated address will now be labecreatled as MN1. If you want to setup more masternodes just repeat the steps above so you end up with several addresses for the total number of nodes you wish to setup. Example: For 10 nodes you will need 10 addresses (make sure you label them all).
+The generated address will now be labeled as MN1. If you want to setup more masternodes just repeat the steps above so you end up with several addresses for the total number of nodes you wish to setup. Example: For 10 nodes you will need 10 addresses (make sure you label them all).
 
 Once all addresses are created send exactly 10,000 GUAP each to them. Ensure that you send exactly 10,000 GUAP and do it in a single transaction. You can double check where the coins are coming from by checking it via coin control.
 
