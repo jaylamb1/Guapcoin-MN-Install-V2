@@ -87,10 +87,11 @@ alias h='cd /home/guapadmin/'
 alias ckMN='/home/guapadmin/ReportMNStatuses.sh /home/guapadmin/file.txt'
 alias mn='ckMN'
 alias mn2='/home/guapadmin/ReportMNStatuses-D.sh /home/guapadmin/file.txt'
+alias mnGF='/home/guapadmin/ReportMNStatuses-GF.sh /home/guapadmin/file-GF.txt'
+alias mn2GF='/home/guapadmin/ReportMNStatuses-D-GF.sh /home/guapadmin/file-GF.txt'
 alias ckguap='systemctl | grep guap'
 alias ckguapH='/home/guapadmin/ChkSavGUAPholdingsREV5.0.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
-alias ckguapH2='/home/guapadmin/ChkGUAPH-REV6.0.sh /home/guapadmin/file.txt /home/guapadmin/output.text'
-
+alias ckguapHGF='/home/guapadmin/ChkSavGUAPholdingsREV5.0-GF.sh /home/guapadmin/file-GF.txt /home/guapadmin/output-GF.text'
 
 ckguapP () {
 
