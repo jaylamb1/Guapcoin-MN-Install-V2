@@ -182,8 +182,8 @@ sudo chmod -R 755 guapcoind
 cp -p -r guapcoind /usr/local/bin
 cp -p -r guapcoin-cli /usr/local/bin
 
- guapcoin-cli stop
- sleep 5
+ #guapcoin-cli stop
+ #sleep 5
 
  #Create datadir
  if [ ! -f  /home/guapadmin/.guapcoin/guapcoin.conf ]; then
