@@ -33,7 +33,7 @@ echo "
 /_|_\  ----------- MASTERNODE REFRESH v3 ----------------+
 |                                                        |
 |    This script will refresh the MN of your choice.     |
-|    This script is compatible with GUAP V2.3 only.      |
+|    This script is compatible with GUAP V2.3.1 only.    |
 |                                                        |
 | You must specify the ID# of the MN you wish to refresh |
 |   E.g. If you want to refresh your initial MN, which   |
@@ -75,7 +75,7 @@ do
       Starti=1
   fi
 
-  for (( i = $Starti; i < 12; i++ )); do
+  for (( i = $Starti; i < 30; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
@@ -172,6 +172,24 @@ cp $USERHOME/.guapcoin$MNID/guapcoin.conf $USERHOME/.guapcoin$MNID/guapcoin.conf
 # fix permissions
 chown -R guapadmin:guapadmin /home/guapadmin/.guapcoin$MNID
 
+# add new nodes to config file
+sed -i '/addnode/d' ~/.guapcoin$MNID/guapcoin.conf
+
+echo "addnode=159.65.221.182
+addnode=45.76.255.103
+addnode=209.250.250.121
+addnode=138.197.136.6
+addnode=198.199.68.111
+addnode=178.62.110.207
+addnode=155.138.140.38
+addnode=45.76.199.11
+addnode=70.35.194.41
+addnode=144.202.75.140
+addnode=209.126.5.122
+addnode=95.216.27.40
+addnode=104.236.14.155" >> ~/.guapcoin$MNID/guapcoin.conf
+
+#start service
 systemctl start guapcoin$MNID.service
 
 TimeToWait=40
@@ -190,19 +208,6 @@ if ! systemctl status guapcoin$MNID | grep -q "active (running)"; then
   sleep 3
   exit
 fi
-
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 159.65.221.180 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 45.76.61.148 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 209.250.250.121 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 136.244.112.117 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 199.247.20.128 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 78.141.203.208 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 155.138.140.38 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 45.76.199.11 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 45.63.25.141 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 108.61.252.179 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 155.138.219.187 onetry
-guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID addnode 66.42.93.170 onetry
 
 echo "Waiting for wallet to load..."
 until su -c "/usr/local/bin/guapcoin-cli -conf=/home/guapadmin/.guapcoin$MNID/guapcoin.conf -datadir=/home/guapadmin/.guapcoin$MNID getinfo 2>/dev/null | grep -q \"version\"" "$USER"; do
