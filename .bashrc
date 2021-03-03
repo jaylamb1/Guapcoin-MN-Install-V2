@@ -108,6 +108,29 @@ printf "\$%.4f\n" $GuapUSD;
 
 }
 
+
+stopGuap () {
+
+      FILE=/etc/systemd/system/guapcoin.service;
+      if test -f "$FILE"; then
+          echo "Stopping guapcoin.service";
+          systemctl stop guapcoin.service;
+          echo "guapcoin.service stopped";
+          echo " ";
+      fi
+
+for (( i = 1; i < 30; i++ )); do
+      FILE=/etc/systemd/system/guapcoin$i.service;
+      if test -f "$FILE"; then
+          echo "Stopping guapcoin$i.service";
+          systemctl stop guapcoin$i.service;
+          echo "guapcoin$i.service stopped";
+          echo " ";
+      fi
+done
+
+}
+
 # Alias definitions.
 # You may want to put all your additions into a separate file like
 # ~/.bash_aliases, instead of adding them here directly.

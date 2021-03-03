@@ -300,15 +300,19 @@ externalip=$publicip
 bind=$publicip
 masternodeaddr=[$publicip]:9633
 masternodeprivkey=$genkey
-addnode=159.65.221.180
-addnode=45.76.61.148
+addnode=159.65.221.182
+addnode=45.76.255.103
 addnode=209.250.250.121
-addnode=136.244.112.117
-addnode=199.247.20.128
-addnode=78.141.203.208
+addnode=138.197.136.6
+addnode=198.199.68.111
+addnode=178.62.110.207
 addnode=155.138.140.38
 addnode=45.76.199.11
-addnode=45.63.25.141
+addnode=70.35.194.41
+addnode=144.202.75.140
+addnode=209.126.5.122
+addnode=95.216.27.40
+addnode=104.236.14.155
 
 
 EOF
