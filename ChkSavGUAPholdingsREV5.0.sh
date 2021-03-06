@@ -5,9 +5,9 @@
 #This script assumes that the default wallet via guapcoin-cli calls is fully synced
 
 #This script should be called with text input file (e.g. file.txt) and an output file (e.g. output.text) as an argument:
-# e.g sudo /home/guapadmin/ChkGuapHoldingsv3.sh /home/guapadmin/file.text /home/guapadmin/ouput.text
+# e.g sudo /home/guapadmin/ChkGuapHoldingsREV5.0.sh /home/guapadmin/file.text /home/guapadmin/output.text
 
-#The input text file should have the GUAP addresses you want to check the amounts for and a corresponding label for each address
+#The input text file (file.text) should have the GUAP addresses you want to check the amounts for and a corresponding label for each address
 #Format for the text should be:
 #     Label1<space>GUAP Address1
 #     Label2<space>GUAP Address2
@@ -16,15 +16,18 @@
 
 
 
-#Make all variable available as environment variables
+#Make all variables available as environment variables
 set -a
 
-#Print timestamp in Day Date(MM-DD-YYYY) Time(HH:MMam) Timezone format
-#d_epoch=$(TZ=":US/Eastern" date +"%s")
+#Get timestamp in Day Date(MM-DD-YYYY) Time(HH:MMam) Timezone format
 d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
+
+#Get server name
 server=$(hostname)
+
+#Set up data block vars
 MNs_data1A=""
 MNs_data1B=""
 MNs_data2A=""
@@ -45,6 +48,12 @@ MNs_data9A=""
 MNs_data9B=""
 MNs_data10A=""
 MNs_data10B=""
+MNs_data11A=""
+MNs_data11B=""
+MNs_data12A=""
+MNs_data12B=""
+MNs_data13A=""
+MNs_data13B=""
 MNs_Data_Block=""
 MNs_Data_Block1=""
 MNs_Data_Block2=""
@@ -56,32 +65,37 @@ MNs_Data_Block7=""
 MNs_Data_Block8=""
 MNs_Data_Block9=""
 MNs_Data_Block10=""
+MNs_Data_Block11=""
+MNs_Data_Block12=""
+MNs_Data_Block13=""
 
+#This is the file where the current earnings snapshot will be reported
 SnapshotFilename="/home/guapadmin/MN_Report/GUAP-Snapshot-$d_filename.txt"
 
-
+#Use echo >> to save info to SnapshotFilename
 echo "" >> $SnapshotFilename
-#Note: the tee command writes the onscreen report to a file also
+
+
 echo "               [GUAP Holdings Snaphot Rev 5.0]                   " >> $SnapshotFilename
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 
 echo "Timestamp : $d_formatted" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
-#echo "Test d: $d"
 
 #Create arrays to hold GUAP addresses and address labels from file, and Guap totals from API calls
 declare -a MNArray
 declare -a MNLabelArray
 declare -a Addr
-#capture the external file
+
+#capture the external file. The first arg should be file.txt
 filename=$1
 
-#Clean up the file, remove bash comments and empty lines (creates a backup before removal)
+#Clean up the file, remove bash comments and empty lines (also creates a backup before modification)
 sed -i".bkup" 's/^#.*$//' $filename #remove comments
 sed -i '/^$/d' $filename #remove empty lines
-#sed 's,\,,,g'
 
-#While loop to read in each GUAP address and corresponding label
+
+#While loop to read in each GUAP address and corresponding label from file.txt
 n=0
 while read label address; do
 # reading each line
@@ -90,10 +104,12 @@ MNArray[$n]=$address
 n=$((n+1))
 done < $filename
 
+
+
+#Read in last GUAPtotal and timestamp from output.text
 LastGuapTime='0'
 LastGuapTotal='0'
 
-#Read in last GUAPtotal and timestamp from output.text
 LastGuapFile="/home/guapadmin/output.text"
 if test -f "$LastGuapFile"; then
   while read -r time total; do
@@ -117,9 +133,9 @@ for i in "${MNArray[@]}"
 do
   temp_MNs_dataA=""
   temp_MNs_dataB=""
-  #parm="http://159.65.221.180:3001/ext/getbalance/$i"
-  #Addr[$n]=$(curl -s -X GET $parm)
-  Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://')
+
+  #get current balance of address $i
+  Addr[$n]=$(curl -s https://guapcoinexplorer.com/ext/getbalance/$i)
 
   tempVar=${Addr[$n]}
   tempLabel=${MNLabelArray[$n]}
@@ -133,7 +149,8 @@ do
   fi
 
   temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
-  #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 60 entries)
+
+  #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 109 entries)
   if [ "$n" -lt 10 ];then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
     MNs_data1B="$MNs_data1B$temp_MNs_dataB"
@@ -184,6 +201,22 @@ do
     MNs_data10B="$MNs_data10B$temp_MNs_dataB"
     MNs_Data_Block10="$MNs_Data_Block9, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data10A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data10B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block10
+  elif [[ "$n" -gt 99 ]] && [[ "$n" -lt 110 ]]; then
+    MNs_data11A="$MNs_data11A$temp_MNs_dataA"
+    MNs_data11B="$MNs_data11B$temp_MNs_dataB"
+    MNs_Data_Block11="$MNs_Data_Block10, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data11A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data11B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block11
+  elif [[ "$n" -gt 109 ]] && [[ "$n" -lt 120 ]]; then
+    MNs_data12A="$MNs_data12A$temp_MNs_dataA"
+    MNs_data12B="$MNs_data12B$temp_MNs_dataB"
+    MNs_Data_Block12="$MNs_Data_Block11, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data12A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data12B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block12
+  elif [[ "$n" -gt 119 ]] && [[ "$n" -lt 130 ]]; then
+    MNs_data13A="$MNs_data13A$temp_MNs_dataA"
+    MNs_data13B="$MNs_data13B$temp_MNs_dataB"
+    MNs_Data_Block13="$MNs_Data_Block12, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data13A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data13B\" } ] }"
+    MNs_Data_Block=$MNs_Data_Block13
+
   fi
 
   ((++n))
