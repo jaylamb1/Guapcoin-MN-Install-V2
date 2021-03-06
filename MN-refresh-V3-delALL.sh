@@ -75,7 +75,7 @@ do
       Starti=1
   fi
 
-  for (( i = $Starti; i < 12; i++ )); do
+  for (( i = $Starti; i < 30; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
