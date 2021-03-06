@@ -135,7 +135,8 @@ do
   temp_MNs_dataB=""
 
   #get current balance of address $i
-  Addr[$n]=$(curl -s https://guapcoinexplorer.com/ext/getbalance/$i)
+  #Addr[$n]=$(curl -s https://guapcoinexplorer.com/ext/getbalance/$i)
+  Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://')
 
   tempVar=${Addr[$n]}
   tempLabel=${MNLabelArray[$n]}
