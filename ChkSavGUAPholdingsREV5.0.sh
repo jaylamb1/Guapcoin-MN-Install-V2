@@ -134,11 +134,23 @@ do
   temp_MNs_dataA=""
   temp_MNs_dataB=""
 
+
   #get current balance of address $i
   #Addr[$n]=$(curl -s https://guapcoinexplorer.com/ext/getbalance/$i)
   Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://')
-
   tempVar=${Addr[$n]}
+  tempVarTest=false
+  while [ "$tempVarTest" = false ]; do
+    if [ -z "$tempVar" ]; then
+      sleep 2
+      Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://');
+      tempVar=${Addr[$n]};
+    else
+      tempVarTest=true;
+    fi
+
+  done
+
   tempLabel=${MNLabelArray[$n]}
   echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" >> $SnapshotFilename
   echo "" >> $SnapshotFilename
