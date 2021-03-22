@@ -152,7 +152,7 @@ do
   fi
 
 
-  for (( i = 1; i < 20; i++ )); do
+  for (( i = 1; i < 50; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
