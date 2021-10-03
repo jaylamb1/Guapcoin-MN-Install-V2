@@ -281,7 +281,8 @@ done
     #guapcoin-cli stop
     #sleep 5
 cd $USERHOME/.guapcoin$MNID/ && rm -rf blocks chainstate sporks peers.dat
-cd $USERHOME/.guapcoin$MNID/ && wget http://45.63.25.141/bootstrap.tar.gz
+#cd $USERHOME/.guapcoin$MNID/ && wget http://45.63.25.141/bootstrap.tar.gz
+cp /home/guapadmin/bootstrap.tar.gz $USERHOME/.guapcoin$MNID/
 cd $USERHOME/.guapcoin$MNID/ && tar -xzvf bootstrap.tar.gz
 # Create guapcoin.conf
 cat <<EOF > $USERHOME/.guapcoin$MNID/guapcoin.conf
