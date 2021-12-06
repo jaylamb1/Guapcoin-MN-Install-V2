@@ -267,7 +267,7 @@ EOF
 sleep 7
 while true;do
     echo -e "${YELLOW}Generating masternode private key...${NC}"
-    genkey=$(guapcoin-cli createmasternodekey)
+    genkey=$(guapcoin-cli -conf=/home/guapadmin/.guapcoin1/guapcoin.conf -datadir=/home/guapadmin/.guapcoin1 createmasternodekey)
     if [ "$genkey" ]; then
         break
     fi
