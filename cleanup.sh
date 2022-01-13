@@ -4,4 +4,4 @@
 
 cd /home/guapadmin/MN_Status && find /home/guapadmin/MN_Status -type f -mtime +9 -exec rm -f {} \; 2>/dev/null
 
-cd cd /home/guapadmin/MN_Report && find /home/guapadmin/MN_Report -type f -mtime +9 -exec rm -f {} \; 2>/dev/null
+cd /home/guapadmin/MN_Report && find /home/guapadmin/MN_Report -type f -mtime +9 -exec rm -f {} \; 2>/dev/null
