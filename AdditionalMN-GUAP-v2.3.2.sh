@@ -141,7 +141,7 @@ rpcpassword=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 #ID existing MNs and setup for installing an additional one
 while ! [ "$MNID" -eq "$MNID" ] 2> /dev/null
 do
-  echo "Enter the single digit number for this Masternode's Guapcoin Service ID#. It must not match the ID# of an existing MN on this VPS"
+  echo "Enter the number for this Masternode's Guapcoin Service ID#. It must not match the ID# of an existing MN on this VPS"
   echo "Service IDs for active masternodes detected on this VPS are:"
 
   MNarray[0]=0 #MNarray is used to idenitfy which MNs(and their corresponding MNIDs) are present, position #0 is a dummy location
@@ -152,7 +152,7 @@ do
   fi
 
 
-  for (( i = 1; i < 100; i++ )); do
+  for (( i = 1; i < 200; i++ )); do
       FILE=/etc/systemd/system/guapcoin$i.service
       if test -f "$FILE"; then
           MNarray[$i]=1
