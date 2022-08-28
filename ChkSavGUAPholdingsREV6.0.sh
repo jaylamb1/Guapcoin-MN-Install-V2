@@ -138,7 +138,7 @@ do
   #get current balance of address $i
   #Addr[$n]=$(curl -s https://guapcoinexplorer.com/ext/getbalance/$i)
   #Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://')
-  Addr[$n]=$(curl -s https://ex1.guapcoin.org/api/v1/address/GLe24iLoHJyW87Sn1tdbSUdEk2Z42n9EtD?details=basic  | awk -F, '{print $2}' | sed 's/.*://' | sed 's/"//g')
+  Addr[$n]=$(curl -s https://ex1.guapcoin.org/api/v1/address/$i?details=basic  | awk -F, '{print $2}' | sed 's/.*://' | sed 's/"//g')
   #curl -s https://ex1.guapcoin.org/api/v1/address/GLe24iLoHJyW87Sn1tdbSUdEk2Z42n9EtD?details=basic  | awk -F, '{print $2}' | sed 's/.*://' | sed 's/"//g'
   tempVar=${Addr[$n]}
   tempVarTest=false
@@ -146,7 +146,7 @@ do
     if [ -z "$tempVar" ]; then
       sleep 2
       #Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://');
-      Addr[$n]=$(curl -s https://ex1.guapcoin.org/api/v1/address/GLe24iLoHJyW87Sn1tdbSUdEk2Z42n9EtD?details=basic  | awk -F, '{print $2}' | sed 's/.*://' | sed 's/"//g');
+      Addr[$n]=$(curl -s https://ex1.guapcoin.org/api/v1/address/$i?details=basic  | awk -F, '{print $2}' | sed 's/.*://' | sed 's/"//g');
       tempVar=${Addr[$n]};
     else
       tempVarTest=true;
