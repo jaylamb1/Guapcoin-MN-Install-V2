@@ -45,15 +45,29 @@ function stop_daemon {
         fi
     fi
 }
-#Function detect_ubuntu
-
- if [[ $(lsb_release -d) == *18.04* ]]; then
-   UBUNTU_VERSION=18
+#Function detect_ubuntu (check for 18.04 or 20.04)
+if [[ $(lsb_release -d) == *20.04* ]]; then
+   UBUNTU_VERSION=20
 else
-   echo -e "${RED}You are not running Ubuntu 18.04, Installation is cancelled.${NC}"
-   exit 1
+
+    if [[ $(lsb_release -d) == *18.04* ]]; then
+       UBUNTU_VERSION=18
+    else
+       echo -e "${RED}You are not running at least Ubuntu 18.04, Installation is cancelled.${NC}"
+       exit 1
+
+    fi
 
 fi
+
+#older ubuntu check for 18.04 only
+#if [[ $(lsb_release -d) == *18.04* ]]; then
+   UBUNTU_VERSION=18
+#else
+#   echo -e "${RED}You are not running Ubuntu 18.04, Installation is cancelled.${NC}"
+#   exit 1
+#
+#fi
 
 #Process command line parameters
 genkey=$1
