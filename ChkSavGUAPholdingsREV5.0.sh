@@ -2,12 +2,12 @@
 
 #VERSION 5.0 of the Check and Save Guap Holdings script
 #This script uses the API calls from https://guapexplorer.com, from https://probit.com and direct calls from the Guapcoin Blockchain
-#This script assumes that the default wallet via guapcoin-cli calls is fully synced
+#This script assumes that the default wallet  is fully synced and accessible via guapcoin-cli calls
 
 #This script should be called with text input file (e.g. file.txt) and an output file (e.g. output.text) as an argument:
-# e.g sudo /home/guapadmin/ChkGuapHoldingsREV5.0.sh /home/guapadmin/file.text /home/guapadmin/output.text
+# e.g sudo /home/guapadmin/ChkGuapHoldingsv3.sh /home/guapadmin/file.text /home/guapadmin/ouput.text
 
-#The input text file (file.text) should have the GUAP addresses you want to check the amounts for and a corresponding label for each address
+#The input text file should have the GUAP addresses you want to check the amounts for and a corresponding label for each address
 #Format for the text should be:
 #     Label1<space>GUAP Address1
 #     Label2<space>GUAP Address2
@@ -16,18 +16,15 @@
 
 
 
-#Make all variables available as environment variables
+#Make all variable available as environment variables
 set -a
 
-#Get timestamp in Day Date(MM-DD-YYYY) Time(HH:MMam) Timezone format
+#Print timestamp in Day Date(MM-DD-YYYY) Time(HH:MMam) Timezone format
+#d_epoch=$(TZ=":US/Eastern" date +"%s")
 d=$(TZ=":US/Eastern" date +"%s")
 d_formatted=$(TZ=":US/Eastern" date -d @$d +'%a %m-%d-%Y %I:%M:%S%P EST')
 d_filename=$(TZ=":US/Eastern" date -d @$d +'%a_%m-%d-%Y_%I:%M:%S%P_EST')
-
-#Get server name
 server=$(hostname)
-
-#Set up data block vars
 MNs_data1A=""
 MNs_data1B=""
 MNs_data2A=""
@@ -48,12 +45,6 @@ MNs_data9A=""
 MNs_data9B=""
 MNs_data10A=""
 MNs_data10B=""
-MNs_data11A=""
-MNs_data11B=""
-MNs_data12A=""
-MNs_data12B=""
-MNs_data13A=""
-MNs_data13B=""
 MNs_Data_Block=""
 MNs_Data_Block1=""
 MNs_Data_Block2=""
@@ -65,37 +56,32 @@ MNs_Data_Block7=""
 MNs_Data_Block8=""
 MNs_Data_Block9=""
 MNs_Data_Block10=""
-MNs_Data_Block11=""
-MNs_Data_Block12=""
-MNs_Data_Block13=""
 
-#This is the file where the current earnings snapshot will be reported
-SnapshotFilename="/home/guapadmin/MN_Report/GUAP-Snapshot-$d_filename.txt"
+SnapshotFilename="/home/guapadmin/MN_Report/JL-CS-GUAP-Snapshot-$d_filename.txt"
 
-#Use echo >> to save info to SnapshotFilename
+
 echo "" >> $SnapshotFilename
-
-
+#Note: the tee command writes the onscreen report to a file also
 echo "               [GUAP Holdings Snaphot Rev 5.0]                   " >> $SnapshotFilename
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 
 echo "Timestamp : $d_formatted" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
+#echo "Test d: $d"
 
 #Create arrays to hold GUAP addresses and address labels from file, and Guap totals from API calls
 declare -a MNArray
 declare -a MNLabelArray
 declare -a Addr
-
-#capture the external file. The first arg should be file.txt
+#capture the external file
 filename=$1
 
-#Clean up the file, remove bash comments and empty lines (also creates a backup before modification)
+#Clean up the file, remove bash comments and empty lines (creates a backup before removal)
 sed -i".bkup" 's/^#.*$//' $filename #remove comments
 sed -i '/^$/d' $filename #remove empty lines
+#sed 's,\,,,g'
 
-
-#While loop to read in each GUAP address and corresponding label from file.txt
+#While loop to read in each GUAP address and corresponding label
 n=0
 while read label address; do
 # reading each line
@@ -104,13 +90,11 @@ MNArray[$n]=$address
 n=$((n+1))
 done < $filename
 
-
-
-#Read in last GUAPtotal and timestamp from output.text
 LastGuapTime='0'
 LastGuapTotal='0'
 
-LastGuapFile="/home/guapadmin/output.text"
+#Read in last GUAPtotal and timestamp from output.text
+LastGuapFile="/home/guapadmin/output-JL-CS.text"
 if test -f "$LastGuapFile"; then
   while read -r time total; do
     LastGuapTime=$time
@@ -133,27 +117,17 @@ for i in "${MNArray[@]}"
 do
   temp_MNs_dataA=""
   temp_MNs_dataB=""
-
-
-  #get current balance of address $i
-  #Addr[$n]=$(curl -s https://guapcoinexplorer.com/ext/getbalance/$i)
+  #parm="http://159.65.221.180:3001/ext/getbalance/$i"
+  #Addr[$n]=$(curl -s -X GET $parm)
   Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://')
+
   tempVar=${Addr[$n]}
-  tempVarTest=false
-  while [ "$tempVarTest" = false ]; do
-    if [ -z "$tempVar" ]; then
-      sleep 2
-      Addr[$n]=$(curl -s https://guapexplorer.com/api/address/$i | awk -F, '{print $3}' | sed 's/.*://');
-      tempVar=${Addr[$n]};
-    else
-      tempVarTest=true;
-    fi
-
-  done
-
   tempLabel=${MNLabelArray[$n]}
-  echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["tempVar"]))')" >> $SnapshotFilename
-  echo "" >> $SnapshotFilename
+ # echo "  $tempLabel        $i : $(python -c 'import os; print "{0:>14,.3f}".format(float("tempVar"))')" >> $SnapshotFilename
+env LC_ALL=en_US.UTF-8
+printf "%'.3f\n" $tempVar  >>  $SnapshotFilename
+
+echo "" >> $SnapshotFilename
 
   if [[ $tempLabel == *M* ]]; then #Skip addresses that are not labeled as masternodes
     temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| Masternode $tempLabel>\n "
@@ -161,12 +135,12 @@ do
     temp_MNs_dataA="<https://guapexplorer.com/#/address/$i| GUAP ID $tempLabel>\n "
   fi
 
-  temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float(os.environ["tempVar"]))')\n"
-
-  #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 109 entries)
+ # temp_MNs_dataB="$(python -c 'import os; print "{0:,.2f}".format(float("tempVar"))')\n"
+ temp_MNs_dataB=$(printf "%'.2f\n" $tempVar)
+ #curl command to send data to slack can only handle about 10 entries per field block, so it is broken up here (max 60 entries)
   if [ "$n" -lt 10 ];then
     MNs_data1A="$MNs_data1A$temp_MNs_dataA"
-    MNs_data1B="$MNs_data1B$temp_MNs_dataB"
+    MNs_data1B="$MNs_data1B$temp_MNs_dataB\n"
     MNs_Data_Block1="{ \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data1B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block1
   elif [[ "$n" -gt 9 ]] && [[ "$n" -lt 20 ]]; then
@@ -214,22 +188,6 @@ do
     MNs_data10B="$MNs_data10B$temp_MNs_dataB"
     MNs_Data_Block10="$MNs_Data_Block9, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data10A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data10B\" } ] }"
     MNs_Data_Block=$MNs_Data_Block10
-  elif [[ "$n" -gt 99 ]] && [[ "$n" -lt 110 ]]; then
-    MNs_data11A="$MNs_data11A$temp_MNs_dataA"
-    MNs_data11B="$MNs_data11B$temp_MNs_dataB"
-    MNs_Data_Block11="$MNs_Data_Block10, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data11A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data11B\" } ] }"
-    MNs_Data_Block=$MNs_Data_Block11
-  elif [[ "$n" -gt 109 ]] && [[ "$n" -lt 120 ]]; then
-    MNs_data12A="$MNs_data12A$temp_MNs_dataA"
-    MNs_data12B="$MNs_data12B$temp_MNs_dataB"
-    MNs_Data_Block12="$MNs_Data_Block11, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data12A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data12B\" } ] }"
-    MNs_Data_Block=$MNs_Data_Block12
-  elif [[ "$n" -gt 119 ]] && [[ "$n" -lt 130 ]]; then
-    MNs_data13A="$MNs_data13A$temp_MNs_dataA"
-    MNs_data13B="$MNs_data13B$temp_MNs_dataB"
-    MNs_Data_Block13="$MNs_Data_Block12, { \"type\": \"section\", \"fields\": [ { \"type\": \"mrkdwn\", \"text\": \"*ID*\" }, { \"type\": \"mrkdwn\", \"text\": \"*Subtotal*\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data13A\" }, { \"type\": \"mrkdwn\", \"text\": \"$MNs_data13B\" } ] }"
-    MNs_Data_Block=$MNs_Data_Block13
-
   fi
 
   ((++n))
@@ -244,8 +202,7 @@ for i in "${Addr[@]}"
 do
   tempVar1=$MN_Total
   tempVar2=${Addr[$n]}
-  MN_Total=$(echo $tempVar1+$tempVar2 | bc)
-  #MN_Total=$(python -c 'import os; print "{:>14.3f}".format((float(os.environ["MN_Total"]) + float(os.environ["tempVar"])))' >/dev/null 2>&1)
+ MN_Total=$(echo $tempVar1+$tempVar2 | bc)
 
   ((++n))
 done
@@ -260,12 +217,12 @@ GUAPTotal=$parm7
 #Get percentage of total GUAP money suppy held by the addressed evaluated
 Perc=$(echo "scale=4;$MN_Total/$GUAPTotal" | bc -l)
 Perc=$(echo $Perc*100 | bc)
-#Perc=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["MN_Total"]) / float(os.environ["GUAPTotal"]) * 100))' >/dev/null 2>&1)
 
 #Print out total holding and total GUAP money supply
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
-echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')" >> $SnapshotFilename
-#echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))' >/dev/null 2>&1)" >> $SnapshotFilename
+echo "  Total Current GUAP Holdings                   : $(printf "%'.2f\n" $MN_Total)" >> $SnapshotFilename
+#echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float("MN_Total"))')" >> $SnapshotFilename
+#echo "  Total Current GUAP Holdings                   : $(python -c 'import os; print "{0:>14,.2f}".format(float("MN_Total"))' >/dev/null 2>&1)" >> $SnapshotFilename
 
 #Get current per GUAP value in USD (currently must be pulled from probit.com APIs)
 #Value of GUAP in BTC
@@ -289,12 +246,12 @@ echo "  Total Current GUAP Holdings (USD)             : $GuapUSDoffset" >> $Snap
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 
 #Save MN_Total and timestamp to file output.text
-echo "$d $MN_Total" > /home/guapadmin/output.text
+echo "$d $MN_Total" > /home/guapadmin/output-JL-CS.text
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 GUAPearned=$(echo "$MN_Total-$LastGuapTotal" | bc)
 GUAPearned=$(printf "%.3f\n" $GUAPearned)
 #echo "Test GUAPearned= $MN_Total-$LastGuapTotal"
-#GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))')
+#GUAPearned=$(python -c 'import os; print "{0:.0f}".format((float("MN_Total") - float("LastGuapTotal")))')
 
 GUAPearnedUSD=$(echo $GUAPearned*$GUAPValue | bc)
 
@@ -305,7 +262,7 @@ GUAPearnedUSD1="\$$GUAPearnedUSD"
 
 #For use in the per hour, minute, sec calculations below
 GUAPearnedNoComma=$GUAPearned
-#GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float(os.environ["MN_Total"]) - float(os.environ["LastGuapTotal"])))' >/dev/null 2>&1)
+#GUAPearnedNoComma=$(python -c 'import os; print "{0:.0f}".format((float("MN_Total") - float("LastGuapTotal")))' >/dev/null 2>&1)
 
 d_var=$(TZ=":US/Eastern" date -d @$d +'%Y-%m-%dT%H:%M:%S')
 LastGuapTime_var=$(TZ=":US/Eastern" date -d @$LastGuapTime +'%Y-%m-%dT%H:%M:%S')
@@ -335,8 +292,6 @@ if [[ $TimeElapsedHr > '0' ]]; then
   GUAPUSDearnRateH=$(echo "$GUAPearnRateH*$GUAPValue" | bc -l)
   GUAPearnRateH1=$(printf "%.2f\n" $GUAPearnRateH)
   GUAPUSDearnRateH1=$(printf "%.2f\n" $GUAPUSDearnRateH)
-  #GUAPearnRateH=$(python -c 'import os; print "{0:.2f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/3600))))' >/dev/null 2>&1)
-  #GUAPUSDearnRateH=$(python -c 'import os; print "{0:,.2f}".format((float(os.environ["GUAPearnRateH"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
   echo "  Earn rate/hr  : $GUAPearnRateH1 GUAP[\$$GUAPUSDearnRateH1]/hour" >> $SnapshotFilename
   EarnRateVar="$EarnRateVar  $GUAPearnRateH1 GUAP/hour"
@@ -353,8 +308,6 @@ if [[ $TimeElapsedMin > '0' ]]; then
   GUAPUSDearnRateM=$(echo "$GUAPearnRateM*$GUAPValue" | bc -l)
   GUAPearnRateM1=$(printf "%.2f\n" $GUAPearnRateM)
   GUAPUSDearnRateM1=$(printf "%.2f\n" $GUAPUSDearnRateM)
-  #GUAPearnRateM=$(python -c 'import os; print "{0:.3f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / (float(os.environ["TimeElapsedSec"])/60))))' >/dev/null 2>&1)
-  #GUAPUSDearnRateM=$(python -c 'import os; print "{0:,.3f}".format((float(os.environ["GUAPearnRateM"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
   echo "  Earn rate/min : $GUAPearnRateM1 GUAP[\$$GUAPUSDearnRateM1]/minute" >> $SnapshotFilename
   EarnRateVar="$EarnRateVar  $GUAPearnRateM1 GUAP/min"
@@ -365,8 +318,6 @@ GUAPearnRateS=$(echo "$GUAPearned/$TimeElapsedSec" | bc -l)
 GUAPUSDearnRateS=$(echo "$GUAPearnRateS*$GUAPValue" | bc -l)
 GUAPearnRateS1=$(printf "%.2f\n" $GUAPearnRateS)
 GUAPUSDearnRateS1=$(printf "%.2f\n" $GUAPUSDearnRateS)
-#GUAPearnRateS=$(python -c 'import os; print "{0:.4f}".format(abs((float(os.environ["GUAPearnedNoComma"]) / float(os.environ["TimeElapsedSec"]))))' >/dev/null 2>&1)
-#GUAPUSDearnRateS=$(python -c 'import os; print "{0:,.4f}".format((float(os.environ["GUAPearnRateS"]) * float(os.environ["GUAPValue"])))' >/dev/null 2>&1)
 
 echo "  Earn rate/sec : $GUAPearnRateS1 GUAP[\$$GUAPUSDearnRateS1]/second" >> $SnapshotFilename
 EarnRateVar="$EarnRateVar  $GUAPearnRateS1 GUAP/sec"
@@ -374,14 +325,14 @@ EarnRateVarUSD="$EarnRateVarUSD  \$$GUAPUSDearnRateS1/sec"
 
 echo "-----------------------------------------------------------------" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
-echo "  Total Current GUAP Holdings                   :  $(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')" >> $SnapshotFilename
-#echo "Total GUAP Money Supply                        :  $(python -c 'import os; print "{0:>14,.3f}".format(float(os.environ["MN_Total"]))' >/dev/null 2>&1)" >> $SnapshotFilename
+
+echo "  Total Current GUAP Holdings                   : $(printf "%'.2f\n" $MN_Total)" >> $SnapshotFilename
+#echo "  Total Current GUAP Holdings                   :  $(python -c 'import os; print "{0:>14,.2f}".format(float("MN_Total"))')" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
 
 GuapTotalUSD=$(echo $GUAPTotal*$GUAPValue | bc)
 GuapTotalUSDoffset=$(printf "\$% '14.3f\n" $GuapTotalUSD)
 echo "Total GUAP Money Supply (USD)                  :  $GuapTotalUSDoffset" >> $SnapshotFilename
-#echo "Total GUAP Money Supply (USD)                  :  $(python -c 'import os; print "{0:>14}".format("${:,.3f}".format(float(os.environ["GUAPTotal"]) * float(os.environ["GUAPValue"])))')" >> $SnapshotFilename
 
 echo "" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
@@ -412,7 +363,6 @@ BlockHeight=$parm9
 BlockHeight=$(printf '%14s' $BlockHeight) #Reformat to right justify
 GUAPValueoffset=$(printf "\$%'14.4f\n" $GUAPValue)
 echo "Current per GUAP Value (USD)                   :  $GUAPValueoffset"  >> $SnapshotFilename
-#echo "Current per GUAP Value (USD)                   :  $(python -c 'import os; print "{0:>14}".format("${:,.4f}".format( float(os.environ["GUAPValue"]) ) )' >/dev/null 2>&1)" >> $SnapshotFilename
 
 echo "" >> $SnapshotFilename
 
@@ -421,8 +371,6 @@ echo "Percentage of total GUAP Money Supply          :  $Perc%" >> $SnapshotFile
 echo "" >> $SnapshotFilename
 
 echo "Total number of GUAP masternodes               :  $MNCount" >> $SnapshotFilename
-#MNCount=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["MNCount"]))' >/dev/null 2>&1)
-#n=$(python -c 'import os; print "{0:>14,.0f}".format(float(os.environ["n"]))' >/dev/null 2>&1)
 n=$(echo "$n-2" | bc)
 echo "" >> $SnapshotFilename
 
@@ -433,8 +381,6 @@ echo "" >> $SnapshotFilename
 
 Perc2=$(echo "scale=4;$n/$parm8" | bc -l)
 Perc2=$(echo $Perc2*100 | bc)
-#Perc2=$(python -c 'import os; print "{:>13,.2f}".format((float(os.environ["n"]) / float(os.environ["MNCount"]) * 100))' >/dev/null 2>&1)
-#Perc2b=$(python -c 'import os; print "{:>13,.2f}".format(float(os.environ["Perc2"]))' >/dev/null 2>&1)
 
 echo "Percentage of total GUAP Voting Power          :  $Perc2%" >> $SnapshotFilename
 echo "" >> $SnapshotFilename
@@ -449,9 +395,7 @@ echo "" >> $SnapshotFilename
 echo "$d $MN_Total" >> $SnapshotFilename
 #echo "GUAP Snapshot saved to $SnapshotFilename"
 
-#echo "MNs_Data_Block= $MNs_Data_Block\n\n"
-echo ""
-curl -X POST -H 'Content-type: application/json' --data '{ "text": ":moneybag: GUAP MASTERNODE EARNINGS REPORT :moneybag:", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": "--------------------------------------------------------------\n--------------------------------------------------------------", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":dollar::moneybag: *GUAP MASTERNODE EARNINGS REPORT* :moneybag::dollar:\nMasternode Report for owner '"$server"'." } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Please see below a snapshot of your masternodes. See also included below links for your masternodes where you can view their recent transaction activity on the GUAP Blockchain Explorer. " } ] }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|Posted '"$d_formatted"'>" } }, { "type": "divider" },  '"$MNs_Data_Block"', { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Holdings*                                                                                       *'"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["MN_Total"]))')"'*\n*GUAP Holdings (USD)*                                                                          *'"$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GuapUSD"])))')"'* " } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "\nLast report was generated on '"$(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P')"' EST \nEarned since:                '"$GUAPearned"' GUAP ['"$GUAPearnedUSD1"'] in last '"$TimeElapsed"' \n'"$EarnRateVar"'   \n'"$EarnRateVarUSD"' "} }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Stats* \nGUAP Money Supply                                                                                '"$(python -c 'import os; print "{0:>14,.2f}".format(float(os.environ["GUAPTotal"]))')"' \nGUAP Money Supply (USD)                                                                     '"$(python -c 'import os; print "{0:>14}".format("${:,.2f}".format(float(os.environ["GuapTotalUSD"])))')"' \nGUAP Value (USD)                                                                              '"$(python -c 'import os; print "{0:>14}".format("${:,.4f}".format(float(os.environ["GUAPValue"])))')"' \n% of GUAP Money Supply                                                                         '"$Perc"'% \nTotal GUAP masternodes                                                                           '"$parm8"' \n% of GUAP voting power                                                                           '"$Perc2"'% \nGUAP Chain Block Count                                                                  '"$BlockHeight"' " } }, { "type": "divider" }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Report automatically generated by masternode monitoring system. \nPlease message <@U013QSJTGEA> for further details or with questions/concerns." } ] }, { "type": "divider" }, { "type": "divider" } ] }'
 
+curl -X POST -H 'Content-type: application/json' --data '{ "text": ":moneybag: GUAP MASTERNODE EARNINGS REPORT :moneybag:", "blocks": [ { "type": "header", "text": { "type": "plain_text", "text": "--------------------------------------------------------------\n--------------------------------------------------------------", "emoji": true} }, { "type": "section", "text": { "type": "mrkdwn", "text": ":dollar::moneybag: *GUAP MASTERNODE EARNINGS REPORT* :moneybag::dollar:\nMasternode Report for owner '"$server"'." } }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "Please see below a snapshot of your masternodes. See also included below links for your masternodes where you can view their recent transaction activity on the GUAP Blockchain Explorer. " } ] }, { "type": "section", "text": { "type": "mrkdwn", "text": "<!date^'"$d"'^Posted {date_num} {time_secs}|Posted '"$d_formatted"'>" } }, { "type": "divider" },  '"$MNs_Data_Block"', { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Holdings*                                                                                       *'"$(printf "%'16.2f\n" $MN_Total)"'*\n*GUAP Holdings (USD)*                                                                           *'"$(printf "$%'16.2f\n" $GuapUSD)"'* " } }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "\nLast report was generated on '"$(TZ=":US/Eastern" date -d  @$LastGuapTime +'%m/%d %I:%M:%S%P')"' EST \nEarned since:                '"$GUAPearned"' GUAP ['"$GUAPearnedUSD1"'] in last '"$TimeElapsed"' \n'"$EarnRateVar"'   \n'"$EarnRateVarUSD"' "} }, { "type": "divider" }, { "type": "section", "text": { "type": "mrkdwn", "text": "*GUAP Stats* \nGUAP Money Supply                                                                                '"$(printf "%'17.2f\n" $GUAPTotal)"' \nGUAP Money Supply (USD)                                                                     '"$(printf "$%'17.2f\n" $GuapTotalUSD)"' \nGUAP Value (USD)                                                                                    '"$(printf "$%21.4f\n" $GUAPValue)"' \n% of GUAP Money Supply                                                                        '"$(printf "%20.4f\n" $Perc)"'% \nTotal GUAP masternodes                                                                                '"$(printf "%18d\n" $parm8)"' \n% of GUAP voting power                                                                          '"$(printf "%20.4f\n" $Perc2)"'% \nGUAP Chain Block Count                                                                       '"$(printf "%22d\n" $BlockHeight)"' " } }, { "type": "divider" }, { "type": "context", "elements": [ { "type": "mrkdwn", "text": "*Note:* Report automatically generated by masternode monitoring system. \nPlease message <@U013QSJTGEA> for further details or with questions/concerns." } ] }, { "type": "divider" }, { "type": "divider" } ] }'
 #Turn off environment variables
 set +a
